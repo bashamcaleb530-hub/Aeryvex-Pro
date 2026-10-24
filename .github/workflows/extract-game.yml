@@ -1,0 +1,33 @@
+name: Extract Aeryvex Pro source
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-game.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract source and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -o 'AeryvexPro_GitHub_Upload(1).zip' -d .
+          test -f project.godot
+          test -f Main.tscn
+          test -f scripts/Main.gd
+          test -f scripts/FighterVisual.gd
+          test -f tools/run_all_checks.sh
+          rm -rf .pytest_cache
+          python -m compileall -q tests
+      - name: Commit unpacked source
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add project.godot Main.tscn scripts/ tests/ tools/ GO* PLAYER_FEATURE_ROADMAP.md
+          git diff --cached --quiet || git commit -m "Import extracted Godot game source"
+          git push
