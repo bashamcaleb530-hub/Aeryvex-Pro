@@ -1,0 +1,39 @@
+name: Import Godot 4 Kaggle migration
+on:
+  push:
+    branches: [godot4-migration]
+    paths:
+      - 'AeryvexPro_Godot4_Migration.zip'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: godot4-migration
+      - name: Extract and verify migrated game
+        run: |
+          set -euo pipefail
+          test -f AeryvexPro_Godot4_Migration.zip
+          unzip -o AeryvexPro_Godot4_Migration.zip -d .
+          test -f project.godot
+          test -f Main.tscn
+          test -f art/textures/stone_floor_albedo.png
+          test -f art/textures/armor_plate_albedo.png
+          test -f scripts/FighterVisual.gd
+          test -f scripts/Main.gd
+          grep -q 'config_version=5' project.godot
+          rm -rf .godot .import .pytest_cache __pycache__
+          rm -f AeryvexPro_Godot4_Migration.zip
+      - name: Commit migration
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Import tested Godot 4 game and textures from Kaggle'
+            git push origin HEAD:godot4-migration
+          fi
