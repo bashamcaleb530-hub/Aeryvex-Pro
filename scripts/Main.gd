@@ -121,12 +121,12 @@ func _bind_pad_button(action, button_index):
     e.button_index = button_index
     InputMap.action_add_event(action, e)
 
-func _bind_pad_axis(action, axis_index, sign):
+func _bind_pad_axis(action, axis_index, axis_direction):
     if not InputMap.has_action(action):
         InputMap.add_action(action, STICK_DEADZONE)
     var e = InputEventJoypadMotion.new()
     e.axis = axis_index
-    e.axis_value = sign
+    e.axis_value = axis_direction
     InputMap.action_add_event(action, e)
 
 func _make_input():
