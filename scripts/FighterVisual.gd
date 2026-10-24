@@ -408,7 +408,8 @@ func configure(index, blade_color):
     skeletal_rig = HumanoidRig.new()
     skeletal_rig.name = "HumanoidSkeleton"
     body.add_child(skeletal_rig)
-    skeletal_rig.build_bones()
+    # HumanoidRig._ready() builds bones when added to the active scene.
+    # Do not build twice; duplicate bone names corrupt skinning resources.
     # MeshInstance is a child of Skeleton; Godot 3 skins weighted vertices
     # against that skeleton while the older jointed costume remains as fallback.
     var skinned_limbs = SkinnedLimbs.new()
