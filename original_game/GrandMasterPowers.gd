@@ -15,10 +15,18 @@ const POWERS := {
     18: {"name": "Korr Uldane", "signature": "Fourfold Ravager", "ultimate": "Crimson Warquake", "element": "red", "damage": 88},
     19: {"name": "Vaelith Sorn", "signature": "Blood Sigil Convergence", "ultimate": "Abyssal Rite", "element": "red", "damage": 83}
 }
+# Every trial is a campaign-scale achievement. Completing nine is insufficient.
 const RITUAL_STEPS := [
-    "void_seals_united",
-    "celestial_arch_corrupted",
-    "rainbow_ascension_open"
+    "unite_five_void_seals",
+    "conquer_five_void_thrones",
+    "extinguish_the_eternal_beacon",
+    "survive_the_starless_abyss",
+    "break_the_seven_prismatic_wards",
+    "corrupt_the_first_celestial_arch",
+    "defeat_the_four_grand_master_guardians",
+    "bind_the_crimson_eclipse",
+    "recover_the_lost_name_of_the_first_storm",
+    "breach_rainbow_ascension"
 ]
 var orion_form := "living" # living, rainbow_spirit, soul_captive
 var successor_id := -1
