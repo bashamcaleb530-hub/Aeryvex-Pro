@@ -10,7 +10,25 @@ func check(condition: bool, label: String) -> void:
         push_error("FAIL: " + label)
 func _run() -> void:
     var game = load("res://PlayerAscension.gd").new()
-    check(game.rank_name() == "Warrior" and game.lightning_color() == "blue", "Start as blue-lightning warrior")
+    check(game.rank_name() == "Teenage Applicant", "Player begins as a teenage civilian")
+    check(not game.mark_warrior_trial("defend_aether_settlement"), "No military promotions before admission")
+    check(not game.admission.begin_green_training(), "Entry trials cannot be skipped")
+    for trial in game.admission.ENTRY_TRIALS:
+        check(game.admission.complete_challenge(trial), "Complete difficult entrance trial: " + trial)
+    check(game.admission.begin_green_training(), "Begin training under green Adept")
+    check(not game.admission.face_purple_master(), "Cannot skip green-ranked training")
+    for trial in game.admission.GREEN_TRAINING:
+        check(game.admission.complete_challenge(trial), "Complete green training: " + trial)
+    check(game.admission.face_purple_master(), "Earn examination by purple Master")
+    check(not game.admission.master_recommendation(), "Purple examiner demands all tests")
+    for trial in game.admission.PURPLE_EXAM:
+        check(game.admission.complete_challenge(trial), "Complete purple Master examination: " + trial)
+    check(game.admission.master_recommendation(), "Purple Master recommends candidate")
+    check(not game.admission.decide_admission(), "Council approval cannot be bypassed")
+    for seat in game.admission.COUNCIL_SEATS:
+        check(game.admission.council_vote(seat, true), "Approval from " + seat)
+    check(game.admission.decide_admission(), "Grand Masters and Orion approve military enrollment")
+    check(game.rank_name() == "Warrior" and game.lightning_color() == "blue", "Admitted as blue-lightning warrior")
     check(not game.become_master(), "Master requires warrior achievements")
     for trial in ["defend_aether_settlement", "survive_first_war_gate", "complete_warrior_oath"]:
         check(game.mark_warrior_trial(trial), "Earn warrior trial " + trial)
