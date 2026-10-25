@@ -14,6 +14,7 @@ var camera: Camera3D
 var label: Label
 var time_s := 0.0
 var attack_timer := 0.0
+var weapon_conduit: Node3D
 var model_loader: Node3D
 var model_active := false
 var status_note := ""
@@ -79,6 +80,9 @@ func _build_world() -> void:
     # Disable its default ready load; arena selects characters explicitly.
     model_loader.set("character_id", -1)
     character_root.add_child(model_loader)
+    weapon_conduit = Node3D.new()
+    weapon_conduit.set_script(load("res://AeryvexWeaponConduit.gd"))
+    character_root.add_child(weapon_conduit)
     var layer := CanvasLayer.new()
     add_child(layer)
     label = Label.new()
@@ -133,7 +137,7 @@ func _select(index: int) -> void:
     current = posmod(index, RULERS.size())
     # Keep the loader resident across selections, clearing only test geometry.
     for child in character_root.get_children():
-        if child != model_loader:
+        if child != model_loader and child != weapon_conduit:
             character_root.remove_child(child)
             child.queue_free()
     _clear(fx_root)
@@ -146,6 +150,7 @@ func _select(index: int) -> void:
     enemy_attacks = 0
     enemy_attack_clock = 1.4
     shield_active = false
+    weapon_conduit.call("equip", RULERS[current])
     model_active = model_loader.call("load_character", RULERS[current])
     status_note = "APPROVED GLB LOADED" if model_active else "TEST BODY - APPROVED GLB NOT YET INSTALLED"
     var entry := _character(RULERS[current])
@@ -183,7 +188,7 @@ func _select(index: int) -> void:
     _refresh_label()
     if model_active:
         for child in character_root.get_children():
-            if child != model_loader:
+            if child != model_loader and child != weapon_conduit:
                 child.visible = false
     attack_timer = 0.7
 
@@ -196,6 +201,12 @@ func _input(event: InputEvent) -> void:
         elif event.keycode == KEY_SPACE:
             if attack_timer <= 0.0:
                 _attack_target()
+        elif event.keycode == KEY_F:
+            if weapon_conduit.call("transform"):
+                hit_feedback = "WEAPON TRANSFORMED"
+            else:
+                hit_feedback = "FIXED WEAPON CONFIGURATION"
+            _refresh_label()
         elif event.keycode == KEY_E:
             duel_mode = not duel_mode
             enemy_attack_clock = 1.4
@@ -221,7 +232,8 @@ func _input(event: InputEvent) -> void:
 func _refresh_label() -> void:
     var entry := _character(RULERS[current])
     var energy := ("SUPREME RAINBOW" if RULERS[current] == 0 else "MULTICOLOR") if entry.get("faction", "") == "aether" else "RED"
-    label.text = "AERYVEX PRO - %s\n%s | %s\n%s LIGHTNING | SPACE: strike  E: duel/training  SHIFT: shield  T: reset  LEFT/RIGHT: rulers  ESC: quit\nPlayer HP: %d/100 | Enemy HP: %d/100 | Shield: %s | Enemy attacks: %d | Hits: %d\n%s | %s" % ["ACTIVE DUEL" if duel_mode else "TRAINING ARENA", entry.get("name", "Unknown"), entry.get("role", ""), energy, int(player_health), int(target_health), "ON" if shield_active else "OFF", enemy_attacks, target_hits, hit_feedback, status_note]
+    var mode: String = weapon_conduit.call("get_mode")
+    label.text = "AERYVEX PRO - %s\n%s | %s\n%s LIGHTNING | SPACE: strike  E: duel/training  SHIFT: shield  F: weapon  T: reset  LEFT/RIGHT: rulers  ESC: quit\nPlayer HP: %d/100 | Enemy HP: %d/100 | Shield: %s | Enemy attacks: %d | Hits: %d\nWeapon: %s | %s | %s" % ["ACTIVE DUEL" if duel_mode else "TRAINING ARENA", entry.get("name", "Unknown"), entry.get("role", ""), energy, int(player_health), int(target_health), "ON" if shield_active else "OFF", enemy_attacks, target_hits, mode, hit_feedback, status_note]
 
 func _attack_target() -> void:
     attack_timer = 0.48
