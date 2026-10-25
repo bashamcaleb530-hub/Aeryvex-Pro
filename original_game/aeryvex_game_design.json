@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "game": "Aeryvex Pro: Thrones of the Eight Galaxies",
+  "commercial_goal": true,
+  "universe": "original Aeryvex science fantasy",
+  "travel": "walk-through Celestial Arches and War Gates; no piloted starships",
+  "weapons": {
+    "rule": "real branching/curved or straight electric plasma arcs, NO solid metal or rigid glowing blade",
+    "aether": {
+      "grand_master": "rainbow",
+      "master": "purple",
+      "army": "blue",
+      "temple_guard": "yellow"
+    },
+    "void": "red"
+  },
+  "leaders": {
+    "aether": "Orion Valen",
+    "void": "Drakthar Vex",
+    "void_title": "Void Sovereign Lord"
+  },
+  "roster": [
+    {
+      "id": 0,
+      "name": "Orion Valen",
+      "faction": "aether",
+      "rank": "grand_master",
+      "color": "rainbow",
+      "role": "Grand Master",
+      "ability": "Rainbow Arc",
+      "ultimate": "Unity Storm",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 1,
+      "name": "Kael Veyron",
+      "faction": "aether",
+      "rank": "warrior",
+      "color": "blue",
+      "role": "Balanced Warrior",
+      "ability": "Pulse Slash",
+      "ultimate": "Core Burst",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 2,
+      "name": "Lyra Solis",
+      "faction": "aether",
+      "rank": "warrior",
+      "color": "blue",
+      "role": "Agile Warrior",
+      "ability": "Solar Dash",
+      "ultimate": "Nova Bloom",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 3,
+      "name": "Torvak Rune",
+      "faction": "aether",
+      "rank": "master",
+      "color": "purple",
+      "role": "Siege Master",
+      "ability": "Graviton Slam",
+      "ultimate": "Worldbreaker",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 4,
+      "name": "Seris Nyxal",
+      "faction": "aether",
+      "rank": "master",
+      "color": "purple",
+      "role": "Resonance Master",
+      "ability": "Crystal Bind",
+      "ultimate": "Astral Convergence",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 5,
+      "name": "Dren Korrath",
+      "faction": "aether",
+      "rank": "warrior",
+      "color": "blue",
+      "role": "Scout Commander",
+      "ability": "Static Net",
+      "ultimate": "Storm Rail",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 6,
+      "name": "Drakthar Vex",
+      "faction": "void",
+      "rank": "void_sovereign_lord",
+      "color": "red",
+      "role": "Void Sovereign Lord",
+      "ability": "Void Slash",
+      "ultimate": "Apocalypse Storm",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 7,
+      "name": "Malvek Dros",
+      "faction": "void",
+      "rank": "commander",
+      "color": "red",
+      "role": "Warlord",
+      "ability": "Fear Pulse",
+      "ultimate": "Crimson Collapse",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 8,
+      "name": "Vexa Mourne",
+      "faction": "void",
+      "rank": "assassin",
+      "color": "red",
+      "role": "Assassin",
+      "ability": "Shadow Slip",
+      "ultimate": "Nightfall Bloom",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 9,
+      "name": "Gorath Vhul",
+      "faction": "void",
+      "rank": "enforcer",
+      "color": "red",
+      "role": "Enforcer",
+      "ability": "Chain Rip",
+      "ultimate": "Carnage Breaker",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 10,
+      "name": "Sylith Kade",
+      "faction": "void",
+      "rank": "sorcerer",
+      "color": "red",
+      "role": "Rift Sorcerer",
+      "ability": "Gravity Twist",
+      "ultimate": "Eclipse Maw",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 11,
+      "name": "Kaizen Reap",
+      "faction": "void",
+      "rank": "hunter",
+      "color": "red",
+      "role": "Hunter",
+      "ability": "Target Lock",
+      "ultimate": "Final Protocol",
+      "visual_status": "concept_approved_candidate_mesh_not_verified"
+    }
+  ],
+  "starting_story": {
+    "title": "The Siege of Kharos",
+    "choice": [
+      "Save your friend",
+      "Protect the royal family"
+    ],
+    "consequence": "Which ally survives and who controls Kharos changes by choice"
+  },
+  "modes": [
+    "Story Campaign",
+    "Galactic Conquest",
+    "Galactic Protector",
+    "Portal Wars",
+    "Planetary Warfare",
+    "Lightning Duels",
+    "Spy Operations",
+    "Dynasty Mode",
+    "Galactic Arena",
+    "Free Galaxy"
+  ],
+  "art_pipeline": {
+    "source": "original Aeryvex character concept art",
+    "need": "isolated full-body front and multi-view references",
+    "steps": [
+      "approved concept",
+      "single-subject images",
+      "textured mesh",
+      "manual proportions check",
+      "rigging",
+      "animation",
+      "Godot integration",
+      "rendered gameplay test"
+    ],
+    "note": "No existing 3D models are approved for new roster until rendered and inspected"
+  }
+}
