@@ -13,25 +13,29 @@ const LIGHTNING := ["blue", "yellow", "green", "purple", "multicolor", "rainbow"
 var rank := WARRIOR
 var earned_trials := {}
 var story_events := {}
+var admission: AetherMilitaryAdmission
 var powers: GrandMasterPowers
 
 func _init() -> void:
     powers = GrandMasterPowers.new()
+    admission = AetherMilitaryAdmission.new()
 
 func rank_name() -> String:
-    return RANK_NAMES[rank]
+    return RANK_NAMES[rank] if admission.admitted() else "Teenage Applicant"
 
 func lightning_color() -> String:
-    return LIGHTNING[rank]
+    return LIGHTNING[rank] if admission.admitted() else "untrained_blue"
 
 func mark_warrior_trial(trial: String) -> bool:
+    if not admission.admitted():
+        return false
     if trial not in ["defend_aether_settlement", "survive_first_war_gate", "complete_warrior_oath"]:
         return false
     earned_trials[trial] = true
     return true
 
 func become_temple_guard() -> bool:
-    if rank != WARRIOR:
+    if not admission.admitted() or rank != WARRIOR:
         return false
     for item in ["defend_aether_settlement", "survive_first_war_gate", "complete_warrior_oath"]:
         if not earned_trials.get(item, false):
@@ -107,6 +111,9 @@ func kill_drakthar() -> bool:
 
 func receive_orions_final_gift() -> bool:
     if rank != GRAND_MASTER or not story_events.get("drakthar_killed", false):
+        return false
+    # The impossible final trial is not a ceremonial promotion; it is the actual rescue and victory.
+    if not story_events.get("orion_saved", false) or not story_events.get("orion_drain_witnessed", false):
         return false
     if not powers.designate_successor(20):
         return false
