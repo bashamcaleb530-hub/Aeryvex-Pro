@@ -64,11 +64,20 @@ def generate(args):
         pipe=AutoPipelineForText2Image.from_pretrained(args.model,torch_dtype=torch.float16,variant="fp16" if args.fp16_variant else None)
         pipe=pipe.to("cuda")
         pipe.set_progress_bar_config(disable=True)
+    if not args.manifest_only:
+        print("Using shortened identity-first prompts. Approved image comparisons still require references.")
     for i,item in enumerate(people):
         # Character text is design guidance. Exact likeness needs ORIGINAL approved images.
-        prompt=("Original high-end science fantasy game character concept, single full body character standing on neutral dark studio background, clear face, armor, hands and weapons, no lettering, no logos, no collage. "
-                +item["name"]+": "+item["role"]+". "+item["visual"]+". "
-                +"Lightning stays inside the being until called upon, branching organic electricity rather than rigid lightsaber blades. detailed cinematic character design, realistic materials, head to toe.")
+        # SDXL CLIP accepts ~77 tokens per encoder. Keep identity/visual traits FIRST.
+        # Short prompts prevent the critical weapon instructions being truncated.
+        visual = item["visual"].replace("supreme imposing elder ruler, ", "elder ruler, ").replace("Lightning stays inside the being until called upon", "latent lightning")
+        prompt = (
+            f"{item['name']}, {visual}. "
+            "Original realistic science fantasy character, full body, solo, detailed armor, "
+            "studio background, branching electrical weapons, no solid blades."
+        )
+        # Record if the prompt still exceeds the model's tokenizer limit.
+
         key=slug(item["id"]+"_"+item["name"])
         image_path=OUT/(key+".png")
         reference_path=GAME/"approved_heroes"/(slug(item["name"])+".png")
