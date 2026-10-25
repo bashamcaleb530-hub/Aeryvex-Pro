@@ -44,6 +44,8 @@ func _run() -> void:
             check(game.get("opponent").visible, "Weapons mission displays opponent")
         var m: Dictionary = missions.current()
         var kind: String = m["type"]
+        check(m["phases"].size() == 3, "Mission %d has three distinct acts" % (i+1))
+        check(int(m["goal"]) >= 30, "Mission %d requires extended gameplay" % (i+1))
         if i == 0:
             missions.take_damage(100)
             check(missions.failed, "Lethal storm hit fails the mission")
@@ -57,6 +59,7 @@ func _run() -> void:
             else:
                 check(missions.strike(kind == "weapons"), "Combat objective step %d" % (hit+1))
                 missions.tick(0.3,true)
+        check(missions.phase_index() == 2, "Mission final act reached")
         check(missions.is_complete(), "Mission %d objective complete" % (i+1))
         check(game.call("try_trial"), "Mission %d completed at gateway" % (i+1))
         check(game.get("completed_count") == i+1, "Mission count increments")
