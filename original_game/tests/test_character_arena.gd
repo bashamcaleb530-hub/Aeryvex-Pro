@@ -60,11 +60,11 @@ func _run() -> void:
     next_key.keycode = KEY_RIGHT
     next_key.pressed = true
     arena.call("_input", next_key)
-    _assert_true(arena.get("current") == 1, "RIGHT changes selected ruler")
+    _assert_true(arena.get("current") == 0, "RIGHT wraps from last ruler to first")
     var prev_key := InputEventKey.new()
     prev_key.keycode = KEY_LEFT
     prev_key.pressed = true
     arena.call("_input", prev_key)
-    _assert_true(arena.get("current") == 0, "LEFT changes selected ruler")
+    _assert_true(arena.get("current") == 9, "LEFT wraps from first ruler to last")
     print("COMBAT TEST RESULT: ", "PASS" if failures == 0 else "%d FAILED" % failures)
     quit(0 if failures == 0 else 1)
