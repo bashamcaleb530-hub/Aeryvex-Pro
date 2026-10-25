@@ -22,7 +22,7 @@ func _run() -> void:
     check(not game.call("request_council_review"), "Council cannot be skipped")
     check(not game.call("try_trial"), "Trial cannot be cleared from a distance")
     # Failure and retry keep all prior cleared missions.
-    var missions: AetherTrialMissions = game.get("missions")
+    var missions: RefCounted = game.get("missions")
     check(missions.MISSIONS.size() == 10, "Ten distinct mission stages defined")
     for i in range(10):
         var station: Node3D = game.get("stations")[i]
