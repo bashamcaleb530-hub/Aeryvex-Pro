@@ -17,11 +17,25 @@ var hud: Label
 var message := "You are a teenage applicant. Earn your place in the Aether military."
 var council_approved := false
 var movement_speed := 4.8
+var selected_hero := "KAI"
+var hero_tint := Color("#32aaff")
 
 func _ready() -> void:
     admission = AetherMilitaryAdmission.new()
+    _load_selected_hero()
     _setup_world()
     _update_hud()
+
+func _load_selected_hero() -> void:
+    if not FileAccess.file_exists("user://aether_world_profile.json"):
+        return
+    var data = JSON.parse_string(FileAccess.get_file_as_string("user://aether_world_profile.json"))
+    if typeof(data) != TYPE_DICTIONARY:
+        return
+    var idx := clampi(int(data.get("selected", 0)), 0, 2)
+    selected_hero = ["KAI", "RYKER", "LYRA"][idx]
+    movement_speed = [6.2, 4.1, 5.8][idx]
+    hero_tint = [Color("#32aaff"), Color("#f2bf61"), Color("#ad72ff")][idx]
 
 func _box(parent: Node3D, size: Vector3, position: Vector3, tint: Color) -> MeshInstance3D:
     var node := MeshInstance3D.new()
@@ -54,7 +68,7 @@ func _setup_world() -> void:
     hero = Node3D.new()
     hero.name = "TeenageCandidate"
     add_child(hero)
-    _box(hero, Vector3(0.62, 1.2, 0.45), Vector3(0, 1.12, 0), Color("#2266a6"))
+    _box(hero, Vector3(0.62, 1.2, 0.45), Vector3(0, 1.12, 0), hero_tint)
     _box(hero, Vector3(0.48, 0.48, 0.48), Vector3(0, 1.92, 0), Color("#8fa5bb"))
     var camera := Camera3D.new()
     camera.position = Vector3(0, 12.2, 13)
@@ -95,8 +109,8 @@ func _update_hud() -> void:
         hint = "Press C to present the purple Master's recommendation to the Council."
     if council_approved:
         hint = "ENROLLED: Blue Lightning Warrior. The larger campaign continues from here."
-    hud.text = "AERYVEX PRO — PATH TO THE MILITARY\n%s\nStage: %s  |  Trials: %d/10  |  Merit: %d\nNext: %s\n%s" % [
-        message, admission.stage.replace("_", " ").capitalize(), completed_count, score, objective, hint
+    hud.text = "AETHER WORLD — PATH TO THE MILITARY\n%s | %s\nStage: %s  |  Trials: %d/10  |  Merit: %d\nNext: %s\n%s" % [
+        message, selected_hero, admission.stage.replace("_", " ").capitalize(), completed_count, score, objective, hint
     ]
 
 func _process(delta: float) -> void:
