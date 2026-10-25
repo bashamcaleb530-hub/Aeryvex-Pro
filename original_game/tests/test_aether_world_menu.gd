@@ -28,7 +28,12 @@ func _run() -> void:
     menu.call("choose_hero", 99)
     check(menu.get("selected") == 2, "Invalid selection is ignored")
     check(FileAccess.file_exists(menu.SAVE_PATH), "Character selection is persisted")
-    check(load("res://MilitaryOpening.tscn") != null, "New Game military opening exists")
+    var opening_scene = load("res://MilitaryOpening.tscn")
+    check(opening_scene != null, "New Game military opening exists")
+    if opening_scene != null:
+        var opening: Node = opening_scene.instantiate()
+        check(opening.get_script() != null and opening.get_script().can_instantiate(), "Military opening script actually compiles")
+        opening.free()
     check(load("res://CharacterArena.tscn") != null, "Character arena exists")
     print("MENU RESULT: ", "PASS" if fails == 0 else "%d FAILED" % fails)
     quit(0 if fails == 0 else 1)
