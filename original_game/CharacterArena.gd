@@ -13,6 +13,9 @@ var camera: Camera3D
 var label: Label
 var time_s := 0.0
 var attack_timer := 0.0
+var model_loader: Node3D
+var model_active := false
+var status_note := ""
 
 func _ready() -> void:
     var file := FileAccess.open(DESIGN_PATH, FileAccess.READ)
@@ -54,6 +57,12 @@ func _build_world() -> void:
     add_child(character_root)
     fx_root = Node3D.new()
     add_child(fx_root)
+    var loader_script = load("res://ApprovedCharacterLoader.gd")
+    model_loader = Node3D.new()
+    model_loader.set_script(loader_script)
+    # Disable its default ready load; arena selects characters explicitly.
+    model_loader.set("character_id", -1)
+    character_root.add_child(model_loader)
     var layer := CanvasLayer.new()
     add_child(layer)
     label = Label.new()
@@ -106,8 +115,14 @@ func _select(index: int) -> void:
     if roster.is_empty():
         return
     current = posmod(index, RULERS.size())
-    _clear(character_root)
+    # Keep the loader resident across selections, clearing only test geometry.
+    for child in character_root.get_children():
+        if child != model_loader:
+            character_root.remove_child(child)
+            child.queue_free()
     _clear(fx_root)
+    model_active = model_loader.call("load_character", RULERS[current])
+    status_note = "APPROVED GLB LOADED" if model_active else "TEST BODY - APPROVED GLB NOT YET INSTALLED"
     var entry := _character(RULERS[current])
     var is_aether: bool = entry.get("faction", "") == "aether"
     var skin := Color("#384987") if is_aether else Color("#51313a")
@@ -118,6 +133,7 @@ func _select(index: int) -> void:
         skin = Color("#414bb0")
         armor = Color("#77879e")
         dark = Color("#26283c")
+    # Procedural temporary stand-in, only visible if no approved model exists.
     # Same overall human-scale skeleton for Thalen. Korr alone has 4 arms.
     _box(character_root, Vector3(0.68, 0.85, 0.38), Vector3(0, 1.62, 0), dark)
     _box(character_root, Vector3(0.82, 0.22, 0.5), Vector3(0, 2.02, 0), armor)
@@ -140,6 +156,10 @@ func _select(index: int) -> void:
     _box(character_root, Vector3(0.07, 2.7, 0.07), Vector3(-0.96, 1.32, 0), armor)
     _sphere(character_root, Vector3(0.29, 0.32, 0.29), Vector3(-0.96, 2.72, 0), Color("#8fd2ff") if is_aether else Color("#ff3451"))
     label.text = "AERYVEX PRO — CHARACTER ARENA\n%s  |  %s\n%s LIGHTNING  |  SPACE: burst   LEFT/RIGHT: switch   ESC: quit\nProcedural test body: final 3D model not yet imported" % [entry.get("name", "Unknown"), entry.get("role", ""), "RAINBOW" if is_aether else "RED"]
+    if model_active:
+        for child in character_root.get_children():
+            if child != model_loader:
+                child.visible = false
     attack_timer = 0.7
 
 func _input(event: InputEvent) -> void:
