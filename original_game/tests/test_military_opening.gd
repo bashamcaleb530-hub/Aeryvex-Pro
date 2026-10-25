@@ -19,6 +19,8 @@ func _run() -> void:
     await process_frame
     check(game.get("admission").stage == "teenage_applicant", "Starts as teenage applicant")
     check(game.get("completed_count") == 0, "No trials completed for free")
+    check(game.get("hero").has_node("ApprovedHeroAppearance"), "Hero uses approved-reference/model importer")
+    check(game.get("hero").get_children().size() >= 1, "Hero has selectable visual representation")
     check(not game.call("request_council_review"), "Council cannot be skipped")
     check(not game.call("try_trial"), "Trial cannot be cleared from a distance")
     # Failure and retry keep all prior cleared missions.
