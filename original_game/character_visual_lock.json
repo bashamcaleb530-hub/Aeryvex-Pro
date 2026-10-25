@@ -144,5 +144,8 @@
     "Thalen is human-scale athletic indigo-skinned Ormathi and must remain visually distinct from Orion.",
     "Orion and Drakthar are supreme leaders and keep approved appearance.",
     "Collage can serve as visual canon but is not a production-ready 3D turnaround."
-  ]
+  ],
+  "approved_lineup_sha256": "ecd144e9ac16b7576f301fdbdd1f74f0000941422072418e99eefc57f333c81f",
+  "asset_backup_status": "pending_original_image_files_in_repository",
+  "recovery_note": "Kaggle installer accepts GitHub-tracked assets after first publish. Exact approved image binaries not yet committed; do not infer them from the lock file."
 }
