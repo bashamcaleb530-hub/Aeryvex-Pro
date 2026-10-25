@@ -20,6 +20,12 @@ var training_target: Node3D
 var target_health := 100.0
 var target_hits := 0
 var hit_feedback := ""
+var duel_mode := false
+var player_health := 100.0
+var shield_active := false
+var enemy_attack_clock := 1.4
+var enemy_attacks := 0
+var enemy_origin := Vector3(2.1, 0.0, -1.0)
 
 func _ready() -> void:
     var file := FileAccess.open(DESIGN_PATH, FileAccess.READ)
@@ -134,6 +140,11 @@ func _select(index: int) -> void:
     target_hits = 0
     hit_feedback = "TARGET READY"
     training_target.visible = true
+    training_target.position = enemy_origin
+    player_health = 100.0
+    enemy_attacks = 0
+    enemy_attack_clock = 1.4
+    shield_active = false
     model_active = model_loader.call("load_character", RULERS[current])
     status_note = "APPROVED GLB LOADED" if model_active else "TEST BODY - APPROVED GLB NOT YET INSTALLED"
     var entry := _character(RULERS[current])
@@ -184,11 +195,24 @@ func _input(event: InputEvent) -> void:
         elif event.keycode == KEY_SPACE:
             if attack_timer <= 0.0:
                 _attack_target()
+        elif event.keycode == KEY_E:
+            duel_mode = not duel_mode
+            enemy_attack_clock = 1.4
+            hit_feedback = "ACTIVE ENEMY ENABLED" if duel_mode else "TRAINING MODE ENABLED"
+            _refresh_label()
+        elif event.keycode == KEY_SHIFT:
+            shield_active = not shield_active
+            hit_feedback = "SHIELD ON" if shield_active else "SHIELD OFF"
+            _refresh_label()
         elif event.keycode == KEY_T:
             target_health = 100.0
             target_hits = 0
             training_target.visible = true
             hit_feedback = "TARGET RESET"
+            training_target.position = enemy_origin
+            player_health = 100.0
+            enemy_attacks = 0
+            enemy_attack_clock = 1.4
             _refresh_label()
         elif event.keycode == KEY_ESCAPE:
             get_tree().quit()
@@ -196,7 +220,7 @@ func _input(event: InputEvent) -> void:
 func _refresh_label() -> void:
     var entry := _character(RULERS[current])
     var energy := "RAINBOW" if entry.get("faction", "") == "aether" else "RED"
-    label.text = "AERYVEX PRO - TRAINING ARENA\n%s | %s\n%s LIGHTNING | SPACE: strike  LEFT/RIGHT: rulers  T: reset target  ESC: quit\nTarget HP: %d/100  Hits: %d | %s\n%s" % [entry.get("name", "Unknown"), entry.get("role", ""), energy, int(target_health), target_hits, hit_feedback, status_note]
+    label.text = "AERYVEX PRO - %s\n%s | %s\n%s LIGHTNING | SPACE: strike  E: duel/training  SHIFT: shield  T: reset  LEFT/RIGHT: rulers  ESC: quit\nPlayer HP: %d/100 | Enemy HP: %d/100 | Shield: %s | Enemy attacks: %d | Hits: %d\n%s | %s" % ["ACTIVE DUEL" if duel_mode else "TRAINING ARENA", entry.get("name", "Unknown"), entry.get("role", ""), energy, int(player_health), int(target_health), "ON" if shield_active else "OFF", enemy_attacks, target_hits, hit_feedback, status_note]
 
 func _attack_target() -> void:
     attack_timer = 0.48
@@ -216,7 +240,26 @@ func _process(delta: float) -> void:
     attack_timer = maxf(0.0, attack_timer - delta)
     if character_root:
         character_root.rotation.y = sin(time_s * 0.45) * 0.23
+    if duel_mode:
+        _update_enemy(delta)
     _draw_lightning()
+
+func _update_enemy(delta: float) -> void:
+    if target_health <= 0.0 or player_health <= 0.0:
+        return
+    # Deterministic sidestep and timed ranged attacks; no randomness or physics dependence.
+    training_target.position.x = enemy_origin.x + sin(time_s * 1.8) * 0.75
+    training_target.position.z = enemy_origin.z + cos(time_s * 1.2) * 0.35
+    enemy_attack_clock -= delta
+    if enemy_attack_clock <= 0.0:
+        enemy_attack_clock += 1.4
+        enemy_attacks += 1
+        var damage := 5.0 if shield_active else 15.0
+        player_health = maxf(0.0, player_health - damage)
+        hit_feedback = "SHIELD BLOCKED MOST DAMAGE" if shield_active else "ENEMY LIGHTNING STRIKE"
+        if player_health <= 0.0:
+            hit_feedback = "PLAYER DEFEATED - PRESS T TO RESTART"
+        _refresh_label()
 
 func _draw_lightning() -> void:
     _clear(fx_root)
