@@ -23,6 +23,7 @@ var hud: Label
 var message := "You are a teenage applicant. Earn your place in the Aether military."
 var council_approved := false
 var movement_speed := 4.8
+var hero_visual_status := "missing"
 var selected_hero := "KAI"
 var hero_tint := Color("#32aaff")
 
@@ -76,8 +77,18 @@ func _setup_world() -> void:
     hero = Node3D.new()
     hero.name = "TeenageCandidate"
     add_child(hero)
-    _box(hero, Vector3(0.62, 1.2, 0.45), Vector3(0, 1.12, 0), hero_tint)
-    _box(hero, Vector3(0.48, 0.48, 0.48), Vector3(0, 1.92, 0), Color("#8fa5bb"))
+    var appearance := Node3D.new()
+    appearance.name = "ApprovedHeroAppearance"
+    appearance.set_script(load("res://ApprovedPlayableHero.gd"))
+    hero.add_child(appearance)
+    hero_visual_status = appearance.call("apply_hero", ["KAI","RYKER","LYRA"].find(selected_hero))
+    if hero_visual_status == "missing":
+        _box(hero, Vector3(0.62, 1.2, 0.45), Vector3(0, 1.12, 0), hero_tint)
+        _box(hero, Vector3(0.48, 0.48, 0.48), Vector3(0, 1.92, 0), Color("#8fa5bb"))
+    if selected_hero == "KAI":
+        for side in [-1.0,1.0]:
+            _box(hero, Vector3(0.09,0.65,0.09), Vector3(side*0.53,1.04,0), Color("#1b304c"))
+            _box(hero, Vector3(0.04,0.55,0.05), Vector3(side*0.53,1.65,0), Color("#35b8f5"))
     opponent = Node3D.new()
     opponent.name = "TrainingOpponent"
     opponent.position = Vector3(1.5, 0, 0)
@@ -148,7 +159,7 @@ func _update_hud() -> void:
         return
     var objective := current_trial().replace("_", " ").capitalize()
     var mission: Dictionary = missions.current()
-    var hint := "WASD move | J martial | K weapon | H defend | R retry | F finish at marker."
+    var hint := "WASD move | J martial | K weapon | H defend | R retry | F finish at marker. Visual: " + hero_visual_status
     if admission.stage == "council_review":
         hint = "Press C to present the purple Master's recommendation to the Council."
     if council_approved:
