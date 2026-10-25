@@ -5,10 +5,10 @@ class_name GrandMasterPowers
 # The soul theft ritual is deliberately gated by story events.
 const POWERS := {
     0: {"name": "Orion Valen", "signature": "Spectrum Dominion", "ultimate": "Eternal Rainbow Judgment", "element": "rainbow", "damage": 95},
-    12: {"name": "Maeryn Sol", "signature": "Infinite Gate Cascade", "ultimate": "Celestial Rift Collapse", "element": "rainbow", "damage": 80},
-    13: {"name": "Thalen Orris", "signature": "Sevenfold Warstorm", "ultimate": "Grand Legion Tempest", "element": "rainbow", "damage": 85},
-    14: {"name": "Ilyra Venn", "signature": "Prismatic Phantom", "ultimate": "A Thousand Hidden Bolts", "element": "rainbow", "damage": 78},
-    15: {"name": "Selene Avaris", "signature": "Lifeweave Radiance", "ultimate": "Genesis Restoration Storm", "element": "rainbow", "damage": 72},
+    12: {"name": "Maeryn Sol", "signature": "Infinite Gate Cascade", "ultimate": "Celestial Rift Collapse", "element": "multicolor", "damage": 80},
+    13: {"name": "Thalen Orris", "signature": "Sevenfold Warstorm", "ultimate": "Grand Legion Tempest", "element": "multicolor", "damage": 85},
+    14: {"name": "Ilyra Venn", "signature": "Prismatic Phantom", "ultimate": "A Thousand Hidden Bolts", "element": "multicolor", "damage": 78},
+    15: {"name": "Selene Avaris", "signature": "Lifeweave Radiance", "ultimate": "Genesis Restoration Storm", "element": "multicolor", "damage": 72},
     6: {"name": "Drakthar Vex", "signature": "Crimson Dominion", "ultimate": "Crimson Cataclysm", "element": "red", "damage": 98},
     16: {"name": "Malveris Thorne", "signature": "Bloodfire Siege", "ultimate": "Worldbreaker Barrage", "element": "red", "damage": 86},
     17: {"name": "Nyssara Veil", "signature": "Scarlet Shadowfall", "ultimate": "Nightmare Eclipse", "element": "red", "damage": 80},
