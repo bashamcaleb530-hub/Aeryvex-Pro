@@ -23,7 +23,9 @@ signal character_missing(character_id: int, expected_path: String)
 var active_model: Node3D
 
 func _ready() -> void:
-    load_character(character_id)
+    # A negative ID means the arena will select a ruler after initialization.
+    if character_id >= 0:
+        load_character(character_id)
 
 func load_character(id: int) -> bool:
     character_id = id
