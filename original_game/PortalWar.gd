@@ -121,7 +121,7 @@ func _draw() -> void:
 	for i in range(5):
 		draw_line(Vector2(0, 135 + i * 128), Vector2(1280, 135 + i * 128), Color("#273452"), 1)
 	draw_rect(Rect2(0, 0, 1280, 92), Color("#111b38"))
-	_title(Vector2(30, 35), "AERYVEX PRO  /  THRONES OF THE EIGHT GALAXIES", 28, GOLD)
+	_title(Vector2(30, 35), "AERYVEX PRO  /  THRONES OF THE TEN GALAXIES", 28, GOLD)
 	_title(Vector2(30, 65), "PORTAL WAR - PLAYABLE PROTOTYPE", 17, Color("#d9e6ff"))
 	_title(Vector2(30, 705), "WASD/ARROWS move    SPACE lightning    SHIFT sprint    E enter portal    R restart", 17, Color("#c0d1f4"))
 	if stage == 0:
