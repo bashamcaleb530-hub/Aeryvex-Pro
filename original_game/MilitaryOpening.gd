@@ -7,6 +7,9 @@ const TASK_POSITIONS := [
     Vector3(0, 0, 4), Vector3(-5, 0, 3), Vector3(-4, 0, -1),
     Vector3(2, 0, -2), Vector3(4, 0, 4), Vector3(-2, 0, 4)
 ]
+var missions: AetherTrialMissions
+var pulse_clock := 0.0
+var last_pulse_position := Vector3.ZERO
 var admission: AetherMilitaryAdmission
 var hero: Node3D
 var stations: Array = []
@@ -22,6 +25,7 @@ var hero_tint := Color("#32aaff")
 
 func _ready() -> void:
     admission = AetherMilitaryAdmission.new()
+    missions = AetherTrialMissions.new()
     _load_selected_hero()
     _setup_world()
     _update_hud()
@@ -104,13 +108,16 @@ func _update_hud() -> void:
     if hud == null:
         return
     var objective := current_trial().replace("_", " ").capitalize()
-    var hint := "Move WASD / Arrows. Stand near the glowing trial marker, press F."
+    var mission: Dictionary = missions.current()
+    var hint := "WASD move | J martial | K weapon | H defend | R retry | F finish at marker."
     if admission.stage == "council_review":
         hint = "Press C to present the purple Master's recommendation to the Council."
     if council_approved:
         hint = "ENROLLED: Blue Lightning Warrior. The larger campaign continues from here."
-    hud.text = "AETHER WORLD — PATH TO THE MILITARY\n%s | %s\nStage: %s  |  Trials: %d/10  |  Merit: %d\nNext: %s\n%s" % [
-        message, selected_hero, admission.stage.replace("_", " ").capitalize(), completed_count, score, objective, hint
+    hud.text = "AETHER WORLD — TEN MILITARY MISSIONS\n%s | %s\nStage: %s | Cleared: %d/10 | Merit: %d\nMission %d: %s\n%s | %d/%d | Health: %d | Failures: %d\n%s" % [
+        message, selected_hero, admission.stage.replace("_", " ").capitalize(), completed_count, score,
+        mini(task_index+1,10), mission["name"], mission["description"], missions.progress,
+        int(mission["goal"]), missions.hero_health, missions.total_failures, hint
     ]
 
 func _process(delta: float) -> void:
@@ -128,6 +135,18 @@ func _process(delta: float) -> void:
     hero.position += direction.normalized() * movement_speed * delta
     hero.position.x = clampf(hero.position.x, -7.2, 7.2)
     hero.position.z = clampf(hero.position.z, -6.2, 6.2)
+    if missions.failed:
+        return
+    missions.tick(delta,Input.is_key_pressed(KEY_H))
+    if missions.current()["type"] == "dodge" and not missions.is_complete():
+        pulse_clock += delta
+        if pulse_clock >= 1.0:
+            pulse_clock -= 1.0
+            missions.dodge_pulse(hero.position.distance_to(last_pulse_position) >= 1.0)
+            last_pulse_position = hero.position
+    if missions.failed:
+        message = "FAILED: Health depleted. Press R to retry this mission."
+    _update_hud()
 
 func try_trial() -> bool:
     if task_index >= stations.size():
@@ -136,12 +155,20 @@ func try_trial() -> bool:
         message = "Approach the marked trial before attempting it."
         _update_hud()
         return false
+    if not missions.is_complete():
+        message = "Complete the mission objective before using this gateway."
+        _update_hud()
+        return false
     var key := current_trial()
     if not admission.complete_challenge(key):
         return false
     stations[task_index].visible = false
     task_index += 1
     completed_count += 1
+    if task_index < 10:
+        missions.advance()
+        pulse_clock = 0.0
+        last_pulse_position = hero.position
     score += 100
     message = "Completed: %s." % key.replace("_", " ").capitalize()
     if task_index == 4:
@@ -173,6 +200,20 @@ func _input(event: InputEvent) -> void:
         return
     if event.keycode == KEY_F:
         try_trial()
+    elif event.keycode == KEY_J:
+        if missions.strike(false):
+            message = "Martial arts exchange won."
+            _update_hud()
+    elif event.keycode == KEY_K:
+        if missions.strike(true):
+            message = "Weapon exchange won."
+            _update_hud()
+    elif event.keycode == KEY_R:
+        if missions.restart_after_failure():
+            pulse_clock = 0.0
+            last_pulse_position = hero.position
+            message = "Retrying mission; earlier victories remain."
+            _update_hud()
     elif event.keycode == KEY_C:
         request_council_review()
     elif event.keycode == KEY_ESCAPE:
