@@ -66,5 +66,25 @@ func _run() -> void:
     prev_key.pressed = true
     arena.call("_input", prev_key)
     _assert_true(arena.get("current") == 9, "LEFT wraps from first ruler to last")
+    # Active duel simulation: enemy hits player, shield reduces the damage.
+    var duel_key := InputEventKey.new()
+    duel_key.keycode = KEY_E
+    duel_key.pressed = true
+    arena.call("_input", duel_key)
+    _assert_true(arena.get("duel_mode"), "E enables active enemy")
+    var hp_before: float = arena.get("player_health")
+    arena.call("_update_enemy", 1.5)
+    _assert_true(arena.get("player_health") == hp_before - 15.0, "Enemy attack damages player")
+    var shield_key := InputEventKey.new()
+    shield_key.keycode = KEY_SHIFT
+    shield_key.pressed = true
+    arena.call("_input", shield_key)
+    _assert_true(arena.get("shield_active"), "SHIFT activates shield")
+    arena.call("_update_enemy", 1.5)
+    _assert_true(arena.get("player_health") == hp_before - 20.0, "Shield reduces enemy damage")
+    arena.call("_input", reset_key)
+    _assert_true(arena.get("player_health") == 100.0, "T restores player HP")
+    arena.call("_input", duel_key)
+    _assert_true(not arena.get("duel_mode"), "E returns to training mode")
     print("COMBAT TEST RESULT: ", "PASS" if failures == 0 else "%d FAILED" % failures)
     quit(0 if failures == 0 else 1)
