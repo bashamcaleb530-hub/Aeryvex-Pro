@@ -41,5 +41,30 @@ func _run() -> void:
         arena.call("_select", i)
         _assert_true(arena.get("current") == i, "Ruler index %d selectable" % i)
     _assert_true(arena.get("target_health") == 100.0, "Target remains initialized")
+    # Exercise actual keyboard event handling, not only internal combat functions.
+    arena.set("attack_timer", 0.0)
+    var space := InputEventKey.new()
+    space.keycode = KEY_SPACE
+    space.pressed = true
+    arena.call("_input", space)
+    _assert_true(arena.get("target_health") == 75.0, "SPACE performs lightning strike")
+    arena.call("_input", space)
+    _assert_true(arena.get("target_health") == 75.0, "Attack cooldown prevents repeated SPACE damage")
+    var reset_key := InputEventKey.new()
+    reset_key.keycode = KEY_T
+    reset_key.pressed = true
+    arena.call("_input", reset_key)
+    _assert_true(arena.get("target_health") == 100.0, "T restores target health")
+    _assert_true(arena.get("target_hits") == 0, "T resets hit count")
+    var next_key := InputEventKey.new()
+    next_key.keycode = KEY_RIGHT
+    next_key.pressed = true
+    arena.call("_input", next_key)
+    _assert_true(arena.get("current") == 1, "RIGHT changes selected ruler")
+    var prev_key := InputEventKey.new()
+    prev_key.keycode = KEY_LEFT
+    prev_key.pressed = true
+    arena.call("_input", prev_key)
+    _assert_true(arena.get("current") == 0, "LEFT changes selected ruler")
     print("COMBAT TEST RESULT: ", "PASS" if failures == 0 else "%d FAILED" % failures)
     quit(0 if failures == 0 else 1)
