@@ -31,22 +31,33 @@ def main():
     assert LOCK.exists(), "GitHub character_visual_lock.json missing; pull the original-game branch."
     lock = json.loads(LOCK.read_text())
     assert len(lock["rulers"]) == 10
-    package = find_zip()
-    if package is None:
+    tracked = PROJECT / "original_game/assets/approved_refs"
+    if tracked.is_dir() and (tracked / "reference_manifest.json").is_file():
+        import shutil
+        DEST.mkdir(parents=True, exist_ok=True)
+        for item in tracked.iterdir():
+            if item.is_file() and (item.suffix == ".png" or item.name == "reference_manifest.json"):
+                shutil.copy2(item, DEST / item.name)
+        print("Restored approved artwork from tracked GitHub assets.")
+        package = None
+    else:
+        package = find_zip()
+    if package is None and not (DEST / "reference_manifest.json").is_file():
         print("MISSING PACKAGE: Upload the exact approved ZIP to Kaggle inputs or /kaggle/working.")
         print("No replacement images have been created.")
         return 2
     DEST.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(package) as z:
-        for member in z.infolist():
-            if member.is_dir() or not member.filename.startswith("approved_refs/"):
-                continue
-            filename = Path(member.filename).name
-            if filename not in {"reference_manifest.json", "ten_rulers_approved_lineup.png"} and not filename.endswith("_panel_reference.png"):
-                continue
-            output = DEST / filename
-            with z.open(member) as src, output.open("wb") as dst:
-                shutil.copyfileobj(src, dst)
+    if package is not None:
+        with zipfile.ZipFile(package) as z:
+            for member in z.infolist():
+                if member.is_dir() or not member.filename.startswith("approved_refs/"):
+                    continue
+                filename = Path(member.filename).name
+                if filename not in {"reference_manifest.json", "ten_rulers_approved_lineup.png"} and not filename.endswith("_panel_reference.png"):
+                    continue
+                output = DEST / filename
+                with z.open(member) as src, output.open("wb") as dst:
+                    shutil.copyfileobj(src, dst)
     manifest_file = DEST / "reference_manifest.json"
     assert manifest_file.is_file(), "Approved manifest not found in ZIP"
     manifest = json.loads(manifest_file.read_text())
