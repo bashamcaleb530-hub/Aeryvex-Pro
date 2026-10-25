@@ -24,10 +24,22 @@ func _run() -> void:
     # Failure and retry keep all prior cleared missions.
     var missions: RefCounted = game.get("missions")
     check(missions.MISSIONS.size() == 10, "Ten distinct mission stages defined")
+    check(game.get("hazard") != null, "Visible lightning hazard created")
+    check(game.get("opponent") != null, "Visible sparring opponent created")
+    check(game.get("hazard").visible, "Storm mission displays hazard")
+    check(not game.get("opponent").visible, "Storm mission hides sparring opponent")
+    check(not game.call("_attempt_strike", false), "Cannot score combat hits in storm mission")
     for i in range(10):
         var station: Node3D = game.get("stations")[i]
         game.get("hero").position = station.position
         check(not game.call("try_trial"), "Mission %d cannot skip gameplay objective" % (i + 1))
+        if i == 1:
+            check(game.get("opponent").visible, "Martial arts mission displays opponent")
+            game.get("hero").position = Vector3(-6, 0, -6)
+            check(not game.call("_attempt_strike", false), "Martial hits require melee proximity")
+            game.get("hero").position = station.position
+        if i == 2:
+            check(game.get("opponent").visible, "Weapons mission displays opponent")
         var m: Dictionary = missions.current()
         var kind: String = m["type"]
         if i == 0:
