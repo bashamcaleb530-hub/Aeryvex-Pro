@@ -2,6 +2,7 @@
 import copy, datetime, hashlib, json, os, re, shutil, subprocess, tempfile, zipfile
 from pathlib import Path
 from .providers import DEFAULT, provider, validate
+from . import genre3d
 TEMPLATES = Path(__file__).parent/'templates'
 
 def digest(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -24,17 +25,18 @@ def save_revision(path, bible):
 
 def new(path,name,prompt,model='template'):
     if path.exists(): raise ValueError('Project already exists; use add')
-    config=provider(model).propose(prompt,DEFAULT)
-    bible={'schema_version':1,'name':name,'revision':1,'template':'collect_survive_2d',
+    mode3d=genre3d.is_3d(prompt)
+    config=genre3d.propose(prompt,genre3d.DEFAULT,model) if mode3d else provider(model).propose(prompt,DEFAULT)
+    bible={'schema_version':1,'name':name,'revision':1,'template':'rpg_3d' if mode3d else 'collect_survive_2d',
            'config':config,'requirements':[{'prompt':prompt,'resolution':'PARTIAL_TEMPLATE_SUPPORT','confirmed':True}],
            'history':[{'revision':1,'prompt':prompt,'provider':model,'config':config}],
            'approved_appearance_references':{},'assets':[],
-           'limitations':['Only bounded 2D collection/survival template is implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending.']}
+           'limitations':['Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending.']}
     path.mkdir(parents=True);save_revision(path,bible)
     return bible
 
 def add(path,prompt,model='template'):
-    bible=load(path);config=provider(model).propose(prompt,bible['config'])
+    bible=load(path);config=genre3d.propose(prompt,bible['config'],model) if bible['template']=='rpg_3d' else provider(model).propose(prompt,bible['config'])
     before=copy.deepcopy(bible);bible['revision']+=1;bible['config']=config
     bible['requirements'].append({'prompt':prompt,'resolution':'PARTIAL_TEMPLATE_SUPPORT','confirmed':True})
     bible['history'].append({'revision':bible['revision'],'prompt':prompt,'provider':model,'config':config})
@@ -49,6 +51,8 @@ def plan(path):
            {'id':'package','depends_on':['qa'],'criterion':'Integrity-checked Godot project ZIP','status':'PENDING'},
            {'id':'production_art','depends_on':['design'],'criterion':'Licensed, approved, rigged assets and visual review','status':'BLOCKED'},
            {'id':'unrepresented_requirements','depends_on':['design'],'criterion':'Resolve every prompt clause outside supported config','status':'PENDING'}]
+    if bible['template']=='rpg_3d':
+        tasks[1]['criterion']='Third-person physics, obstacle navigation, enemy contact combat, abilities and restart in real Godot'
     if status(path)['qa']=='RUNTIME_CHECKED':
         for task in tasks:
             if task['id']=='qa': task['status']='RUNTIME_CHECKED'
@@ -59,7 +63,8 @@ def managed_files(path):
     return {p.relative_to(path/'godot').as_posix():digest(p) for p in (path/'godot').rglob('*') if p.is_file() and '.godot' not in p.parts and not p.name.endswith(('.uid','.import'))}
 
 def build(path):
-    bible=load(path);validate(bible['config']);game=path/'godot'
+    bible=load(path);mode3d=bible['template']=='rpg_3d'
+    (genre3d.validate if mode3d else validate)(bible['config']);game=path/'godot'
     previous=path/'managed.json'
     if previous.exists():
         expected=json.loads(previous.read_text())
@@ -68,9 +73,13 @@ def build(path):
             if not p.is_file() or digest(p)!=hash_value: raise ValueError('Managed source edited; preserved, resolve before rebuilding: '+file)
     elif game.exists():raise ValueError('Unmanaged game directory; refusing overwrite')
     game.mkdir(exist_ok=True)
-    for name in ['main.gd','scenario.gd']:shutil.copyfile(TEMPLATES/name,game/name)
+    if mode3d:genre3d.compile(game,TEMPLATES)
+    else:
+        for name in ['main.gd','scenario.gd']:shutil.copyfile(TEMPLATES/name,game/name)
     (game/'main.tscn').write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://main.gd" id="1"]\n[node name="GeneratedGame" type="Node2D"]\nscript = ExtResource("1")\n')
     (game/'project.godot').write_text('config_version=5\n[application]\nconfig/name='+json.dumps(bible['name'])+'\nrun/main_scene="res://main.tscn"\nconfig/features=PackedStringArray("4.2", "GL Compatibility")\n[display]\nwindow/size/viewport_width=800\nwindow/size/viewport_height=600\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n')
+    if mode3d:
+        scene=game/'main.tscn';scene.write_text(scene.read_text().replace('type="Node2D"','type="Node3D"'))
     write_json(game/'game.json',bible['config'])
     write_json(path/'managed.json',managed_files(path));plan(path)
     write_json(path/'build.json',{'revision':bible['revision'],'status':'IMPLEMENTED','files':managed_files(path)})

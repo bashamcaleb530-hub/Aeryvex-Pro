@@ -1,0 +1,75 @@
+{
+  "status": "RUNTIME_CHECKED",
+  "evidence": {
+    "revision": 2,
+    "files": {
+      "main.tscn": "5a916a48432a35bfa89f846e00eb5494818c1af6887b1de14e854841b7d23788",
+      "enemy.gd": "70db7bf583f13a1cfcff91180f942dd9e177ead4d0e58565902932ce4055cee8",
+      "character_import.gd": "03077cd994ef6c0d8b07ec603564a67951f40d3fd3e84bba0f13ea521372b981",
+      "actor.gd": "a0764a0dcb0cb8b6eaccc407ade9257561ea383a02cf1edb560920418c2da274",
+      "scenario.gd": "992e26fd413075713240be1d16206ce824e934feba942ec8aeb1ebbc25246505",
+      "main.gd": "797b5b3b6051e6084e8c2990dab60a6c6737a61330c87d162461a9c943c5b2cc",
+      "game.json": "f4e57b8d9661c476b0b175b03cb36bed22d21813cc509443018b0f8f04c22bcd",
+      "project.godot": "078fa99e6493c6e4fd40a7bb178d3793c9622871fc5280e468dd80d62d057a34"
+    },
+    "bible_sha256": "9a592d6506c8e8b3d264fa2205c2110aee34499ce66c30cdbf2115d963ddae25"
+  },
+  "checks": [
+    {
+      "name": "version",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--version"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "4.2.2.stable.official.15073afe3\n"
+    },
+    {
+      "name": "import",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--editor",
+        "--path",
+        "/workspace/work/aeryvex-ai-factory/factory_projects/RPGDemo/godot",
+        "--import"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+    },
+    {
+      "name": "startup",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--path",
+        "/workspace/work/aeryvex-ai-factory/factory_projects/RPGDemo/godot",
+        "--quit-after",
+        "8"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+    },
+    {
+      "name": "scenario",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--path",
+        "/workspace/work/aeryvex-ai-factory/factory_projects/RPGDemo/godot",
+        "--script",
+        "res://scenario.gd"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nRPG_CHECKS: 24\nFACTORY_SCENARIO_PASS\n"
+    }
+  ],
+  "visual_review": "PENDING",
+  "hardware_review": "PENDING"
+}

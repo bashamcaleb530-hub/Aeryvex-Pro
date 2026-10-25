@@ -1,0 +1,14 @@
+{
+  "revision": 2,
+  "status": "IMPLEMENTED",
+  "files": {
+    "main.tscn": "5a916a48432a35bfa89f846e00eb5494818c1af6887b1de14e854841b7d23788",
+    "enemy.gd": "70db7bf583f13a1cfcff91180f942dd9e177ead4d0e58565902932ce4055cee8",
+    "character_import.gd": "03077cd994ef6c0d8b07ec603564a67951f40d3fd3e84bba0f13ea521372b981",
+    "actor.gd": "a0764a0dcb0cb8b6eaccc407ade9257561ea383a02cf1edb560920418c2da274",
+    "scenario.gd": "992e26fd413075713240be1d16206ce824e934feba942ec8aeb1ebbc25246505",
+    "main.gd": "797b5b3b6051e6084e8c2990dab60a6c6737a61330c87d162461a9c943c5b2cc",
+    "game.json": "f4e57b8d9661c476b0b175b03cb36bed22d21813cc509443018b0f8f04c22bcd",
+    "project.godot": "078fa99e6493c6e4fd40a7bb178d3793c9622871fc5280e468dd80d62d057a34"
+  }
+}

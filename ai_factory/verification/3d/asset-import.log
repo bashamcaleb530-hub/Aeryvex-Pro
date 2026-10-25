@@ -1,0 +1,6 @@
+Godot command: /workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64 --headless --path <isolated temporary project> --script res://test.gd
+Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org
+ 
+ASSET_IMPORT_PASS
+WARNING: Adding 'Body' as child to 'Skeleton3D' will make owner 'fixture' inconsistent. Consider unsetting the owner beforehand.
+     at: add_child (scene/main/node.cpp:1427)

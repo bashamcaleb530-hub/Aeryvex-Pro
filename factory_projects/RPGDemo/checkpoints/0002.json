@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "name": "RPGDemo",
+  "revision": 2,
+  "template": "rpg_3d",
+  "config": {
+    "enemies": 2,
+    "areas": 2,
+    "speed": 5,
+    "abilities": [
+      "heal",
+      "lightning"
+    ]
+  },
+  "requirements": [
+    {
+      "prompt": "A 3D RPG with 1 enemy, healing and ruins",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    },
+    {
+      "prompt": "Add an enemy, add lightning ability and a new area",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A 3D RPG with 1 enemy, healing and ruins",
+      "provider": "template",
+      "config": {
+        "enemies": 1,
+        "areas": 1,
+        "speed": 5,
+        "abilities": [
+          "heal"
+        ]
+      }
+    },
+    {
+      "revision": 2,
+      "prompt": "Add an enemy, add lightning ability and a new area",
+      "provider": "template",
+      "config": {
+        "enemies": 2,
+        "areas": 2,
+        "speed": 5,
+        "abilities": [
+          "heal",
+          "lightning"
+        ]
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ]
+}

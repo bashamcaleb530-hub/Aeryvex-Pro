@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "name": "RPGDemo",
+  "revision": 1,
+  "template": "rpg_3d",
+  "config": {
+    "enemies": 1,
+    "areas": 1,
+    "speed": 5,
+    "abilities": [
+      "heal"
+    ]
+  },
+  "requirements": [
+    {
+      "prompt": "A 3D RPG with 1 enemy, healing and ruins",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A 3D RPG with 1 enemy, healing and ruins",
+      "provider": "template",
+      "config": {
+        "enemies": 1,
+        "areas": 1,
+        "speed": 5,
+        "abilities": [
+          "heal"
+        ]
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ]
+}

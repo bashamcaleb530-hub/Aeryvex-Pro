@@ -1,3 +1,7 @@
+# Current extension: 3D generation
+
+See [MILESTONE_2.md](MILESTONE_2.md) for the working 3D template, controls, revision syntax, real engine checks and remaining visual/asset work. The original 2D workflow below is retained.
+
 # Aeryvex AI Game Factory
 
 A working bounded Godot4 generator with persistent revisions. This is the first end-to-end template, not an arbitrary-game or realistic-3D generator. Existing `original_game/` is preserved verbatim and is never a generation target.

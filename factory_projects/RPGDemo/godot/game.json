@@ -1,0 +1,9 @@
+{
+  "enemies": 2,
+  "areas": 2,
+  "speed": 5,
+  "abilities": [
+    "heal",
+    "lightning"
+  ]
+}

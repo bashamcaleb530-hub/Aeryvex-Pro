@@ -1,0 +1,32 @@
+{
+  "name": "RPGDemo",
+  "revision": 2,
+  "config": {
+    "enemies": 2,
+    "areas": 2,
+    "speed": 5,
+    "abilities": [
+      "heal",
+      "lightning"
+    ]
+  },
+  "qa": "RUNTIME_CHECKED",
+  "approved_assets": 0,
+  "production_art": "BLOCKED",
+  "provider_default": "template",
+  "requirements": [
+    {
+      "prompt": "A 3D RPG with 1 enemy, healing and ruins",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    },
+    {
+      "prompt": "Add an enemy, add lightning ability and a new area",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ]
+}

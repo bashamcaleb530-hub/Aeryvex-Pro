@@ -1,0 +1,51 @@
+{
+  "revision": 2,
+  "tasks": [
+    {
+      "id": "design",
+      "depends_on": [],
+      "criterion": "Validated config and every prompt retained",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "id": "gameplay",
+      "depends_on": [
+        "design"
+      ],
+      "criterion": "Third-person physics, obstacle navigation, enemy contact combat, abilities and restart in real Godot",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "id": "qa",
+      "depends_on": [
+        "gameplay"
+      ],
+      "criterion": "Godot import/startup/scenario exit0, no errors and explicit marker",
+      "status": "RUNTIME_CHECKED"
+    },
+    {
+      "id": "package",
+      "depends_on": [
+        "qa"
+      ],
+      "criterion": "Integrity-checked Godot project ZIP",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "id": "production_art",
+      "depends_on": [
+        "design"
+      ],
+      "criterion": "Licensed, approved, rigged assets and visual review",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "unrepresented_requirements",
+      "depends_on": [
+        "design"
+      ],
+      "criterion": "Resolve every prompt clause outside supported config",
+      "status": "PENDING"
+    }
+  ]
+}
