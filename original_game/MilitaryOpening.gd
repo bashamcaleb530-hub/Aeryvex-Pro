@@ -164,9 +164,9 @@ func _update_hud() -> void:
         hint = "Press C to present the purple Master's recommendation to the Council."
     if council_approved:
         hint = "ENROLLED: Blue Lightning Warrior. The larger campaign continues from here."
-    hud.text = "AETHER WORLD — TEN MILITARY MISSIONS\n%s | %s\nStage: %s | Cleared: %d/10 | Merit: %d\nMission %d: %s\n%s | %d/%d | Health: %d | Failures: %d\n%s" % [
+    hud.text = "AETHER WORLD — TEN MILITARY MISSIONS\n%s | %s\nStage: %s | Cleared: %d/10 | Merit: %d\nMission %d: %s\nACT %d/3: %s\nProgress: %d/%d | Health: %d | Failures: %d\n%s" % [
         message, selected_hero, admission.stage.replace("_", " ").capitalize(), completed_count, score,
-        mini(task_index+1,10), mission["name"], mission["description"], missions.progress,
+        mini(task_index+1,10), mission["name"], missions.phase_index()+1, missions.phase_name(), missions.progress,
         int(mission["goal"]), missions.hero_health, missions.total_failures, hint
     ]
 
