@@ -86,5 +86,21 @@ func _run() -> void:
     _assert_true(arena.get("player_health") == 100.0, "T restores player HP")
     arena.call("_input", duel_key)
     _assert_true(not arena.get("duel_mode"), "E returns to training mode")
+    # Approved canon: Orion's single staff transforms into two sword conduits.
+    arena.call("_select", 0)
+    var weapon: Node = arena.get("weapon_conduit")
+    _assert_true(weapon.call("get_mode") == "supreme_staff", "Orion begins with supreme staff")
+    var transform_key := InputEventKey.new()
+    transform_key.keycode = KEY_F
+    transform_key.pressed = true
+    arena.call("_input", transform_key)
+    _assert_true(weapon.call("get_mode") == "dual_swords", "F transforms Orion staff into dual swords")
+    arena.call("_input", transform_key)
+    _assert_true(weapon.call("get_mode") == "supreme_staff", "F reforms Orion dual swords into staff")
+    arena.call("_select", 2)
+    _assert_true(weapon.call("get_mode") == "dual_swords", "Thalen carries dual swords")
+    arena.call("_input", transform_key)
+    _assert_true(weapon.call("get_mode") == "dual_swords", "Thalen retains his dual swords")
+    _assert_true(weapon.get_node("ConduitHandles").get_child_count() == 2, "Thalen has two separate handles")
     print("COMBAT TEST RESULT: ", "PASS" if failures == 0 else "%d FAILED" % failures)
     quit(0 if failures == 0 else 1)
