@@ -3,11 +3,13 @@ class_name PlayerAscension
 
 # Narrative rank order is irreversible. The player is a unique hero (ID 20).
 const WARRIOR := 0
-const MASTER := 1
-const GRAND_MASTER := 2
-const SUPREME_GRAND_MASTER := 3
-const RANK_NAMES := ["Warrior", "Master", "Grand Master", "Supreme Grand Master"]
-const LIGHTNING := ["blue", "purple", "rainbow", "supreme_rainbow"]
+const TEMPLE_GUARD := 1
+const ADEPT := 2
+const MASTER := 3
+const GRAND_MASTER := 4
+const SUPREME_GRAND_MASTER := 5
+const RANK_NAMES := ["Warrior", "Temple Guard", "Adept", "Master", "Grand Master", "Supreme Grand Master"]
+const LIGHTNING := ["blue", "yellow", "green", "purple", "multicolor", "rainbow"]
 var rank := WARRIOR
 var earned_trials := {}
 var story_events := {}
@@ -28,17 +30,41 @@ func mark_warrior_trial(trial: String) -> bool:
     earned_trials[trial] = true
     return true
 
-func become_master() -> bool:
+func become_temple_guard() -> bool:
     if rank != WARRIOR:
         return false
     for item in ["defend_aether_settlement", "survive_first_war_gate", "complete_warrior_oath"]:
         if not earned_trials.get(item, false):
             return false
+    rank = TEMPLE_GUARD
+    return true
+
+func mark_temple_trial(trial: String) -> bool:
+    if rank != TEMPLE_GUARD or trial not in ["defend_temple", "protect_yellow_flame"]:
+        return false
+    earned_trials[trial] = true
+    return true
+
+func become_adept() -> bool:
+    if rank != TEMPLE_GUARD or not earned_trials.get("defend_temple", false) or not earned_trials.get("protect_yellow_flame", false):
+        return false
+    rank = ADEPT
+    return true
+
+func mark_adept_trial(trial: String) -> bool:
+    if rank != ADEPT or trial not in ["awaken_green_lightning", "restore_war_gate"]:
+        return false
+    earned_trials[trial] = true
+    return true
+
+func become_master() -> bool:
+    if rank != ADEPT or not earned_trials.get("awaken_green_lightning", false) or not earned_trials.get("restore_war_gate", false):
+        return false
     rank = MASTER
     return true
 
 func mark_master_trial(trial: String) -> bool:
-    if rank != MASTER or trial not in ["master_rainbow_discipline", "protect_celestial_arch", "win_master_duel"]:
+    if rank != MASTER or trial not in ["master_multicolor_discipline", "protect_celestial_arch", "win_master_duel"]:
         return false
     earned_trials[trial] = true
     return true
@@ -46,7 +72,7 @@ func mark_master_trial(trial: String) -> bool:
 func become_grand_master() -> bool:
     if rank != MASTER:
         return false
-    for item in ["master_rainbow_discipline", "protect_celestial_arch", "win_master_duel"]:
+    for item in ["master_multicolor_discipline", "protect_celestial_arch", "win_master_duel"]:
         if not earned_trials.get(item, false):
             return false
     rank = GRAND_MASTER
