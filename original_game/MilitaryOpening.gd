@@ -1,0 +1,165 @@
+extends Node3D
+
+# First playable vertical slice: approach training stations and complete each gate.
+# Temporary scene geometry; no approved character appearance is replaced.
+const TASK_POSITIONS := [
+    Vector3(-5, 0, -4), Vector3(0, 0, -5), Vector3(5, 0, -4), Vector3(5, 0, 2),
+    Vector3(0, 0, 4), Vector3(-5, 0, 3), Vector3(-4, 0, -1),
+    Vector3(2, 0, -2), Vector3(4, 0, 4), Vector3(-2, 0, 4)
+]
+var admission: AetherMilitaryAdmission
+var hero: Node3D
+var stations: Array = []
+var task_index := 0
+var completed_count := 0
+var score := 0
+var hud: Label
+var message := "You are a teenage applicant. Earn your place in the Aether military."
+var council_approved := false
+var movement_speed := 4.8
+
+func _ready() -> void:
+    admission = AetherMilitaryAdmission.new()
+    _setup_world()
+    _update_hud()
+
+func _box(parent: Node3D, size: Vector3, position: Vector3, tint: Color) -> MeshInstance3D:
+    var node := MeshInstance3D.new()
+    var mesh := BoxMesh.new()
+    mesh.size = size
+    node.mesh = mesh
+    node.position = position
+    var material := StandardMaterial3D.new()
+    material.albedo_color = tint
+    material.metallic = 0.32
+    node.material_override = material
+    parent.add_child(node)
+    return node
+
+func _setup_world() -> void:
+    var world := WorldEnvironment.new()
+    var environment := Environment.new()
+    environment.background_mode = Environment.BG_COLOR
+    environment.background_color = Color("#071427")
+    environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+    environment.ambient_light_color = Color("#9ab5ff")
+    world.environment = environment
+    add_child(world)
+    var sun := DirectionalLight3D.new()
+    sun.rotation_degrees = Vector3(-54, -25, 0)
+    add_child(sun)
+    _box(self, Vector3(18, 0.3, 16), Vector3(0, -0.2, 0), Color("#26364f"))
+    for x in [-8, 8]:
+        _box(self, Vector3(0.4, 2.0, 16), Vector3(x, 0.8, 0), Color("#405b8a"))
+    hero = Node3D.new()
+    hero.name = "TeenageCandidate"
+    add_child(hero)
+    _box(hero, Vector3(0.62, 1.2, 0.45), Vector3(0, 1.12, 0), Color("#2266a6"))
+    _box(hero, Vector3(0.48, 0.48, 0.48), Vector3(0, 1.92, 0), Color("#8fa5bb"))
+    var camera := Camera3D.new()
+    camera.position = Vector3(0, 12.2, 13)
+    camera.look_at_from_position(camera.position, Vector3(0, 0, 0))
+    camera.current = true
+    add_child(camera)
+    var colors := [Color("#1376c9"), Color("#9a3ee4"), Color("#e6bd3e")]
+    for i in range(TASK_POSITIONS.size()):
+        var tint: Color = colors[0] if i < 4 else (colors[1] if i >= 7 else colors[2])
+        var station := Node3D.new()
+        station.name = "TrialStation_%02d" % (i + 1)
+        station.position = TASK_POSITIONS[i]
+        add_child(station)
+        _box(station, Vector3(1.15, 0.27, 1.15), Vector3(0, 0.07, 0), tint)
+        _box(station, Vector3(0.18, 1.2, 0.18), Vector3(0, 0.72, 0), tint)
+        stations.append(station)
+    var overlay := CanvasLayer.new()
+    add_child(overlay)
+    hud = Label.new()
+    hud.position = Vector2(22, 20)
+    hud.add_theme_font_size_override("font_size", 21)
+    hud.add_theme_color_override("font_color", Color("#ffffff"))
+    overlay.add_child(hud)
+
+func _task_keys() -> Array:
+    return admission.ENTRY_TRIALS + admission.GREEN_TRAINING + admission.PURPLE_EXAM
+
+func current_trial() -> String:
+    var keys := _task_keys()
+    return keys[task_index] if task_index < keys.size() else "council_review"
+
+func _update_hud() -> void:
+    if hud == null:
+        return
+    var objective := current_trial().replace("_", " ").capitalize()
+    var hint := "Move WASD / Arrows. Stand near the glowing trial marker, press F."
+    if admission.stage == "council_review":
+        hint = "Press C to present the purple Master's recommendation to the Council."
+    if council_approved:
+        hint = "ENROLLED: Blue Lightning Warrior. The larger campaign continues from here."
+    hud.text = "AERYVEX PRO — PATH TO THE MILITARY\n%s\nStage: %s  |  Trials: %d/10  |  Merit: %d\nNext: %s\n%s" % [
+        message, admission.stage.replace("_", " ").capitalize(), completed_count, score, objective, hint
+    ]
+
+func _process(delta: float) -> void:
+    if hero == null or council_approved:
+        return
+    var direction := Vector3.ZERO
+    if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+        direction.x -= 1
+    if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+        direction.x += 1
+    if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+        direction.z -= 1
+    if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+        direction.z += 1
+    hero.position += direction.normalized() * movement_speed * delta
+    hero.position.x = clampf(hero.position.x, -7.2, 7.2)
+    hero.position.z = clampf(hero.position.z, -6.2, 6.2)
+
+func try_trial() -> bool:
+    if task_index >= stations.size():
+        return false
+    if hero.position.distance_to(stations[task_index].position) > 1.8:
+        message = "Approach the marked trial before attempting it."
+        _update_hud()
+        return false
+    var key := current_trial()
+    if not admission.complete_challenge(key):
+        return false
+    stations[task_index].visible = false
+    task_index += 1
+    completed_count += 1
+    score += 100
+    message = "Completed: %s." % key.replace("_", " ").capitalize()
+    if task_index == 4:
+        if admission.begin_green_training():
+            message = "Entrance survived. A green Adept now trains you."
+    elif task_index == 7:
+        if admission.face_purple_master():
+            message = "Green training passed. Face the purple Master."
+    elif task_index == 10:
+        if admission.master_recommendation():
+            message = "Purple Master recommends you to Orion's Council."
+    _update_hud()
+    return true
+
+func request_council_review() -> bool:
+    if admission.stage != "council_review" or council_approved:
+        return false
+    # This is a prototype scripted approval, not yet a dialogue/decision scene.
+    for seat in admission.COUNCIL_SEATS:
+        admission.council_vote(seat, true)
+    council_approved = admission.decide_admission()
+    if council_approved:
+        message = "The four Grand Masters and Orion approve your military enlistment!"
+    _update_hud()
+    return council_approved
+
+func _input(event: InputEvent) -> void:
+    if not (event is InputEventKey) or not event.pressed or event.echo:
+        return
+    if event.keycode == KEY_F:
+        try_trial()
+    elif event.keycode == KEY_C:
+        request_council_review()
+    elif event.keycode == KEY_ESCAPE:
+        get_tree().quit()
