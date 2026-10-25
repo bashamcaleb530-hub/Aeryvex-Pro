@@ -16,6 +16,10 @@ var attack_timer := 0.0
 var model_loader: Node3D
 var model_active := false
 var status_note := ""
+var training_target: Node3D
+var target_health := 100.0
+var target_hits := 0
+var hit_feedback := ""
 
 func _ready() -> void:
     var file := FileAccess.open(DESIGN_PATH, FileAccess.READ)
@@ -53,6 +57,11 @@ func _build_world() -> void:
     for i in range(-6, 7):
         _box(self, Vector3(0.025, 0.015, 13), Vector3(float(i), -0.07, 0), Color("#365b8c"))
         _box(self, Vector3(13, 0.015, 0.025), Vector3(0, -0.07, float(i)), Color("#365b8c"))
+    training_target = Node3D.new()
+    training_target.position = Vector3(2.1, 0.0, -1.0)
+    add_child(training_target)
+    _box(training_target, Vector3(0.65, 1.45, 0.65), Vector3(0, 1.04, 0), Color("#a92d47"))
+    _sphere(training_target, Vector3(0.8, 0.8, 0.8), Vector3(0, 2.03, 0), Color("#d65b67"))
     character_root = Node3D.new()
     add_child(character_root)
     fx_root = Node3D.new()
@@ -121,6 +130,10 @@ func _select(index: int) -> void:
             character_root.remove_child(child)
             child.queue_free()
     _clear(fx_root)
+    target_health = 100.0
+    target_hits = 0
+    hit_feedback = "TARGET READY"
+    training_target.visible = true
     model_active = model_loader.call("load_character", RULERS[current])
     status_note = "APPROVED GLB LOADED" if model_active else "TEST BODY - APPROVED GLB NOT YET INSTALLED"
     var entry := _character(RULERS[current])
@@ -155,7 +168,7 @@ func _select(index: int) -> void:
         _box(character_root, Vector3(0.55, 0.08, 0.55), Vector3(0, 2.7, 0), Color("#242e56"))
     _box(character_root, Vector3(0.07, 2.7, 0.07), Vector3(-0.96, 1.32, 0), armor)
     _sphere(character_root, Vector3(0.29, 0.32, 0.29), Vector3(-0.96, 2.72, 0), Color("#8fd2ff") if is_aether else Color("#ff3451"))
-    label.text = "AERYVEX PRO — CHARACTER ARENA\n%s  |  %s\n%s LIGHTNING  |  SPACE: burst   LEFT/RIGHT: switch   ESC: quit\nProcedural test body: final 3D model not yet imported" % [entry.get("name", "Unknown"), entry.get("role", ""), "RAINBOW" if is_aether else "RED"]
+    _refresh_label()
     if model_active:
         for child in character_root.get_children():
             if child != model_loader:
@@ -169,9 +182,32 @@ func _input(event: InputEvent) -> void:
         elif event.keycode == KEY_LEFT:
             _select(current - 1)
         elif event.keycode == KEY_SPACE:
-            attack_timer = 0.7
+            if attack_timer <= 0.0:
+                _attack_target()
+        elif event.keycode == KEY_T:
+            target_health = 100.0
+            target_hits = 0
+            training_target.visible = true
+            hit_feedback = "TARGET RESET"
+            _refresh_label()
         elif event.keycode == KEY_ESCAPE:
             get_tree().quit()
+
+func _refresh_label() -> void:
+    var entry := _character(RULERS[current])
+    var energy := "RAINBOW" if entry.get("faction", "") == "aether" else "RED"
+    label.text = "AERYVEX PRO - TRAINING ARENA\n%s | %s\n%s LIGHTNING | SPACE: strike  LEFT/RIGHT: rulers  T: reset target  ESC: quit\nTarget HP: %d/100  Hits: %d | %s\n%s" % [entry.get("name", "Unknown"), entry.get("role", ""), energy, int(target_health), target_hits, hit_feedback, status_note]
+
+func _attack_target() -> void:
+    attack_timer = 0.48
+    if target_health <= 0.0:
+        hit_feedback = "TARGET DEFEATED - PRESS T TO RESTART"
+    else:
+        target_hits += 1
+        target_health = maxf(0.0, target_health - 25.0)
+        hit_feedback = "LIGHTNING HIT" if target_health > 0.0 else "TARGET DEFEATED - PRESS T TO RESTART"
+        training_target.visible = target_health > 0.0
+    _refresh_label()
 
 func _process(delta: float) -> void:
     if roster.is_empty():
@@ -189,6 +225,18 @@ func _draw_lightning() -> void:
     var colors: Array = RAINBOW if aether else VOID_RED
     var burst := attack_timer > 0.0
     var count := 8 if burst else 3
+    if burst and target_health > 0.0:
+        var target_color: Color = colors[int(time_s * 15.0) % colors.size()]
+        var from_pos := Vector3(-0.96, 2.72, 0)
+        var to_pos := training_target.position + Vector3(0, 1.35, 0)
+        var last_pos := from_pos
+        for n in range(1, 13):
+            var t := float(n) / 12.0
+            var point := from_pos.lerp(to_pos, t)
+            if n < 12:
+                point += Vector3(sin(time_s * 32.0 + float(n) * 8.0) * 0.17, cos(time_s * 21.0 + float(n) * 5.0) * 0.12, sin(time_s * 17.0 + float(n) * 3.0) * 0.13)
+            _arc_segment(last_pos, point, target_color)
+            last_pos = point
     for j in range(count):
         var start := Vector3(-0.96, 2.65, 0) if j % 2 == 0 else Vector3(0.55, 1.15, 0)
         var endpoint := Vector3(
