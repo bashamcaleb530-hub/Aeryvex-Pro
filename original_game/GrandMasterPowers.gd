@@ -33,6 +33,9 @@ var successor_id := -1
 var supreme_power_holder := 0
 var ritual_flags := {}
 var soul_theft_used := false
+var soul_drain_started := false
+var orion_rescued := false
+var drakthar_defeated := false
 
 func describe(character_id: int) -> Dictionary:
     return POWERS.get(character_id, {}).duplicate(true)
@@ -53,18 +56,37 @@ func resolve_attack(attacker_id: int, target_id: int, use_ultimate: bool = false
         "invulnerable": false, "element": move["element"]}
 
 func designate_successor(candidate_id: int) -> bool:
-    if not POWERS.has(candidate_id) or candidate_id == 0 or candidate_id == 6:
-        return false
-    if candidate_id not in [12, 13, 14, 15]:
+    # Character ID 20 is the custom player hero, not one of the ten ruler slots.
+    if candidate_id != 20:
         return false
     successor_id = candidate_id
     return true
 
 func perform_succession(candidate_id: int) -> bool:
-    if orion_form != "living" or candidate_id != successor_id or candidate_id < 0:
+    if orion_form != "living" or candidate_id != successor_id or candidate_id != 20:
+        return false
+    if not soul_drain_started or not orion_rescued or not drakthar_defeated:
         return false
     supreme_power_holder = candidate_id
     orion_form = "rainbow_spirit"
+    return true
+
+func begin_soul_drain(caster_id: int) -> bool:
+    if not can_steal_rainbow_soul(caster_id) or soul_drain_started:
+        return false
+    soul_drain_started = true
+    return true
+
+func rescue_orion() -> bool:
+    if not soul_drain_started or orion_rescued:
+        return false
+    orion_rescued = true
+    return true
+
+func defeat_drakthar() -> bool:
+    if not orion_rescued or drakthar_defeated:
+        return false
+    drakthar_defeated = true
     return true
 
 func complete_ritual_step(step: String) -> bool:
@@ -74,7 +96,7 @@ func complete_ritual_step(step: String) -> bool:
     return true
 
 func can_steal_rainbow_soul(caster_id: int) -> bool:
-    if caster_id != 6 or soul_theft_used:
+    if caster_id != 6 or soul_theft_used or orion_rescued or drakthar_defeated:
         return false
     if orion_form not in ["living", "rainbow_spirit"]:
         return false
@@ -84,7 +106,7 @@ func can_steal_rainbow_soul(caster_id: int) -> bool:
     return true
 
 func steal_rainbow_soul(caster_id: int) -> bool:
-    if not can_steal_rainbow_soul(caster_id):
+    if not can_steal_rainbow_soul(caster_id) or not soul_drain_started:
         return false
     soul_theft_used = true
     orion_form = "soul_captive"
