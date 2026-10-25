@@ -130,7 +130,22 @@ func _build_ui() -> void:
         var inner := VBoxContainer.new()
         inner.alignment = BoxContainer.ALIGNMENT_CENTER
         card.add_child(inner)
+        var portrait_path := "res://approved_heroes/%s.png" % hero["id"]
+        if ResourceLoader.exists(portrait_path):
+            var portrait := TextureRect.new()
+            portrait.texture = load(portrait_path)
+            portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+            portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+            portrait.custom_minimum_size = Vector2(170, 180)
+            inner.add_child(portrait)
+        else:
+            var missing := Label.new()
+            missing.text = "APPROVED PORTRAIT NOT INSTALLED"
+            missing.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+            missing.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+            inner.add_child(missing)
         var sigil := Label.new()
+        sigil.visible = not ResourceLoader.exists(portrait_path)
         sigil.text = "⚡"
         sigil.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
         sigil.add_theme_font_size_override("font_size",78)
