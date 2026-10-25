@@ -1,0 +1,98 @@
+{
+  "source_commit": "077e4e8595285fedc916ca0b7279fd7f8498bf4f",
+  "original_game_blobs": [
+    {
+      "path": "original_game/ApprovedCharacterLoader.gd",
+      "sha": "36a23ce907d3bc28c41fe95f6259b060e82816d1"
+    },
+    {
+      "path": "original_game/CharacterArena.gd",
+      "sha": "094663390fa3f34b14bf8c734104746fc62de2d5"
+    },
+    {
+      "path": "original_game/CharacterArena.tscn",
+      "sha": "26e3df5254c89bab75811a297fa9cd7d9752dea6"
+    },
+    {
+      "path": "original_game/GrandMasterPowers.gd",
+      "sha": "621e3d0990707da19ec9b3c653650ab489977bd1"
+    },
+    {
+      "path": "original_game/LIGHTNING_SUCCESSION_CANON.md",
+      "sha": "81d4b2ecf0f50096806217b9141c2f28f99b3d15"
+    },
+    {
+      "path": "original_game/LIVING_GALAXIES_EXPLORATION_PLAN.md",
+      "sha": "024da1166cc7ab8a67378f4c4bb4b1476351dee4"
+    },
+    {
+      "path": "original_game/Main.tscn",
+      "sha": "b3e67a279d9f0e6982b88706225cf82faefa8af4"
+    },
+    {
+      "path": "original_game/PRISM_COUNCIL_FOUR_AND_FALLEN_FIFTH.md",
+      "sha": "aa2d39657e882e7076498492e4d9b6d15852333c"
+    },
+    {
+      "path": "original_game/PlayerAscension.gd",
+      "sha": "a9439baf7969fb5820d01e1359e4e3c0c694fd06"
+    },
+    {
+      "path": "original_game/PortalWar.gd",
+      "sha": "522f4774c8228d5a1210d1959a0bca179dd3fd54"
+    },
+    {
+      "path": "original_game/README.md",
+      "sha": "c750a5ca4adfe0a0638b2786403bb2d185b919bf"
+    },
+    {
+      "path": "original_game/TEN_GALAXIES_FIVE_AETHER_FIVE_VOID_CANON.md",
+      "sha": "1b39014c251acb833ada73da4ebd41f55e083071"
+    },
+    {
+      "path": "original_game/aeryvex_game_design.json",
+      "sha": "003c68d548a7f130920b674992c2515f9eb33972"
+    },
+    {
+      "path": "original_game/character_visual_lock.json",
+      "sha": "034926a9da3a0f0d2580db9047d2d88fa49008f9"
+    },
+    {
+      "path": "original_game/project.godot",
+      "sha": "106b5a70ea72253dba6a49d2180ce96db4f1981b"
+    },
+    {
+      "path": "original_game/tests/test_character_arena.gd",
+      "sha": "15d4e200f195813c19692e919b79658f65cf6db1"
+    },
+    {
+      "path": "original_game/tests/test_grand_master_powers.gd",
+      "sha": "3159cdeeb2035a31fd66846232bf762800db4efa"
+    },
+    {
+      "path": "original_game/tests/test_player_ascension.gd",
+      "sha": "3cea0d05fb6339b6fdb27bcd7bb9164bc9da49bc"
+    },
+    {
+      "path": "original_game/tools/audit_character_assets.py",
+      "sha": "26d5ae5fa749ac6a4ab3e696c4cf42e4238bef88"
+    },
+    {
+      "path": "original_game/tools/install_approved_rulers.py",
+      "sha": "9c10421ef19ee3f609425db554cd7a27e0ba7350"
+    },
+    {
+      "path": "original_game/tools/reconstruct_approved_rulers.py",
+      "sha": "200205c7a29d1a0acf3a7f4737f112777777833f"
+    },
+    {
+      "path": "original_game/tools/restore_or_publish_artwork.py",
+      "sha": "6aa327d675d735063903174ffa9be03dcb86780b"
+    },
+    {
+      "path": "original_game/tools/sync_approved_artwork.py",
+      "sha": "110a9d0fbdebfb8e751540a1f462a02e0ddcfb0d"
+    }
+  ],
+  "policy": "Never alter original_game or approved references from generated prompts. Ten rulers, Orion staff/dual swords, Thalen dual swords, lightning hierarchy, Void trials and Supreme Grand Master remain protected canon."
+}

@@ -1,0 +1,6 @@
+{
+  "coins": 5,
+  "enemies": 3,
+  "speed": 260,
+  "color": "blue"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "name": "VerifiedGame",
+  "revision": 1,
+  "template": "collect_survive_2d",
+  "config": {
+    "coins": 5,
+    "enemies": 0,
+    "speed": 220,
+    "color": "green"
+  },
+  "requirements": [
+    {
+      "prompt": "A top down game collecting 5 coins",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A top down game collecting 5 coins",
+      "provider": "template",
+      "config": {
+        "coins": 5,
+        "enemies": 0,
+        "speed": 220,
+        "color": "green"
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Only bounded 2D collection/survival template is implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ]
+}

@@ -1,0 +1,14 @@
+test_checkpoint_resumes_after_copy (test_factory.FactoryTests.test_checkpoint_resumes_after_copy) ... ok
+test_invalid_proposal_does_not_change_state (test_factory.FactoryTests.test_invalid_proposal_does_not_change_state) ... ok
+test_managed_user_edit_is_preserved (test_factory.FactoryTests.test_managed_user_edit_is_preserved) ... ok
+test_new_never_replaces (test_factory.FactoryTests.test_new_never_replaces) ... ok
+test_plan_is_dependency_ordered (test_factory.FactoryTests.test_plan_is_dependency_ordered) ... ok
+test_revision_preserves_requirements_and_locks (test_factory.FactoryTests.test_revision_preserves_requirements_and_locks) ... ok
+test_stale_evidence (test_factory.FactoryTests.test_stale_evidence) ... ok
+test_validation_and_paths (test_factory.FactoryTests.test_validation_and_paths) ... ok
+test_zero_exit_engine_error_and_missing_marker_fail (test_factory.FactoryTests.test_zero_exit_engine_error_and_missing_marker_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.084s
+
+OK

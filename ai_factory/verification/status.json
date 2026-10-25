@@ -1,0 +1,29 @@
+{
+  "name": "VerifiedGame",
+  "revision": 2,
+  "config": {
+    "coins": 5,
+    "enemies": 3,
+    "speed": 260,
+    "color": "blue"
+  },
+  "qa": "RUNTIME_CHECKED",
+  "approved_assets": 0,
+  "production_art": "BLOCKED",
+  "provider_default": "template",
+  "requirements": [
+    {
+      "prompt": "A top down game collecting 5 coins",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    },
+    {
+      "prompt": "add 3 enemies and make the player faster and blue",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "limitations": [
+    "Only bounded 2D collection/survival template is implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ]
+}
