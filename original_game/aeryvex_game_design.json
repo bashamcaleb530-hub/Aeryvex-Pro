@@ -151,6 +151,94 @@
       "ability": "Target Lock",
       "ultimate": "Final Protocol",
       "visual_status": "concept_approved_candidate_mesh_not_verified"
+    },
+    {
+      "id": 12,
+      "name": "Maeryn Sol",
+      "faction": "aether",
+      "rank": "grand_master",
+      "color": "rainbow",
+      "role": "Grand Master of Living Gates",
+      "ability": "Gateway Lattice",
+      "ultimate": "Infinite Gateway Storm",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 13,
+      "name": "Thalen Orris",
+      "faction": "aether",
+      "rank": "grand_master",
+      "color": "rainbow",
+      "role": "Grand Master of War",
+      "ability": "Stormfront Crush",
+      "ultimate": "Thousand-Storm Ascension",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 14,
+      "name": "Ilyra Venn",
+      "faction": "aether",
+      "rank": "grand_master",
+      "color": "rainbow",
+      "role": "Grand Master of Hidden Currents",
+      "ability": "Prismatic Veil",
+      "ultimate": "Rainbow Phantom Ascension",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 15,
+      "name": "Selene Avaris",
+      "faction": "aether",
+      "rank": "grand_master",
+      "color": "rainbow",
+      "role": "Grand Master of Restoration",
+      "ability": "Restoration Current",
+      "ultimate": "Living Chorus Ascension",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 16,
+      "name": "Malveris Thorne",
+      "faction": "void",
+      "rank": "void_grand_lord",
+      "color": "red",
+      "role": "Grand Lord of Iron Host",
+      "ability": "Iron Thunder",
+      "ultimate": "Dreadforge Cataclysm",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 17,
+      "name": "Nyssara Veil",
+      "faction": "void",
+      "rank": "void_grand_lord",
+      "color": "red",
+      "role": "Grand Lady of Shadows",
+      "ability": "Veiled Current",
+      "ultimate": "Nocturne Tempest",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 18,
+      "name": "Korr Uldane",
+      "faction": "void",
+      "rank": "void_grand_lord",
+      "color": "red",
+      "role": "Grand Lord of Wild Furnace",
+      "ability": "Molten Chainstorm",
+      "ultimate": "Furnace Ascension",
+      "visual_status": "needs_original_concept_and_3d_model"
+    },
+    {
+      "id": 19,
+      "name": "Vaelith Sorn",
+      "faction": "void",
+      "rank": "void_grand_lord",
+      "color": "red",
+      "role": "Grand Lady of Broken Choir",
+      "ability": "Echo Binding",
+      "ultimate": "Requiem Storm",
+      "visual_status": "needs_original_concept_and_3d_model"
     }
   ],
   "starting_story": {
@@ -217,5 +305,6 @@
     "Nyssara Veil",
     "Korr Uldane",
     "Vaelith Sorn"
-  ]
+  ],
+  "roster_schema_note": "20 named starter/ruler entries; all geometry and rigging must be approved separately."
 }
