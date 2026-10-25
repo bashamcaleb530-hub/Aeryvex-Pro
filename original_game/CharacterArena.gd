@@ -4,6 +4,7 @@ extends Node3D
 const DESIGN_PATH = "res://aeryvex_game_design.json"
 const RULERS = [0, 12, 13, 14, 15, 6, 16, 17, 18, 19]
 const RAINBOW = [Color("#ff3865"), Color("#ff962d"), Color("#ffe65f"), Color("#47ff8b"), Color("#2fd7ff"), Color("#735bff"), Color("#d649ff")]
+const GRAND_MASTER_MULTICOLOR = [Color("#8d36ff"), Color("#13ef9e"), Color("#ffbb28"), Color("#30b9ff")]
 const VOID_RED = [Color("#ff142d"), Color("#ff4545"), Color("#bd071e")]
 var roster: Array = []
 var current := 0
@@ -219,7 +220,7 @@ func _input(event: InputEvent) -> void:
 
 func _refresh_label() -> void:
     var entry := _character(RULERS[current])
-    var energy := "RAINBOW" if entry.get("faction", "") == "aether" else "RED"
+    var energy := ("SUPREME RAINBOW" if RULERS[current] == 0 else "MULTICOLOR") if entry.get("faction", "") == "aether" else "RED"
     label.text = "AERYVEX PRO - %s\n%s | %s\n%s LIGHTNING | SPACE: strike  E: duel/training  SHIFT: shield  T: reset  LEFT/RIGHT: rulers  ESC: quit\nPlayer HP: %d/100 | Enemy HP: %d/100 | Shield: %s | Enemy attacks: %d | Hits: %d\n%s | %s" % ["ACTIVE DUEL" if duel_mode else "TRAINING ARENA", entry.get("name", "Unknown"), entry.get("role", ""), energy, int(player_health), int(target_health), "ON" if shield_active else "OFF", enemy_attacks, target_hits, hit_feedback, status_note]
 
 func _attack_target() -> void:
@@ -265,7 +266,7 @@ func _draw_lightning() -> void:
     _clear(fx_root)
     var entry := _character(RULERS[current])
     var aether: bool = entry.get("faction", "") == "aether"
-    var colors: Array = RAINBOW if aether else VOID_RED
+    var colors: Array = (RAINBOW if RULERS[current] == 0 else GRAND_MASTER_MULTICOLOR) if aether else VOID_RED
     var burst := attack_timer > 0.0
     var count := 8 if burst else 3
     if burst and target_health > 0.0:
