@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "title": "Aeryvex Pro: Thrones of the Ten Galaxies",
+  "approval": "VISUAL LOCK - DO NOT REDESIGN",
+  "reference_file": "ten_rulers_approved_lineup.png",
+  "reference_policy": "Use exact approved lineup artwork as visual canon; never regenerate ruler appearances from text alone. Do not use face replacements. Individual source images/turnarounds are required for high-fidelity 3D sculpting.",
+  "lightning": {
+    "aether": "rainbow branching electrical arcs, not solid blades",
+    "void": "red branching electrical arcs, not solid blades"
+  },
+  "rulers": [
+    {
+      "id": 0,
+      "name": "Orion Valen",
+      "galaxy": "Aurelia",
+      "species": "Aurelans",
+      "faction": "aether",
+      "order": 0,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 12,
+      "name": "Maeryn Sol",
+      "galaxy": "Velithra",
+      "species": "Velori",
+      "faction": "aether",
+      "order": 1,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 13,
+      "name": "Thalen Orris",
+      "galaxy": "Ormath",
+      "species": "Ormathi",
+      "faction": "aether",
+      "order": 2,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 14,
+      "name": "Ilyra Venn",
+      "galaxy": "Eidara",
+      "species": "Eidarans",
+      "faction": "aether",
+      "order": 3,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 15,
+      "name": "Selene Avaris",
+      "galaxy": "Cyravelle",
+      "species": "Cyrans",
+      "faction": "aether",
+      "order": 4,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 6,
+      "name": "Drakthar Vex",
+      "galaxy": "Nexavar",
+      "species": "Nexari",
+      "faction": "void",
+      "order": 5,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 16,
+      "name": "Malveris Thorne",
+      "galaxy": "Kharvoss",
+      "species": "Kharvossi",
+      "faction": "void",
+      "order": 6,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 17,
+      "name": "Nyssara Veil",
+      "galaxy": "Veyscar",
+      "species": "Veyscari",
+      "faction": "void",
+      "order": 7,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 18,
+      "name": "Korr Uldane",
+      "galaxy": "Urakhen",
+      "species": "Urakheni",
+      "faction": "void",
+      "order": 8,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    },
+    {
+      "id": 19,
+      "name": "Vaelith Sorn",
+      "galaxy": "Mournreach",
+      "species": "Mournari",
+      "faction": "void",
+      "order": 9,
+      "appearance": "approved lineup is authoritative",
+      "concept_approved": true,
+      "mesh_verified": false,
+      "rig_verified": false,
+      "godot_3d_verified": false
+    }
+  ],
+  "notes": [
+    "Thalen is human-scale athletic indigo-skinned Ormathi and must remain visually distinct from Orion.",
+    "Orion and Drakthar are supreme leaders and keep approved appearance.",
+    "Collage can serve as visual canon but is not a production-ready 3D turnaround."
+  ]
+}
