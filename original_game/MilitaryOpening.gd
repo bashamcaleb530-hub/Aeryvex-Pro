@@ -1,4 +1,5 @@
 extends Node3D
+const TrialMissionScript = preload("res://AetherTrialMissions.gd")
 
 # First playable vertical slice: approach training stations and complete each gate.
 # Temporary scene geometry; no approved character appearance is replaced.
@@ -7,7 +8,7 @@ const TASK_POSITIONS := [
     Vector3(0, 0, 4), Vector3(-5, 0, 3), Vector3(-4, 0, -1),
     Vector3(2, 0, -2), Vector3(4, 0, 4), Vector3(-2, 0, 4)
 ]
-var missions: AetherTrialMissions
+var missions: RefCounted
 var pulse_clock := 0.0
 var last_pulse_position := Vector3.ZERO
 var admission: AetherMilitaryAdmission
@@ -25,7 +26,7 @@ var hero_tint := Color("#32aaff")
 
 func _ready() -> void:
     admission = AetherMilitaryAdmission.new()
-    missions = AetherTrialMissions.new()
+    missions = TrialMissionScript.new()
     _load_selected_hero()
     _setup_world()
     _update_hud()
