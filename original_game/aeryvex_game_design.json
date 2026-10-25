@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "game": "Aeryvex Pro: Thrones of the Eight Galaxies",
+  "game": "Aeryvex Pro: Thrones of the Ten Galaxies",
   "commercial_goal": true,
   "universe": "original Aeryvex science fantasy",
   "travel": "walk-through Celestial Arches and War Gates; no piloted starships",
@@ -186,6 +186,36 @@
       "Godot integration",
       "rendered gameplay test"
     ],
-    "note": "No existing 3D models are approved for new roster until rendered and inspected"
-  }
+    "note": "The 12-character roster is starter fighters, not the full roster; 8 additional rulers are specified in canon and still need portraits, models, rigging and implementation."
+  },
+  "galaxies": {
+    "aether": [
+      "Aurelia",
+      "Velithra",
+      "Ormath",
+      "Eidara",
+      "Cyravelle"
+    ],
+    "void": [
+      "Nexavar",
+      "Kharvoss",
+      "Veyscar",
+      "Urakhen",
+      "Mournreach"
+    ]
+  },
+  "grand_masters": [
+    "Orion Valen",
+    "Maeryn Sol",
+    "Thalen Orris",
+    "Ilyra Venn",
+    "Selene Avaris"
+  ],
+  "void_grand_lords": [
+    "Drakthar Vex",
+    "Malveris Thorne",
+    "Nyssara Veil",
+    "Korr Uldane",
+    "Vaelith Sorn"
+  ]
 }
