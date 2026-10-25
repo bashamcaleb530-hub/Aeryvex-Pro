@@ -12,6 +12,8 @@ var missions: RefCounted
 var pulse_clock := 0.0
 var last_pulse_position := Vector3.ZERO
 var admission: AetherMilitaryAdmission
+var opponent: Node3D
+var hazard: Node3D
 var hero: Node3D
 var stations: Array = []
 var task_index := 0
@@ -29,6 +31,7 @@ func _ready() -> void:
     missions = TrialMissionScript.new()
     _load_selected_hero()
     _setup_world()
+    _refresh_encounter()
     _update_hud()
 
 func _load_selected_hero() -> void:
@@ -75,6 +78,16 @@ func _setup_world() -> void:
     add_child(hero)
     _box(hero, Vector3(0.62, 1.2, 0.45), Vector3(0, 1.12, 0), hero_tint)
     _box(hero, Vector3(0.48, 0.48, 0.48), Vector3(0, 1.92, 0), Color("#8fa5bb"))
+    opponent = Node3D.new()
+    opponent.name = "TrainingOpponent"
+    opponent.position = Vector3(1.5, 0, 0)
+    add_child(opponent)
+    _box(opponent, Vector3(0.74, 1.35, 0.5), Vector3(0, 1.0, 0), Color("#a24363"))
+    _box(opponent, Vector3(0.5, 0.5, 0.5), Vector3(0, 1.91, 0), Color("#bd8ca7"))
+    hazard = Node3D.new()
+    hazard.name = "StormHazard"
+    add_child(hazard)
+    _box(hazard, Vector3(2.2, 0.08, 2.2), Vector3(0, 0.06, 0), Color("#26a8ea"))
     var camera := Camera3D.new()
     camera.position = Vector3(0, 12.2, 13)
     camera.look_at_from_position(camera.position, Vector3(0, 0, 0))
@@ -97,6 +110,31 @@ func _setup_world() -> void:
     hud.add_theme_font_size_override("font_size", 21)
     hud.add_theme_color_override("font_color", Color("#ffffff"))
     overlay.add_child(hud)
+
+func _refresh_encounter() -> void:
+    if opponent == null or hazard == null:
+        return
+    var kind: String = missions.current()["type"]
+    opponent.visible = kind in ["combat", "weapons"]
+    hazard.visible = kind == "dodge"
+    if opponent.visible:
+        opponent.position = hero.position + Vector3(1.7, 0, -0.4)
+    if hazard.visible:
+        hazard.position = hero.position
+
+func _attempt_strike(weapon: bool) -> bool:
+    if opponent == null or not opponent.visible:
+        return false
+    if hero.position.distance_to(opponent.position) > 2.3:
+        message = "Get close to your opponent before striking."
+        _update_hud()
+        return false
+    var landed: bool = missions.strike(weapon)
+    if landed:
+        opponent.position.x = clampf(opponent.position.x + 0.24, -6.5, 6.5)
+        message = "Conduit hit!" if weapon else "Martial arts hit!"
+        _update_hud()
+    return landed
 
 func _task_keys() -> Array:
     return admission.ENTRY_TRIALS + admission.GREEN_TRAINING + admission.PURPLE_EXAM
@@ -139,6 +177,10 @@ func _process(delta: float) -> void:
     if missions.failed:
         return
     missions.tick(delta,Input.is_key_pressed(KEY_H))
+    if opponent != null and opponent.visible and not missions.is_complete():
+        opponent.position.x += sin(Time.get_ticks_msec() * 0.002) * delta * 0.6
+    if hazard != null and hazard.visible:
+        hazard.position = last_pulse_position
     if missions.current()["type"] == "dodge" and not missions.is_complete():
         pulse_clock += delta
         if pulse_clock >= 1.0:
@@ -168,6 +210,7 @@ func try_trial() -> bool:
     completed_count += 1
     if task_index < 10:
         missions.advance()
+        _refresh_encounter()
         pulse_clock = 0.0
         last_pulse_position = hero.position
     score += 100
@@ -202,17 +245,14 @@ func _input(event: InputEvent) -> void:
     if event.keycode == KEY_F:
         try_trial()
     elif event.keycode == KEY_J:
-        if missions.strike(false):
-            message = "Martial arts exchange won."
-            _update_hud()
+        _attempt_strike(false)
     elif event.keycode == KEY_K:
-        if missions.strike(true):
-            message = "Weapon exchange won."
-            _update_hud()
+        _attempt_strike(true)
     elif event.keycode == KEY_R:
         if missions.restart_after_failure():
             pulse_clock = 0.0
             last_pulse_position = hero.position
+            _refresh_encounter()
             message = "Retrying mission; earlier victories remain."
             _update_hud()
     elif event.keycode == KEY_C:
