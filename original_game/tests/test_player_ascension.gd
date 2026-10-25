@@ -14,13 +14,23 @@ func _run() -> void:
     check(not game.become_master(), "Master requires warrior achievements")
     for trial in ["defend_aether_settlement", "survive_first_war_gate", "complete_warrior_oath"]:
         check(game.mark_warrior_trial(trial), "Earn warrior trial " + trial)
+    check(game.become_temple_guard(), "Ascend to yellow-lightning Temple Guard")
+    check(game.lightning_color() == "yellow", "Temple Guard has yellow lightning")
+    check(not game.become_adept(), "Adept promotion requires temple duties")
+    for trial in ["defend_temple", "protect_yellow_flame"]:
+        check(game.mark_temple_trial(trial), "Earn temple trial " + trial)
+    check(game.become_adept(), "Ascend to green-lightning Adept")
+    check(game.lightning_color() == "green", "Adept has green lightning")
+    check(not game.become_master(), "Master requires adept achievements")
+    for trial in ["awaken_green_lightning", "restore_war_gate"]:
+        check(game.mark_adept_trial(trial), "Earn adept trial " + trial)
     check(game.become_master(), "Ascend to purple-lightning Master")
     check(game.lightning_color() == "purple", "Master has purple lightning")
     check(not game.become_grand_master(), "Grand Master requires further achievements")
-    for trial in ["master_rainbow_discipline", "protect_celestial_arch", "win_master_duel"]:
+    for trial in ["master_multicolor_discipline", "protect_celestial_arch", "win_master_duel"]:
         check(game.mark_master_trial(trial), "Earn master trial " + trial)
-    check(game.become_grand_master(), "Ascend to rainbow-lightning Grand Master")
-    check(game.lightning_color() == "rainbow", "Grand Master has rainbow lightning")
+    check(game.become_grand_master(), "Ascend to multicolor-lightning Grand Master")
+    check(game.lightning_color() == "multicolor", "Grand Master has multicolor lightning")
     check(not game.receive_orions_final_gift(), "Cannot skip to Supreme")
     check(not game.save_orion(), "Cannot rescue before soul drain")
     for i in range(9):
@@ -34,7 +44,7 @@ func _run() -> void:
     check(game.kill_drakthar(), "Player defeats Supreme Dark Lord")
     check(game.receive_orions_final_gift(), "Dying Orion transfers supreme power")
     check(game.rank_name() == "Supreme Grand Master", "Player becomes Supreme Grand Master")
-    check(game.lightning_color() == "supreme_rainbow", "Player wields supreme rainbow lightning")
+    check(game.lightning_color() == "rainbow", "Player wields exclusive supreme rainbow lightning")
     check(game.summary()["orion_form"] == "rainbow_spirit", "Orion endures as Rainbow Lightning Spirit")
     check(not game.receive_orions_final_gift(), "Supreme transfer cannot repeat")
     print("PLAYER ASCENSION TEST: ", "PASS" if failures == 0 else "%d FAILED" % failures)
