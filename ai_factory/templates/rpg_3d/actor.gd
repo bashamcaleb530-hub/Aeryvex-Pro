@@ -33,6 +33,16 @@ func _ready() -> void:
 	mesh.material_override = material
 	mesh.tree_exiting.connect(func(): mesh.mesh = null)
 	add_child(mesh)
+	# Reversible replacement of the visual only: physics, combat and camera stay.
+	if ResourceLoader.exists("res://player_visual.glb"):
+		var packed := load("res://player_visual.glb") as PackedScene
+		if packed != null:
+			var visual := packed.instantiate() as Node3D
+			if visual != null:
+				visual.name = "ReviewedPlayerVisual"
+				add_child(visual)
+				mesh.visible = false
+				# Scale, skeleton, and animation retargeting still require review.
 	pivot = Node3D.new()
 	pivot.position.y = 1.5
 	add_child(pivot)
