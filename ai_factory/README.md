@@ -111,6 +111,28 @@ Metadata requires `approved: true`, `license`, `author`, `source`, and a 64-char
 
 Data-only JSON manifests in `ai_factory/genres/` enumerate the two existing backend contracts. This is a safe registry, not an arbitrary code-loading plugin marketplace; new backend implementation is still required for other genres.
 
+
+## Codex + Meshy + Godot production bridge (opt-in)
+
+Codex can edit this repository, run the factory tests, and submit reviewable commits. Godot 4 is the runtime and exporter. Meshy is used **only** to create *candidate* 3D assets from your own local approved-reference images. The Meshy bridge is a Python standard-library command-line module; it is not yet wired into the factory UI, character binding, animation retargeting or gameplay scenes.
+
+Create a Meshy API key through the [Meshy developer portal](https://docs.meshy.ai/en/api/quick-start). Meshy API usage can require paid credits. Do not paste or commit the key; store it in the local shell environment. Uploading an image sends its bytes to Meshy, so submit only images you are authorized to process.
+
+```sh
+export MESHY_API_KEY='your-key-locally-only'
+python3 -m ai_factory.meshy_bridge submit --image /path/to/approved-reference.png
+# Save the returned task_id, then check until SUCCEEDED:
+python3 -m ai_factory.meshy_bridge status TASK_ID
+python3 -m ai_factory.meshy_bridge download TASK_ID --output /path/to/new-candidate.glb
+# Human-review candidate geometry, likeness, topology, textures, rig and license.
+# Prepare provenance.json with your actual license, author, source,
+# approved reference SHA-256, and explicit intake approval.
+./factory asset-stage --project MyGame --file /path/to/new-candidate.glb --metadata provenance.json
+./factory assets --project MyGame
+```
+
+Asset staging requires an existing game project and your **explicit** intake approval. A character-specific stage requires a matching locked appearance-reference SHA-256, supplied with `--character NAME`; this does not certify that Meshy matched the reference. Separate license, visual and engine checks must follow. A returned GLB is never auto-installed in a game or labeled approved. Use `GODOT_BIN=/path/to/godot python3 -m unittest discover -s ai_factory/tests -v` to run the complete suite, or `python3 -m unittest ai_factory.tests.test_meshy_bridge -v` for isolated bridge checks. Live paid Meshy requests were not run in this change.
+
 ## Validation and honest release scope
 
 ```sh
