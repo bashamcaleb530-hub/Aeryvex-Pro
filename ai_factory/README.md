@@ -191,3 +191,22 @@ FACTORY_EXPORT_TEMPLATES=/matching/templates python3 -m ai_factory.tests.browser
 ```
 
 See [ISSUE_2_DELIVERY.md](ISSUE_2_DELIVERY.md) for the capability matrix, evidence, known protected-project baseline failures, and review limits. `RUNTIME_CHECKED` means tested in the actual engine for the exact design/source hashes. `NATIVE_CHECKED` additionally requires a relocated executable/PCK and packaged scenarios to pass. Neither certifies final artwork, controller hardware, laptop performance or commercial game completeness.
+
+### Unified Character Studio intake
+
+The main interface includes reference submission, task status, candidate download,
+Godot import verification, and **Use downloaded candidate**. Select an existing
+project, enter provenance/license/reference hash, optionally name a character
+with an existing matching appearance lock, and explicitly approve intake before
+staging. Review license, visual appearance, and prototype use separately from
+the project asset list; each decision creates a revision. Downloaded candidates
+remain unapproved until those human decisions. Production character binding and
+retargeting remain unfinished. Browser coverage uses synthetic geometry and no
+paid Meshy calls:
+
+    python3 -B -m ai_factory.tests.studio_browser_e2e
+
+Linux export now includes a temporary export-only main-scene dispatcher because
+Godot release templates do not support the editor's --script option. Packaged
+scenario and campaign restart checks execute through explicit user arguments.
+The generated source project and approved game files are not rewritten.

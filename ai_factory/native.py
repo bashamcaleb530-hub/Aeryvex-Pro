@@ -37,6 +37,27 @@ texture_format/etc=false
 texture_format/etc2=false
 '''
 
+# Release templates do not implement the editor-only --script argument. Dispatch
+# packaged QA through the same SceneTree scripts from an ordinary main scene.
+_ENTRY = '''extends Node
+func _ready() -> void:
+    call_deferred("dispatch")
+func dispatch() -> void:
+    var args = OS.get_cmdline_user_args()
+    var index = args.find("--factory-scenario")
+    if index < 0:
+        get_tree().change_scene_to_file("res://main.tscn")
+        return
+    if index + 1 >= args.size() or args[index + 1] not in ["res://scenario.gd", "res://campaign_scenario.gd"]:
+        printerr("Invalid packaged QA scenario")
+        get_tree().quit(1)
+        return
+    var tree = get_tree()
+    tree.set_script(load(args[index + 1]))
+    tree.call_deferred("run")
+    queue_free()
+'''
+
 
 class _Blocked(Exception):
     pass
@@ -150,6 +171,13 @@ def export_linux(path):
             report['template_sha256'] = {name: core.digest(templates / name) for name in ['version.txt', 'linux_release.x86_64', 'linux_debug.x86_64']}
             source = work / 'source'
             shutil.copytree(game, source, ignore=shutil.ignore_patterns('.godot'))
+            (source / 'native_entry.gd').write_text(_ENTRY)
+            (source / 'native_entry.tscn').write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://native_entry.gd" id="1"]\n[node name="NativeEntry" type="Node"]\nscript = ExtResource("1")\n')
+            project_config = source / 'project.godot'
+            original = project_config.read_text()
+            if 'run/main_scene="res://main.tscn"' not in original:
+                raise _Blocked('Native entry requires the supported main.tscn project entry.')
+            project_config.write_text(original.replace('run/main_scene="res://main.tscn"', 'run/main_scene="res://native_entry.tscn"'))
             (source / 'export_presets.cfg').write_text(_PRESET.format(
                 debug=json.dumps(str(templates / 'linux_debug.x86_64')),
                 release=json.dumps(str(templates / 'linux_release.x86_64'))))
@@ -171,13 +199,13 @@ def export_linux(path):
                     Path(env[key]).mkdir()
                 binary = str(relocated / executable.name)
                 _run('relocated_startup', [binary, '--headless', '--quit-after', '8'], env, relocated, logs, report['checks'])
-                _run('relocated_scenario', [binary, '--headless', '--fixed-fps', '60', '--script', 'res://scenario.gd'], env, relocated, logs, report['checks'], marker='FACTORY_SCENARIO_PASS')
+                _run('relocated_scenario', [binary, '--headless', '--fixed-fps', '60', '--', '--factory-scenario', 'res://scenario.gd'], env, relocated, logs, report['checks'], marker='FACTORY_SCENARIO_PASS')
                 if campaign_enabled:
-                    scenario = [binary, '--headless', '--fixed-fps', '60', '--script', 'res://campaign_scenario.gd']
+                    scenario = [binary, '--headless', '--fixed-fps', '60', '--', '--factory-scenario', 'res://campaign_scenario.gd']
                     _run('relocated_campaign_scenario', scenario, env, relocated, logs, report['checks'], marker='FACTORY_CAMPAIGN_PASS')
                     # Separate executable process, same fresh user-data location:
                     # persistence must survive process teardown in the native pack.
-                    _run('relocated_campaign_restart', scenario + ['--', '--verify-restart'], env, relocated, logs, report['checks'], marker='FACTORY_CAMPAIGN_RESTART_PASS')
+                    _run('relocated_campaign_restart', scenario + ['--verify-restart'], env, relocated, logs, report['checks'], marker='FACTORY_CAMPAIGN_RESTART_PASS')
             if evidence != core.evidence_key(path) or core.status(path)['qa'] != 'RUNTIME_CHECKED':
                 raise _Blocked('Source/revision changed during export; rerun QA before exporting.')
             files = {p.name: core.digest(p) for p in [executable, pack]}

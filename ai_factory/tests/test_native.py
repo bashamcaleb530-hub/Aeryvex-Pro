@@ -43,7 +43,7 @@ if pathlib.Path('project.godot').exists():
     sys.exit('relocation must have no project.godot')
 if not pathlib.Path(__file__).with_suffix('.pck').exists():
     sys.exit('missing pack')
-if '--script' in sys.argv:
+if '--factory-scenario' in sys.argv:
     if os.environ.get('FAKE_NO_MARKER'):
         sys.exit(0)
     if 'res://campaign_scenario.gd' in sys.argv:
@@ -150,7 +150,8 @@ if '--script' in sys.argv:
         campaign, restart = report['checks'][-2:]
         self.assertEqual(campaign['cwd'], restart['cwd'])
         self.assertIn('res://campaign_scenario.gd', campaign['command'])
-        self.assertEqual(restart['command'][-2:], ['--', '--verify-restart'])
+        self.assertEqual(restart['command'][-1], '--verify-restart')
+        self.assertEqual(restart['command'].count('--'), 1)
         self.assertIn('FACTORY_CAMPAIGN_PASS', Path(campaign['log']).read_text().splitlines())
         self.assertIn('FACTORY_CAMPAIGN_RESTART_PASS', Path(restart['log']).read_text().splitlines())
         self.assertEqual(core.evidence_key(self.path), before)
