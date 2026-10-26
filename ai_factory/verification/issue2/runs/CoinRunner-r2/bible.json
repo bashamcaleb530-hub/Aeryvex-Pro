@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "name": "CoinRunner",
+  "revision": 2,
+  "template": "collect_survive_2d",
+  "config": {
+    "coins": 12,
+    "enemies": 2,
+    "speed": 260,
+    "color": "red"
+  },
+  "requirements": [
+    {
+      "prompt": "A blue 2D game collecting 8 coins while avoiding 2 enemies",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    },
+    {
+      "prompt": "Make the player faster and red with 12 coins",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A blue 2D game collecting 8 coins while avoiding 2 enemies",
+      "provider": "template",
+      "config": {
+        "coins": 8,
+        "enemies": 2,
+        "speed": 220,
+        "color": "blue"
+      }
+    },
+    {
+      "revision": 2,
+      "prompt": "Make the player faster and red with 12 coins",
+      "provider": "template",
+      "config": {
+        "coins": 12,
+        "enemies": 2,
+        "speed": 260,
+        "color": "red"
+      },
+      "changes": {
+        "coins": {
+          "before": 8,
+          "after": 12
+        },
+        "speed": {
+          "before": 220,
+          "after": 260
+        },
+        "color": {
+          "before": "blue",
+          "after": "red"
+        }
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ],
+  "_previous_bible_sha256": "cb153907954abd965aeb5d003f2719e8df78bf8f3982a75e7982335d40f53f11"
+}

@@ -14,6 +14,9 @@ var pivot: Node3D
 var arm: SpringArm3D
 var abilities: Array = []
 var world: Node3D
+var attack_power := 35
+var material: StandardMaterial3D
+var flash_time := 0.0
 func _ready() -> void:
 	var collision := CollisionShape3D.new()
 	var shape := CapsuleShape3D.new()
@@ -25,6 +28,9 @@ func _ready() -> void:
 	var mesh := MeshInstance3D.new()
 	mesh.mesh = CapsuleMesh.new()
 	mesh.position.y = 0.9
+	material = StandardMaterial3D.new()
+	material.albedo_color = Color("8bd5f2")
+	mesh.material_override = material
 	mesh.tree_exiting.connect(func(): mesh.mesh = null)
 	add_child(mesh)
 	pivot = Node3D.new()
@@ -47,17 +53,34 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.keycode == KEY_SPACE: jump_requested = true
 		if event.keycode == KEY_F: attack()
 		if event.keycode in [KEY_1, KEY_2, KEY_3]: special(int(event.keycode) - int(KEY_1))
+	if event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_A: jump_requested = true
+		if event.button_index == JOY_BUTTON_X: attack()
+		if event.button_index == JOY_BUTTON_RIGHT_SHOULDER: special(0)
+		if event.button_index == JOY_BUTTON_LEFT_SHOULDER: special(1)
+		if event.button_index == JOY_BUTTON_B: special(2)
 	if event is InputEventMouseButton and event.pressed:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		if event.button_index == MOUSE_BUTTON_LEFT: attack()
 func _physics_process(delta: float) -> void:
 	cooldown = maxf(0, cooldown - delta)
 	energy = minf(100, energy + delta * 8)
+	flash_time = maxf(0, flash_time - delta)
+	material.albedo_color = Color("f6a2a2") if flash_time > 0 and not world.reduced_motion else Color("8bd5f2")
 	if not alive: return
 	if control_enabled:
 		var axis := Vector2(float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)), float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W)))
+		for device in Input.get_connected_joypads():
+			var stick := Vector2(Input.get_joy_axis(device, JOY_AXIS_LEFT_X), Input.get_joy_axis(device, JOY_AXIS_LEFT_Y))
+			if stick.length() > 0.2: axis += stick
+			var orbit := Vector2(Input.get_joy_axis(device, JOY_AXIS_RIGHT_X), Input.get_joy_axis(device, JOY_AXIS_RIGHT_Y))
+			if orbit.length() > 0.2:
+				yaw -= orbit.x * delta * 2.2
+				pitch = clampf(pitch - orbit.y * delta * 1.6, -0.9, 0.4)
 		intent = Vector3(axis.x, 0, axis.y).rotated(Vector3.UP, yaw).limit_length()
 		running = Input.is_physical_key_pressed(KEY_SHIFT)
+		for device in Input.get_connected_joypads():
+			if Input.is_joy_button_pressed(device, JOY_BUTTON_LEFT_STICK): running = true
 	pivot.rotation = Vector3(pitch, yaw, 0)
 	velocity.x = intent.x * speed * (1.7 if running else 1.0)
 	velocity.z = intent.z * speed * (1.7 if running else 1.0)
@@ -67,6 +90,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 func damage(amount: float) -> void:
 	if not alive: return
+	flash_time = 0.15
 	health = maxf(0, health - amount)
 	alive = health > 0
 func clear_sight(target: Node3D) -> bool:
@@ -82,8 +106,9 @@ func attack() -> int:
 	for enemy in world.enemies:
 		var offset: Vector3 = enemy.global_position - global_position
 		if enemy.alive and offset.length() < 2.8 and forward.dot(offset.normalized()) > 0.3 and clear_sight(enemy):
-			enemy.damage(35)
+			enemy.damage(attack_power)
 			hit_count += 1
+	if world.campaign != null: world.campaign.feedback("Melee hit · %d damage" % attack_power if hit_count > 0 else "Melee · move close and face the raider")
 	return hit_count
 func special(slot: int) -> bool:
 	if not alive or cooldown > 0 or energy < 40 or slot < 0 or slot >= abilities.size(): return false
@@ -96,4 +121,5 @@ func special(slot: int) -> bool:
 			var distance: float = global_position.distance_to(enemy.global_position)
 			if enemy.alive and distance < (14 if ability == "lightning" else 5) and clear_sight(enemy):
 				enemy.damage(45 if ability == "lightning" else 25)
+	if world.campaign != null: world.campaign.feedback(ability.capitalize() + " cast · 40 energy")
 	return true

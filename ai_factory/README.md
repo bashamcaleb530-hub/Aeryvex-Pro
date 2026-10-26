@@ -1,71 +1,122 @@
-# One-command playable prototype creation
-
-From repository root with Godot 4.2+ installed and `GODOT_BIN` configured:
-
-```bash
-./factory ship --name MyFirstRPG --prompt "Build a third-person 3D RPG with 3 enemies, healing, lightning and ruined arenas"
-```
-
-This performs **new → build → headless Godot QA → ZIP** automatically. The resulting
-`factory_projects/MyFirstRPG/dist/MyFirstRPG.zip` is a **Godot project**, not a
-native executable; Godot is required to play it. The tool reports
-`BUILT_QA_BLOCKED` if Godot is missing or tests fail, and never claims a tested
-ZIP in that case. Review the project in Godot to judge graphics and ergonomics.
-For an existing project, use `./factory add --project MyFirstRPG --prompt "add an enemy"`
-and then `./factory build --project MyFirstRPG && ./factory test --project MyFirstRPG`.
-
-**Scope:** the one-command workflow speeds up the existing bounded 2D/3D
-templates; it does NOT yet generate complete arbitrary games, realistic art,
-full campaigns, rigged characters, or promise a full professional game in 24h.
-It leaves unsupported instructions visible in the project bible for later work.
-
-# Current extension: 3D generation
-
-See [MILESTONE_2.md](MILESTONE_2.md) for the working 3D template, controls, revision syntax, real engine checks and remaining visual/asset work. The original 2D workflow below is retained.
-
 # Aeryvex AI Game Factory
 
-A working bounded Godot4 generator with persistent revisions. This is the first end-to-end template, not an arbitrary-game or realistic-3D generator. Existing `original_game/` is preserved verbatim and is never a generation target.
+A local application that turns supported natural-language ideas into playable Godot 4 projects, tests them in the real engine, and exports source and Linux builds. It extends the existing factory; existing Aeryvex projects and approved character references are preserved.
 
-From repository root, Python3.10+:
+## Launch on Debian 13
 
-```bash
-export PATH="$PWD:$PATH"
-export GODOT_BIN=/path/to/Godot4
-factory new --prompt "A top down collection game with 5 coins" --name MyGame
-factory plan --project MyGame
-factory build --project MyGame
-factory test --project MyGame
-factory add --project MyGame --prompt "add 3 enemies and make the player faster and blue"
-factory build --project MyGame
-factory test --project MyGame
-factory status --project MyGame
-"$GODOT_BIN" --path factory_projects/MyGame/godot
-python3 -m unittest discover -s ai_factory/tests -v
+Python 3.10+ runs the application with **no pip packages, paid service, or GPU**. Godot 4.2+ is needed for game QA. Native Linux exports also need official Linux export templates matching the engine version exactly.
+
+From this repository:
+
+```sh
+python3 -m ai_factory ui
 ```
 
-Arrow keys/WASD move, collect all coins to win, avoid chasing enemies, R restarts. Enemies have contact damage and invulnerability cooldown. Generated circles are explicitly prototype drawing, not finished artwork. Tests exercise movement, bounds, actual contact damage, win/loss and restart in Godot.
+Open **http://127.0.0.1:8765**. Default project storage is `factory_projects/`. A new game must have a new name; select an existing project to revise it. The UI shows requirements, configuration, history, actual job stages/logs, source/native downloads and a desktop game launcher. Preview/edit the downloaded source in Godot. The decorative header is not a generated-game preview.
 
-Template prompts understand numeric coin/enemy counts, speed number, faster/slower, and named green/blue/red/purple/yellow player colors. Revisions preserve previous config fields, project identity, prompt history, locks and immutable JSON checkpoints. Every raw prompt is retained as PARTIAL_TEMPLATE_SUPPORT: extra cities, dual swords, 3DRPGs, story and realistic art are NOT silently claimed implemented. In this initial parser “3 enemies” sets the total count; it is not an incremental enemy-count arithmetic command.
+Optional local installation, without sudo or modifying existing projects:
 
-`factory new/add --provider ollama` uses an actual Ollama /api/chat structured proposal with strict bounds. Set FACTORY_MODEL and optional FACTORY_OLLAMA_URL; default is local127.0.0.1:11434. No server/model is bundled and no credits are required. This adapter is implemented but was not live-model tested here. It proposes configuration only, not arbitrary code. The default template provider is deterministic and requires neither GPU nor LLM. Arbitrary hosted-provider auth and broader model tool use remain future work; never put secrets in a bible or source.
-
-Build preserves user-modified generated source by refusing to overwrite it. Resolve edits deliberately or keep a separate copy before regenerating. Tests fail on changed/unbuilt revisions, Godot errors even at exit0, missing result marker, absent engine, unsupported engine version or timeout. `qa.json` binds evidence to every file and exact bible hash; status invalidates stale results. Build itself reports IMPLEMENTED only; successful engine QA reports RUNTIME_CHECKED, with visual/hardware review still PENDING.
-
-Successful QA creates `dist/<name>.zip` and an integrity manifest. This is a Godot project ZIP, not a native OS executable. Native export/template management is not implemented yet. No binary or external art generator is fabricated. Asset production, retargeting, Blender/rigging tool adapters, cinematic generation, arbitrary genres, GPU production and autonomous repair agents are still unfinished.
-
-## Session loss and rollback
-
-Bibles, plans, checkpoints, source and verification are plain files. `--workspace /durable/mounted/path` selects durable storage. Kaggle /kaggle/working is ephemeral: commit and push your project files after every confirmed revision before ending a session:
-
-```bash
-git add factory_projects/MyGame
-git commit -m "Checkpoint MyGame requirements and generated game"
-git push origin aeryvex-original-game
+```sh
+sh ai_factory/tools/setup_debian.sh
+"${XDG_DATA_HOME:-$HOME/.local/share}/aeryvex-game-factory/bin/aeryvex-factory"
 ```
 
-Do not commit `.qa`, `.godot`, secrets or `dist`. This release includes the verified example's two checkpoints in GitHub. Resume after reset by checking out the branch, setting GODOT_BIN, and running status/build/test on that existing project. Restore an earlier bible/checkpoint using Git on a separate branch; no destructive automatic rollback is performed. Simultaneous writers to the same project and automatic remote sync are not implemented.
+Setup refuses to overwrite an existing installation. For upgrades use a new `--prefix` and launch the source against your existing `--workspace`; back up the workspace first. `--check` only reports dependencies. On the same desktop, **Launch game** starts the checked game. A headless server cannot display it on another computer; download the Linux build instead.
 
-## Protected Aeryvex Pro
+If Godot is not on PATH, set these in the terminal before launching (replace paths/version with your own matching installation):
 
-`preservation.json` records the inspected source commit and original_game object IDs. Existing rulers, references, Orion staff-to-dual-swords, Thalen dual swords, lightning hierarchy, Void trials and Supreme Grand Master progression are user canon. This factory does not reinterpret or modify them. Reference metadata says approved source image binaries are not yet backed up; that remains an external blocker. Source/canon preservation is not a claim that all those game features are already playable.
+```sh
+export GODOT_BIN="$HOME/Applications/Godot_v4.2.2-stable_linux.x86_64"
+export FACTORY_EXPORT_TEMPLATES="$HOME/.local/share/godot/export_templates/4.2.2.stable"
+python3 -m ai_factory ui
+```
+
+The template directory must contain `version.txt` (`4.2.2.stable` in this example), `linux_release.x86_64` and `linux_debug.x86_64`. Obtain these from the matching official Godot release/export-template download. The factory never silently installs an engine or templates. Absent templates block the native stage while a successfully checked Godot source ZIP remains available. Unzip the Linux archive and run `./game.x86_64` (use `chmod +x game.x86_64` if your extraction tool discarded permissions). Its `game.pck` must stay beside it.
+
+## Build something playable
+
+Use **3D RPG campaign** as a starting prompt, for example:
+
+> A 3D RPG with 3 missions, a town, 2 enemies and a healing ability
+
+Then revise the selected project:
+
+> Add an enemy, add a new area and lightning, and make missions longer
+
+This produces actual additional enemies, connected walkable terrain, a tested lightning damage ability and additional physical shard objectives. Prompts and unsupported clauses remain in the Game Bible. `make it photorealistic` and `give me three playable characters` do not silently manufacture finished assets or new controllers; unchanged supported configuration is explicitly recorded as `NO_SUPPORTED_CHANGE`.
+
+The campaign measures active playtime and has mission dialogue, enemy combat, shard recovery, return objectives, checkpoint retry, XP, blade upgrades, potion/relic inventory, saves and an ending. The 2D genre has movement, pursuers, collection, health, victory/defeat and restart. All capsule/primitive art is prototype artwork.
+
+### Campaign controls
+
+| Action | Keyboard/mouse | Gamepad mapping |
+|---|---|---|
+| Move / run | WASD / Shift | Left stick / L3 |
+| Camera | Mouse after click; Esc releases | Right stick |
+| Jump / melee | Space / F or left click | A / X |
+| Abilities | 1, 2, 3 | RB, LB, B |
+| Speak / collect | E | Y |
+| Potion / blade upgrade | H / U | D-pad up / right |
+| Save / load | F5 / F9 | Keyboard |
+| Retry checkpoint | R | Start |
+| Large text / reduced motion | T / M | Keyboard |
+| New campaign after ending | N | Keyboard |
+
+Actual input events are tested; physical controller hardware is not certified. New campaigns default to three missions. Supported bounds: 1–5 missions, 1–3 shards per mission, 1–5 connected areas, 0–12 initial enemies, heal/shockwave/lightning. Campaign combat spawns at least one enemy and scales bounded encounters by mission. Zero initial enemies therefore does not mean a combat-free campaign. Towns are collidable prototype buildings, not authored realistic environments.
+
+## Persistent work, revisions and budgets
+
+`bible.json`, immutable `checkpoints/`, source integrity manifests, assets and history live in the chosen workspace. Interrupted checkpoint writes are recovered from the journal without deleting checkpoints. Restoring a checkpoint creates a **new revision**, preserving later requirements, locked references and staged assets. Managed source edits are preserved and block regeneration; reconcile/back up them explicitly rather than forcing replacement.
+
+Build jobs persist under `<workspace>/.factory-jobs/`. You may close the browser while a local worker runs. Cancel terminates its subprocesses and leaves completed stages. Resume reconciles committed designs without replaying the prompt, reruns QA/native checks, and rejects conflicting later edits. An orphan worker/queued job becomes interrupted. One active job per project is allowed. A bounded import-cache retry is the current self-repair capability; it does not rewrite arbitrary broken gameplay code.
+
+Budgets are elapsed-time limits (up to 86,400 seconds), not arbitrary-game 24-hour guarantees. This release targets small playable template slices. A larger vision is retained for future implementation. CPU-only testing and bounded scene generation work; final art production and human playtime are separate work.
+
+Campaign saves live in Godot's user-data directory for the game name. F5 and mission actions save atomically. Compatible revisions migrate completed missions/XP/inventory and renew active objectives; added missions extend a completed campaign. Before incompatible or corrupt data is replaced, a byte-preserving backup is made. Never delete those backups if recovery is needed. QA uses isolated XDG directories and does not touch ordinary player saves.
+
+For Kaggle/session recovery, copy the **entire workspace** (including Bible/checkpoints/assets), configuration and source to durable storage/Git. A downloadable Godot project ZIP contains the playable game, not the entire factory revision journal. Ephemeral `/kaggle/working` alone is insufficient storage.
+
+## CLI
+
+```sh
+./factory new --name MyGame --prompt 'A 3D RPG with a town'
+./factory add --project MyGame --prompt 'Add lightning and a new area'
+./factory plan --project MyGame
+./factory build --project MyGame
+./factory test --project MyGame
+./factory export --project MyGame
+./factory status --project MyGame
+./factory rollback --project MyGame --revision 1
+./factory ship --name CoinGame --prompt 'A blue 2D game with 8 coins and 2 enemies'
+./factory jobs
+```
+
+Use global `--workspace /durable/project/store` **before** the subcommand. `ship` retains its original new/build/test/source-ZIP behavior; the app includes the native stage by default. `export` returns a structured `BLOCKED`, `FAILED` or `NATIVE_CHECKED` report. Read that status, not just process exit code. Job inspection/resume/cancel is also available with `jobs --id ID --resume` or `--cancel`.
+
+## Optional local Ollama
+
+Choose Ollama in the UI or pass `--provider ollama` to `new`/`add`. Run your own authorized local server/model first. Set `FACTORY_OLLAMA_URL` (default `http://127.0.0.1:11434`) and `FACTORY_MODEL` (default `qwen3.5:4b`). No credentials are hardcoded. The adapter accepts bounded validated JSON data only, preserves existing fields, rejects executable/unknown fields, malformed/duplicate/nonfinite JSON and oversized responses. It has real HTTP-stub coverage for 2D/3D; no live Qwen model was available for this release's verification. It is not unrestricted autonomous code generation.
+
+## Asset intake and genre packs
+
+The UI inspects embedded GLB containers and stages explicitly approved intake with license/author/source/reference hash. Staging records independent license, visual, prototype and engine-import states. It does not replace approved artwork or characters. For larger files or review decisions:
+
+```sh
+./factory asset-stage --project MyGame --file model.glb --metadata provenance.json
+./factory assets --project MyGame
+./factory asset-review --project MyGame --sha256 ASSET_HASH --approve-license --approve-prototype
+```
+
+Metadata requires `approved: true`, `license`, `author`, `source`, and a 64-character `reference_sha256`. A character-specific stage also requires `--character NAME` with an existing matching locked reference. Optional `animation_mapping` refers to actual embedded clip names. External URIs/unsupported extensions and invalid buffer ranges are rejected. Intake approval is not a license/fidelity certification. Existing Godot GLB adapter tests validate a synthetic rig and animation; automatic production model binding/retargeting remains unfinished.
+
+Data-only JSON manifests in `ai_factory/genres/` enumerate the two existing backend contracts. This is a safe registry, not an arbitrary code-loading plugin marketplace; new backend implementation is still required for other genres.
+
+## Validation and honest release scope
+
+```sh
+GODOT_BIN=/path/to/godot python3 -m unittest discover -s ai_factory/tests -v
+# Developer browser E2E only: requires Playwright + Chromium and matching templates.
+FACTORY_EXPORT_TEMPLATES=/matching/templates python3 -m ai_factory.tests.browser_e2e
+```
+
+See [ISSUE_2_DELIVERY.md](ISSUE_2_DELIVERY.md) for the capability matrix, evidence, known protected-project baseline failures, and review limits. `RUNTIME_CHECKED` means tested in the actual engine for the exact design/source hashes. `NATIVE_CHECKED` additionally requires a relocated executable/PCK and packaged scenarios to pass. Neither certifies final artwork, controller hardware, laptop performance or commercial game completeness.

@@ -1,0 +1,281 @@
+{
+  "status": "PASS",
+  "engine": "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+  "host": "Debian 13",
+  "runs": [
+    {
+      "name": "BeaconValley",
+      "revision": 1,
+      "config": {
+        "enemies": 2,
+        "areas": 1,
+        "speed": 5,
+        "abilities": [
+          "heal"
+        ],
+        "campaign": true,
+        "missions": 3,
+        "mission_length": 1,
+        "town": true
+      },
+      "qa": "RUNTIME_CHECKED",
+      "qa_checks": [
+        {
+          "name": "version",
+          "passed": true,
+          "log": "4.2.2.stable.official.15073afe3\n"
+        },
+        {
+          "name": "import",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+        },
+        {
+          "name": "startup",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+        },
+        {
+          "name": "scenario",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nRPG_CHECKS: 21\nFACTORY_SCENARIO_PASS\n"
+        },
+        {
+          "name": "campaign",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nCAMPAIGN_CHECKS: 43\nFACTORY_CAMPAIGN_PASS\n"
+        },
+        {
+          "name": "campaign_restart",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nCAMPAIGN_CHECKS: 6\nFACTORY_CAMPAIGN_RESTART_PASS\n"
+        }
+      ],
+      "native": "NATIVE_CHECKED",
+      "native_checks": [
+        "version",
+        "import",
+        "export",
+        "relocated_startup",
+        "relocated_scenario",
+        "relocated_campaign_scenario",
+        "relocated_campaign_restart"
+      ],
+      "archive_sha256": "bc381747264b9313a9341c21314ed1d7b1e91be28c25efa013f0763ee82e92ff",
+      "elapsed_seconds": 23.65
+    },
+    {
+      "name": "BeaconValley",
+      "revision": 2,
+      "config": {
+        "enemies": 3,
+        "areas": 2,
+        "speed": 5,
+        "abilities": [
+          "heal",
+          "lightning"
+        ],
+        "campaign": true,
+        "missions": 3,
+        "mission_length": 2,
+        "town": true
+      },
+      "qa": "RUNTIME_CHECKED",
+      "qa_checks": [
+        {
+          "name": "version",
+          "passed": true,
+          "log": "4.2.2.stable.official.15073afe3\n"
+        },
+        {
+          "name": "import",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+        },
+        {
+          "name": "startup",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+        },
+        {
+          "name": "scenario",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nRPG_CHECKS: 24\nFACTORY_SCENARIO_PASS\n"
+        },
+        {
+          "name": "campaign",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nCAMPAIGN_CHECKS: 46\nFACTORY_CAMPAIGN_PASS\n"
+        },
+        {
+          "name": "campaign_restart",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nCAMPAIGN_CHECKS: 6\nFACTORY_CAMPAIGN_RESTART_PASS\n"
+        }
+      ],
+      "native": "NATIVE_CHECKED",
+      "native_checks": [
+        "version",
+        "import",
+        "export",
+        "relocated_startup",
+        "relocated_scenario",
+        "relocated_campaign_scenario",
+        "relocated_campaign_restart"
+      ],
+      "archive_sha256": "c37a8d9ee551e90f74181a899084e5603f7a7a97fb31f8612c329ee0ec6052f8",
+      "elapsed_seconds": 23.67
+    },
+    {
+      "name": "BeaconValley",
+      "revision": 3,
+      "config": {
+        "enemies": 2,
+        "areas": 1,
+        "speed": 5,
+        "abilities": [
+          "heal"
+        ],
+        "campaign": true,
+        "missions": 3,
+        "mission_length": 1,
+        "town": true
+      },
+      "qa": "RUNTIME_CHECKED",
+      "qa_checks": [
+        {
+          "name": "version",
+          "passed": true,
+          "log": "4.2.2.stable.official.15073afe3\n"
+        },
+        {
+          "name": "import",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+        },
+        {
+          "name": "startup",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+        },
+        {
+          "name": "scenario",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nRPG_CHECKS: 21\nFACTORY_SCENARIO_PASS\n"
+        },
+        {
+          "name": "campaign",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nCAMPAIGN_CHECKS: 43\nFACTORY_CAMPAIGN_PASS\n"
+        },
+        {
+          "name": "campaign_restart",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nCAMPAIGN_CHECKS: 6\nFACTORY_CAMPAIGN_RESTART_PASS\n"
+        }
+      ],
+      "native": "NATIVE_CHECKED",
+      "native_checks": [
+        "version",
+        "import",
+        "export",
+        "relocated_startup",
+        "relocated_scenario",
+        "relocated_campaign_scenario",
+        "relocated_campaign_restart"
+      ],
+      "archive_sha256": "9e1d412c4ab9bd54f22bc30ff104f2b6855004bd0e031805c636e90112bd410e",
+      "elapsed_seconds": 24.98
+    },
+    {
+      "name": "CoinRunner",
+      "revision": 1,
+      "config": {
+        "coins": 8,
+        "enemies": 2,
+        "speed": 220,
+        "color": "blue"
+      },
+      "qa": "RUNTIME_CHECKED",
+      "qa_checks": [
+        {
+          "name": "version",
+          "passed": true,
+          "log": "4.2.2.stable.official.15073afe3\n"
+        },
+        {
+          "name": "import",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+        },
+        {
+          "name": "startup",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+        },
+        {
+          "name": "scenario",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nFACTORY_SCENARIO_PASS\n"
+        }
+      ],
+      "native": "NATIVE_CHECKED",
+      "native_checks": [
+        "version",
+        "import",
+        "export",
+        "relocated_startup",
+        "relocated_scenario"
+      ],
+      "archive_sha256": "3b6e87b258c9d7aa4fd4956de65048b2770f48eb132bf2ff79fe02986ae58bf8",
+      "elapsed_seconds": 21.68
+    },
+    {
+      "name": "CoinRunner",
+      "revision": 2,
+      "config": {
+        "coins": 12,
+        "enemies": 2,
+        "speed": 260,
+        "color": "red"
+      },
+      "qa": "RUNTIME_CHECKED",
+      "qa_checks": [
+        {
+          "name": "version",
+          "passed": true,
+          "log": "4.2.2.stable.official.15073afe3\n"
+        },
+        {
+          "name": "import",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+        },
+        {
+          "name": "startup",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+        },
+        {
+          "name": "scenario",
+          "passed": true,
+          "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nFACTORY_SCENARIO_PASS\n"
+        }
+      ],
+      "native": "NATIVE_CHECKED",
+      "native_checks": [
+        "version",
+        "import",
+        "export",
+        "relocated_startup",
+        "relocated_scenario"
+      ],
+      "archive_sha256": "c8a4e5f974c6773aca50a6820eb146de86f101edb5162cf02f9fd800761440f0",
+      "elapsed_seconds": 23.91
+    }
+  ],
+  "browser_errors": [],
+  "visual_review": "UI screenshots inspected separately; game art remains prototype",
+  "human_playtime": "NOT_MEASURED",
+  "output": "/workspace/output/aeryvex-game-factory"
+}

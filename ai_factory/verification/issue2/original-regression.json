@@ -1,0 +1,40 @@
+[
+  {
+    "test": "import",
+    "exit_code": 0,
+    "engine_errors": true,
+    "pass_markers": []
+  },
+  {
+    "test": "test_aether_world_menu",
+    "exit_code": "TIMEOUT",
+    "engine_errors": true,
+    "pass_markers": []
+  },
+  {
+    "test": "test_character_arena",
+    "exit_code": 0,
+    "engine_errors": true,
+    "pass_markers": [
+      "COMBAT TEST RESULT: PASS"
+    ]
+  },
+  {
+    "test": "test_grand_master_powers",
+    "exit_code": 0,
+    "engine_errors": false,
+    "pass_markers": []
+  },
+  {
+    "test": "test_military_opening",
+    "exit_code": 0,
+    "engine_errors": true,
+    "pass_markers": []
+  },
+  {
+    "test": "test_player_ascension",
+    "exit_code": 0,
+    "engine_errors": false,
+    "pass_markers": []
+  }
+]

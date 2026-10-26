@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "id": "collect_survive_2d",
+  "backend": "collect_survive_2d",
+  "label": "2D collection and survival",
+  "dimensions": 2,
+  "match": [],
+  "default": true,
+  "limitations": ["Bounded collection and survival configuration; primitive prototype art."]
+}

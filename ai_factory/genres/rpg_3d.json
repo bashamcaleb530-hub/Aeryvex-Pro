@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "id": "rpg_3d",
+  "backend": "rpg_3d",
+  "label": "3D role-playing campaign",
+  "dimensions": 3,
+  "match": ["\\b3d\\b", "third.person"],
+  "default": false,
+  "limitations": ["Bounded small campaign; primitive prototype art; arbitrary genres remain pending."]
+}
