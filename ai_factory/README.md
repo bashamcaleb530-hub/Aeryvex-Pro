@@ -143,6 +143,21 @@ python3 -m ai_factory.godot_candidate_check --glb /path/to/new-candidate.glb --g
 
 This creates and deletes a temporary preview project, invokes Godot 4 in headless editor mode and reports whether the engine imported the candidate. It does **not** validate animation retargeting, gameplay character binding, licensing or faithful appearance. Results remain pending human review. Isolated tests: `python3 -m unittest ai_factory.tests.test_godot_candidate_check -v`.
 
+## Reviewed character pack export
+
+After staging a GLB and explicitly approving both license and visual review, export a **standalone** Godot character project without modifying the existing generated game:
+
+```sh
+python3 -m ai_factory.character_pack_cli \\
+  --project-path factory_projects/MyGame \\
+  --character Hero \\
+  --output /tmp/HeroReview
+godot --path /tmp/HeroReview --editor
+python3 -m unittest ai_factory.tests.test_character_pack -v
+```
+
+The pack includes `character.glb`, an isolated runnable preview and `character_manifest.json` containing the locked appearance-reference hash, provenance, actual GLB animation names and requested mappings. The export requires exactly one approved asset for that character. It refuses missing references, unapproved license/appearance and missing mapped clips. Exporting is not animation retargeting or insertion into the game; its manifest expressly marks gameplay binding as not implemented. Real Godot engine import and human visual review of the exported preview are still necessary.
+
 ## Validation and honest release scope
 
 ```sh
