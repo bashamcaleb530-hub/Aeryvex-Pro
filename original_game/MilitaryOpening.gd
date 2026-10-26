@@ -164,9 +164,9 @@ func _update_hud() -> void:
         hint = "Press C to present the purple Master's recommendation to the Council."
     if council_approved:
         hint = "ENROLLED: Blue Lightning Warrior. The larger campaign continues from here."
-    hud.text = "AETHER WORLD — TEN MILITARY MISSIONS\n%s | %s\nStage: %s | Cleared: %d/10 | Merit: %d\nMission %d: %s\nACT %d/3: %s\nProgress: %d/%d | Health: %d | Failures: %d\n%s" % [
+    hud.text = "AETHER WORLD — TEN MILITARY MISSIONS\n%s | %s\nStage: %s | Cleared: %d/10 | Merit: %d\nMission %d: %s\nACT %d/3: %s\nCheckpoint: Act %d | Progress: %d/%d | Health: %d | Failures: %d\n%s" % [
         message, selected_hero, admission.stage.replace("_", " ").capitalize(), completed_count, score,
-        mini(task_index+1,10), mission["name"], missions.phase_index()+1, missions.phase_name(), missions.progress,
+        mini(task_index+1,10), mission["name"], missions.phase_index()+1, missions.phase_name(), missions.checkpoint_act+1, missions.progress,
         int(mission["goal"]), missions.hero_health, missions.total_failures, hint
     ]
 
@@ -264,7 +264,7 @@ func _input(event: InputEvent) -> void:
             pulse_clock = 0.0
             last_pulse_position = hero.position
             _refresh_encounter()
-            message = "Retrying mission; earlier victories remain."
+            message = "Retrying from Act %d checkpoint; earlier victories remain." % (missions.checkpoint_act+1)
             _update_hud()
     elif event.keycode == KEY_C:
         request_council_review()
