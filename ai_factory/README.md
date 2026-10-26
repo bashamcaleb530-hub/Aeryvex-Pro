@@ -1,3 +1,24 @@
+# One-command playable prototype creation
+
+From repository root with Godot 4.2+ installed and `GODOT_BIN` configured:
+
+```bash
+./factory ship --name MyFirstRPG --prompt "Build a third-person 3D RPG with 3 enemies, healing, lightning and ruined arenas"
+```
+
+This performs **new → build → headless Godot QA → ZIP** automatically. The resulting
+`factory_projects/MyFirstRPG/dist/MyFirstRPG.zip` is a **Godot project**, not a
+native executable; Godot is required to play it. The tool reports
+`BUILT_QA_BLOCKED` if Godot is missing or tests fail, and never claims a tested
+ZIP in that case. Review the project in Godot to judge graphics and ergonomics.
+For an existing project, use `./factory add --project MyFirstRPG --prompt "add an enemy"`
+and then `./factory build --project MyFirstRPG && ./factory test --project MyFirstRPG`.
+
+**Scope:** the one-command workflow speeds up the existing bounded 2D/3D
+templates; it does NOT yet generate complete arbitrary games, realistic art,
+full campaigns, rigged characters, or promise a full professional game in 24h.
+It leaves unsupported instructions visible in the project bible for later work.
+
 # Current extension: 3D generation
 
 See [MILESTONE_2.md](MILESTONE_2.md) for the working 3D template, controls, revision syntax, real engine checks and remaining visual/asset work. The original 2D workflow below is retained.
