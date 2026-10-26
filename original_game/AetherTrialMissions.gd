@@ -73,6 +73,7 @@ func restart_after_failure() -> bool:
     var saved_act := checkpoint_act
     reset_attempt()
     progress = saved_progress
+    mission_elapsed = float(saved_progress) if current()["type"] == "defense" else 0.0
     checkpoint_progress = saved_progress
     checkpoint_act = saved_act
     enemy_health = maxi(0,100 - progress * 100 / int(current()["goal"]))
