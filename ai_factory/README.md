@@ -133,6 +133,16 @@ python3 -m ai_factory.meshy_bridge download TASK_ID --output /path/to/new-candid
 
 Asset staging requires an existing game project and your **explicit** intake approval. A character-specific stage requires a matching locked appearance-reference SHA-256, supplied with `--character NAME`; this does not certify that Meshy matched the reference. Separate license, visual and engine checks must follow. A returned GLB is never auto-installed in a game or labeled approved. Use `GODOT_BIN=/path/to/godot python3 -m unittest discover -s ai_factory/tests -v` to run the complete suite, or `python3 -m unittest ai_factory.tests.test_meshy_bridge -v` for isolated bridge checks. Live paid Meshy requests were not run in this change.
 
+After downloading a Meshy candidate, run the **isolated Godot engine-import check** before staging it:
+
+```sh
+python3 -m ai_factory.godot_candidate_check --glb /path/to/new-candidate.glb
+# If Godot is not on PATH:
+python3 -m ai_factory.godot_candidate_check --glb /path/to/new-candidate.glb --godot-bin /path/to/godot
+```
+
+This creates and deletes a temporary preview project, invokes Godot 4 in headless editor mode and reports whether the engine imported the candidate. It does **not** validate animation retargeting, gameplay character binding, licensing or faithful appearance. Results remain pending human review. Isolated tests: `python3 -m unittest ai_factory.tests.test_godot_candidate_check -v`.
+
 ## Validation and honest release scope
 
 ```sh
