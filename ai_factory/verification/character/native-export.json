@@ -1,0 +1,77 @@
+{
+  "project": "AeryvexRigDemo (synthetic Test Rig bound as player visual)",
+  "engine": "4.2.2.stable.official.15073afe3",
+  "qa_status": "RUNTIME_CHECKED",
+  "qa_checks": [
+    [
+      "version",
+      true
+    ],
+    [
+      "import",
+      true
+    ],
+    [
+      "startup",
+      true
+    ],
+    [
+      "scenario",
+      true
+    ],
+    [
+      "campaign",
+      true
+    ],
+    [
+      "campaign_restart",
+      true
+    ],
+    [
+      "character",
+      true
+    ]
+  ],
+  "native_status": "NATIVE_CHECKED",
+  "native_checks": [
+    [
+      "version",
+      true
+    ],
+    [
+      "import",
+      true
+    ],
+    [
+      "export",
+      true
+    ],
+    [
+      "relocated_startup",
+      true
+    ],
+    [
+      "relocated_scenario",
+      true
+    ],
+    [
+      "relocated_campaign_scenario",
+      true
+    ],
+    [
+      "relocated_campaign_restart",
+      true
+    ],
+    [
+      "relocated_character_scenario",
+      true
+    ]
+  ],
+  "archive_sha256": "714f6f3ebac11a65ea375cc0bf186920b939091619964ce91777f79eaa84b9e6",
+  "template_sha256": {
+    "version.txt": "323cbe4c37c4400d49e132e36335e05e1a9426388fb312992388a4cedd700d69",
+    "linux_release.x86_64": "49db0d5082faa83283d140c90da109b3407a5d72c17ab97742b132ba7e615316",
+    "linux_debug.x86_64": "8a9da13aeaadb6c51276d5bdd34117bbbc2bdfad4b696f2abb92f60e22ecae1c"
+  },
+  "character_report": "CHARACTER_REPORT: {\"fit\":{\"height\":1.8,\"scale\":1.016949163501,\"source_height\":1.76999998092651},\"mapped_states\":[\"idle\",\"walk\",\"run\",\"jump\",\"attack\",\"hurt\",\"death\",\"cinematic_victory\"],\"transitions\":[\"idle\",\"fall\",\"idle\",\"walk\",\"run\",\"idle\",\"jump\",\"fall\",\"idle\",\"attack\",\"idle\",\"hurt\",\"idle\",\"cinematic_victory\",\"idle\",\"death\",\"idle\"]}"
+}

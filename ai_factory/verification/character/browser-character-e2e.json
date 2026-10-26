@@ -44,7 +44,7 @@
     ]
   ],
   "binding": {
-    "character": "Orion Valen",
+    "character": "Test Rig",
     "sha256": "8bff7ad8ec96782c31ffec769588c2744bf3d48d676e8702362dbc595e0891ac",
     "target_height": 1.8,
     "yaw_offset_degrees": 0

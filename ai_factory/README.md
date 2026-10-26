@@ -114,7 +114,7 @@ Data-only JSON manifests in `ai_factory/genres/` enumerate the two existing back
 
 ## Codex + Meshy + Godot production bridge (opt-in)
 
-Codex can edit this repository, run the factory tests, and submit reviewable commits. Godot 4 is the runtime and exporter. Meshy is used **only** to create *candidate* 3D assets from your own local approved-reference images. The Meshy bridge is a Python standard-library command-line module; it is not yet wired into the factory UI, character binding, animation retargeting or gameplay scenes.
+Codex can edit this repository, run the factory tests, and submit reviewable commits. Godot 4 is the runtime and exporter. Meshy is used **only** to create *candidate* 3D assets from your own local approved-reference images. The Meshy bridge is a Python standard-library module used by the Character Studio (below) and usable from the command line. It does not perform skeleton retargeting.
 
 Create a Meshy API key through the [Meshy developer portal](https://docs.meshy.ai/en/api/quick-start). Meshy API usage can require paid credits. Do not paste or commit the key; store it in the local shell environment. Uploading an image sends its bytes to Meshy, so submit only images you are authorized to process.
 
@@ -176,11 +176,39 @@ python3 -m ai_factory.bind_player --project-path factory_projects/MyGame \\
 
 This path requires explicit prior reference-locking and approval; it will refuse missing evidence and cannot be enabled by a creative prompt alone. The game will retain its primitive collision capsule and controls even when a GLB visual is bound. Character skeleton retargeting, appearance quality, asset scale, and gameplay animation remain separate review tasks. Offline binding-gate tests: `python3 -m unittest ai_factory.tests.test_bind_player -v`.
 
-## Embedded character animation playback (experimental)
+## Character Studio: approved reference to playable character
 
-For an explicitly approved and bound player GLB, the RPG actor now reads the recorded `animation_mapping` from `player_visual.json`, finds an embedded `AnimationPlayer`, and plays configured `idle`, `walk`, `run` and `attack` clips when those exact animation names exist. Missing clips are warned about and skipped; the existing player controller and fallback capsule remain. This **plays existing compatible animations only**, not automatic skeleton retargeting, rigging or production-quality choreography.
+Select a project in the app; the **Character Studio** panel runs the whole character workflow and shows a seven-step status strip derived from real files and Bible revisions (reference, model, Godot inspection, your approval, animation check, player binding, game QA).
 
-For live validation, rebuild and test an RPG containing a reviewed, skinned and animated GLB on a machine with Godot 4.2+: `./factory build --project MyGame && ./factory test --project MyGame`. Visually review scale, pose and transitions; current source contract tests do not prove runtime correctness.
+1. **Lock the approved reference.** Upload the exact approved image and confirm it. Its bytes are stored under `references/` and its SHA-256 is locked as a new revision. A lock is never replaced, and a changed reference file is refused rather than substituted.
+2. **Get a 3D model.** Either *Generate from locked reference* (Meshy Image-to-3D; sends the exact locked bytes, requires `MESHY_API_KEY` in the factory's environment **and** ticking the paid-credit authorization), then *Check status*, *Download GLB* and optionally *Auto-rig + basic animations*; or *Upload a GLB* you made in Blender, received from an artist, or exported from an animation library. Separate single-clip files for the same rig (for example a death clip) can be merged into a new candidate with *Add animation clips*.
+3. **Inspect in Godot.** The GLB is imported by real Godot in an isolated project. The report lists meshes, skins, bones and every clip and checks that each clip actually moves the skeleton. With a display or `xvfb-run` it renders front/three-quarter/side/back views beside the reference image and one pose frame per mapped state. Without a display the report says `BLOCKED_NO_DISPLAY`; it never fakes renders.
+4. **Map animations, then stage.** Clip-to-state mapping is suggested from clip names (idle, walk, run, jump, fall, land, attack, hurt, death, `cinematic_*`) and you edit it. Staging records license, author and provenance (provider, task and locked reference hash) and requires a passing inspection.
+5. **Approve or reject the final appearance.** Approval requires an inspection of that exact GLB. Rejection records your reason and removes any binding to it.
+6. **Use as player character.** Binding re-runs a real Godot import, then *Rebuild & test* adds a `character` QA stage. It loads the visual in the real game, fits it to the gameplay height, and drives idle → walk → run → jump/fall → land → attack → hurt → cinematic → death (holds) → revive, failing if any mapped state does not play its clip.
+7. **Capture gameplay preview** (under the game's deliverables) runs the built game and saves real frames to `previews/`. This works on headless machines with `xvfb-run`.
+
+The player's physics capsule, controls, combat and camera are unchanged; the reviewed model is the visual only. The animation state machine (`templates/rpg_3d/actor.gd`) prioritises death > cinematic > hurt > attack > airborne > landing > locomotion, crossfades between clips, loops locomotion, holds the death pose, faces the movement direction, and falls back run → walk, fall → jump and land → idle when a clip is not mapped. A mission completion plays `cinematic_victory` when mapped.
+
+Command-line equivalents (`--workspace` goes before `character`):
+
+```sh
+./factory character lock    --project MyGame --character Hero --image approved.png --confirm
+./factory character upload  --project MyGame --character Hero --file hero.glb --source 'Blender export'
+./factory character inspect --project MyGame --character Hero --candidate upload-XXXX
+./factory character stage   --project MyGame --character Hero --candidate upload-XXXX \
+    --license CC0 --author Me --approve-intake --mapping '{"idle":"Idle","walk":"Walk","death":"Die"}'
+./factory character approve --project MyGame --sha256 SHA --approve-license
+./factory character bind    --project MyGame --sha256 SHA --height 1.8 --yaw 0
+./factory build --project MyGame && ./factory test --project MyGame
+./factory character preview --project MyGame
+./factory character status  --project MyGame
+python3 -m ai_factory.character_inspect --glb model.glb --output /new/report/dir   # standalone inspection
+```
+
+Native Linux exports of a game with a bound character also run the character scenario from the relocated executable (`relocated_character_scenario`).
+
+**Limits.** The Meshy rigging and animation-library calls follow Meshy's published `openapi/v1/rigging` and `openapi/v1/animations` endpoints and are covered only by offline HTTP stubs. No live Meshy request (paid or otherwise) has been made from this repository, so confirm a first run against your account. Meshy-generated GLBs that use glTF extensions are refused by the strict intake validator until a dedicated importer exists. Automatic retargeting between different skeletons is not implemented: merged clips must target the same rig (matching node names). Inspection checks that clips move bones; it cannot judge whether motion or likeness is good, and that is your approval step.
 
 ## Validation and honest release scope
 

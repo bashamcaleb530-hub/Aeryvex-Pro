@@ -40,7 +40,8 @@ def create_server(workspace,port=8765):
                         if folder.is_symlink() or not folder.is_dir() or not ((folder/'bible.json').is_file() or (folder/'checkpoints/0001.json').is_file()):continue
                         try:projects.append(core.status(folder))
                         except (ValueError,OSError,KeyError):continue
-                    return self.respond({'projects':projects,'jobs':manager.list(),'genres':list(registry().values()),'workspace':str(root),'engine':os.environ.get('GODOT_BIN') or shutil.which('godot4') or shutil.which('godot'),'limits':['Template-based local design; arbitrary mechanics remain pending','All primitive visuals are prototypes; no photorealistic character assets included','No arbitrary AAA or 24-hour completion guarantee']})
+                    from .capabilities import registry as capability_registry
+                    return self.respond({'capabilities':capability_registry(),'projects':projects,'jobs':manager.list(),'genres':list(registry().values()),'workspace':str(root),'engine':os.environ.get('GODOT_BIN') or shutil.which('godot4') or shutil.which('godot'),'limits':['Template-based local design; arbitrary mechanics remain pending','All primitive visuals are prototypes; no photorealistic character assets included','No arbitrary AAA or 24-hour completion guarantee']})
                 if route=='/api/project':
                     from .asset_review import inventory
                     p=self.project(q.get('name',''));bible=core.load(p)

@@ -178,6 +178,10 @@ def export_linux(path):
                     # Separate executable process, same fresh user-data location:
                     # persistence must survive process teardown in the native pack.
                     _run('relocated_campaign_restart', scenario + ['--', '--verify-restart'], env, relocated, logs, report['checks'], marker='FACTORY_CAMPAIGN_RESTART_PASS')
+                if (game / 'player_visual.json').is_file():
+                    # The reviewed character must load and animate from the exported pack too.
+                    _run('relocated_character_scenario', [binary, '--headless', '--fixed-fps', '60', '--script', 'res://character_scenario.gd'],
+                         env, relocated, logs, report['checks'], marker='FACTORY_CHARACTER_PASS')
             if evidence != core.evidence_key(path) or core.status(path)['qa'] != 'RUNTIME_CHECKED':
                 raise _Blocked('Source/revision changed during export; rerun QA before exporting.')
             files = {p.name: core.digest(p) for p in [executable, pack]}

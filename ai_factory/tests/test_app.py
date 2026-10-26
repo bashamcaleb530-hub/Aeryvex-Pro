@@ -21,6 +21,7 @@ class AppTests(unittest.TestCase):
         with self.request('/') as r:self.assertIn(b'Aeryvex',r.read())
         with self.request('/api/state') as r:
             data=json.load(r);self.assertEqual(data['projects'],[]);self.assertEqual(data['jobs'],[])
+            self.assertEqual(len(data['capabilities']),10);self.assertIn('NOT_IMPLEMENTED',{c['status'] for c in data['capabilities']})
     def test_csrf_and_host_rejection(self):
         for args in [('/api/jobs',{},False,None),('/api/state',None,True,'evil.example')]:
             with self.assertRaises(urllib.error.HTTPError) as caught:self.request(*args)
@@ -49,13 +50,13 @@ class AppTests(unittest.TestCase):
         p=Path(self.tmp.name)/'Hero';core.new(p,'Hero','A 3D RPG with a town')
         image=png()
         with self.assertRaises(urllib.error.HTTPError) as caught:
-            self.request('/api/character-lock',{'name':'Hero','character':'Orion','image':base64.b64encode(image).decode(),'extension':'.png','confirmed':False})
+            self.request('/api/character-lock',{'name':'Hero','character':'Test Rig','image':base64.b64encode(image).decode(),'extension':'.png','confirmed':False})
         self.assertEqual(caught.exception.code,400)
-        with self.request('/api/character-lock',{'name':'Hero','character':'Orion','image':base64.b64encode(image).decode(),'extension':'.png','confirmed':True}) as r:
+        with self.request('/api/character-lock',{'name':'Hero','character':'Test Rig','image':base64.b64encode(image).decode(),'extension':'.png','confirmed':True}) as r:
             locked=json.load(r);self.assertEqual(locked['status'],'LOCKED')
         with self.request('/api/characters?name=Hero') as r:
             data=json.load(r);character=data['characters'][0]
-            self.assertEqual((character['name'],character['steps']['reference']['status']),('Orion','LOCKED'))
+            self.assertEqual((character['name'],character['steps']['reference']['status']),('Test Rig','LOCKED'))
             self.assertIn(data['display'],['AVAILABLE','UNAVAILABLE'])
         with self.request('/api/character-file?project=Hero&path='+character['reference']['file']) as r:
             self.assertEqual((r.headers['Content-Type'],r.read()),('image/png',image))
@@ -63,5 +64,5 @@ class AppTests(unittest.TestCase):
             with self.assertRaises(urllib.error.HTTPError) as caught:self.request('/api/character-file?project=Hero&path='+path)
             self.assertEqual(caught.exception.code,400)
         with self.assertRaises(urllib.error.HTTPError) as caught:
-            self.request('/api/character-meshy',{'name':'Hero','character':'Orion','action':'generate','authorize_paid':False})
+            self.request('/api/character-meshy',{'name':'Hero','character':'Test Rig','action':'generate','authorize_paid':False})
         self.assertEqual(caught.exception.code,400)

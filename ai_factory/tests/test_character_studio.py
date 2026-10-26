@@ -56,29 +56,29 @@ class ReferenceLockTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p = project(d)
             with self.assertRaisesRegex(ValueError, 'Confirm'):
-                cs.lock_reference(p, 'Orion', png(), '.png', False)
+                cs.lock_reference(p, 'Test Rig', png(), '.png', False)
             with self.assertRaisesRegex(ValueError, 'does not match'):
-                cs.lock_reference(p, 'Orion', b'not an image', '.png', True)
+                cs.lock_reference(p, 'Test Rig', b'not an image', '.png', True)
             with self.assertRaisesRegex(ValueError, 'PNG, JPG or WEBP'):
-                cs.lock_reference(p, 'Orion', png(), '.gif', True)
+                cs.lock_reference(p, 'Test Rig', png(), '.gif', True)
             self.assertEqual(core.load(p)['revision'], 1)
 
     def test_lock_is_exact_permanent_and_survives_design_revisions(self):
         with tempfile.TemporaryDirectory() as d:
             p = project(d)
             data = png()
-            locked = cs.lock_reference(p, 'Orion Valen', data, '.png', True, 'approved lineup crop')
+            locked = cs.lock_reference(p, 'Test Rig', data, '.png', True, 'approved lineup crop')
             self.assertEqual(locked['status'], 'LOCKED')
-            self.assertEqual(cs.reference_file(p, 'Orion Valen').read_bytes(), data)
-            self.assertEqual(cs.lock_reference(p, 'Orion Valen', data, '.png', True)['status'], 'ALREADY_LOCKED')
+            self.assertEqual(cs.reference_file(p, 'Test Rig').read_bytes(), data)
+            self.assertEqual(cs.lock_reference(p, 'Test Rig', data, '.png', True)['status'], 'ALREADY_LOCKED')
             with self.assertRaisesRegex(ValueError, 'never replaced'):
-                cs.lock_reference(p, 'Orion Valen', png(b'\xff\x00\x00'), '.png', True)
+                cs.lock_reference(p, 'Test Rig', png(b'\xff\x00\x00'), '.png', True)
             core.add(p, 'Add lightning and a new area')
-            self.assertEqual(core.load(p)['approved_appearance_references']['Orion Valen'], locked['sha256'])
+            self.assertEqual(core.load(p)['approved_appearance_references']['Test Rig'], locked['sha256'])
             # A changed reference file is refused rather than silently substituted.
-            cs.reference_file(p, 'Orion Valen').write_bytes(png(b'\x00\xff\x00'))
+            cs.reference_file(p, 'Test Rig').write_bytes(png(b'\x00\xff\x00'))
             with self.assertRaisesRegex(ValueError, 'missing or changed'):
-                cs.reference_file(p, 'Orion Valen')
+                cs.reference_file(p, 'Test Rig')
 
 
 class CandidateTests(unittest.TestCase):
@@ -87,13 +87,13 @@ class CandidateTests(unittest.TestCase):
             p = project(d)
             glb = write_humanoid_fixture(Path(d) / 'h.glb')
             with self.assertRaisesRegex(ValueError, 'Lock an approved reference'):
-                cs.add_upload(p, 'Orion', glb.read_bytes(), 'artist delivery')
+                cs.add_upload(p, 'Test Rig', glb.read_bytes(), 'artist delivery')
 
     def test_meshy_requires_paid_authorization_and_sends_exact_reference(self):
         with tempfile.TemporaryDirectory() as d, patch.dict(os.environ, {'MESHY_API_KEY': 'fake'}):
             p = project(d)
             data = png()
-            cs.lock_reference(p, 'Orion', data, '.png', True)
+            cs.lock_reference(p, 'Test Rig', data, '.png', True)
             calls = []
             def fake_open(request, timeout):
                 calls.append(request)
@@ -101,17 +101,17 @@ class CandidateTests(unittest.TestCase):
                 self.assertEqual(base64.b64decode(body['image_url'].split(',', 1)[1]), data)
                 return Response(b'{"result":"task-abc"}')
             with self.assertRaisesRegex(ValueError, 'paid credits'):
-                cs.meshy_generate(p, 'Orion', authorize_paid=False, opener=fake_open)
+                cs.meshy_generate(p, 'Test Rig', authorize_paid=False, opener=fake_open)
             self.assertEqual(calls, [])
-            row = cs.meshy_generate(p, 'Orion', authorize_paid=True, opener=fake_open)
-            self.assertEqual((row['id'], row['status'], row['reference_sha256']), ('meshy-task-abc', 'SUBMITTED', core.digest(cs.reference_file(p, 'Orion'))))
+            row = cs.meshy_generate(p, 'Test Rig', authorize_paid=True, opener=fake_open)
+            self.assertEqual((row['id'], row['status'], row['reference_sha256']), ('meshy-task-abc', 'SUBMITTED', core.digest(cs.reference_file(p, 'Test Rig'))))
             self.assertFalse(row['visual_approved'])
 
     def test_meshy_rigging_download_merges_basic_animations(self):
         with tempfile.TemporaryDirectory() as d, patch.dict(os.environ, {'MESHY_API_KEY': 'fake'}):
             d = Path(d)
             p = project(d)
-            cs.lock_reference(p, 'Orion', png(), '.png', True)
+            cs.lock_reference(p, 'Test Rig', png(), '.png', True)
             rig = write_humanoid_fixture(d / 'rig.glb', clips=[]).read_bytes()
             walking = write_humanoid_fixture(d / 'walk.glb', clips=['Walking']).read_bytes()
             running = write_humanoid_fixture(d / 'run.glb', clips=['Running']).read_bytes()
@@ -135,12 +135,12 @@ class CandidateTests(unittest.TestCase):
                                              'walking_armature_glb_url': 'https://assets.meshy.ai/r/missing.glb',
                                              'running_glb_url': 'https://assets.meshy.ai/r/run.glb'}}}).encode())
                 raise AssertionError('unexpected request ' + url)
-            image = cs.meshy_generate(p, 'Orion', True, opener=fake_open)
+            image = cs.meshy_generate(p, 'Test Rig', True, opener=fake_open)
             with self.assertRaisesRegex(ValueError, 'succeeded'):
-                cs.meshy_rig(p, 'Orion', image['id'], True, opener=fake_open)
-            self.assertEqual(cs.meshy_refresh(p, 'Orion', image['id'], opener=fake_open)['status'], 'SUCCEEDED')
-            rigging = cs.meshy_rig(p, 'Orion', image['id'], True, opener=fake_open)
-            fetched = cs.meshy_fetch(p, 'Orion', rigging['id'], opener=fake_open)
+                cs.meshy_rig(p, 'Test Rig', image['id'], True, opener=fake_open)
+            self.assertEqual(cs.meshy_refresh(p, 'Test Rig', image['id'], opener=fake_open)['status'], 'SUCCEEDED')
+            rigging = cs.meshy_rig(p, 'Test Rig', image['id'], True, opener=fake_open)
+            fetched = cs.meshy_fetch(p, 'Test Rig', rigging['id'], opener=fake_open)
             self.assertEqual(sorted(fetched['animations']), ['Running', 'Walking'])
             self.assertTrue(cs.candidate_file(p, fetched).is_file())
             self.assertEqual(cs.suggest_mapping(fetched['animations']), {'run': 'Running', 'walk': 'Walking'})
@@ -151,9 +151,9 @@ class DecisionTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         self.p = project(self.root)
-        cs.lock_reference(self.p, 'Orion', png(), '.png', True)
+        cs.lock_reference(self.p, 'Test Rig', png(), '.png', True)
         glb = write_humanoid_fixture(self.root / 'h.glb')
-        self.candidate = cs.add_upload(self.p, 'Orion', glb.read_bytes(), 'synthetic test rig')
+        self.candidate = cs.add_upload(self.p, 'Test Rig', glb.read_bytes(), 'synthetic test rig')
         self.mapping = {'idle': 'Idle', 'walk': 'Walking', 'death': 'Death'}
 
     def tearDown(self):
@@ -170,23 +170,23 @@ class DecisionTests(unittest.TestCase):
 
     def test_stage_requires_inspection_and_records_provenance(self):
         with self.assertRaisesRegex(ValueError, 'passing Godot inspection'):
-            cs.stage_candidate(self.p, 'Orion', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)
-        passing_inspection(self.p, 'Orion', self.candidate['glb_sha256'], self.mapping)
+            cs.stage_candidate(self.p, 'Test Rig', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)
+        passing_inspection(self.p, 'Test Rig', self.candidate['glb_sha256'], self.mapping)
         with self.assertRaisesRegex(ValueError, 'intake approval'):
-            cs.stage_candidate(self.p, 'Orion', self.candidate['id'], 'CC0', 'Tester', self.mapping, False)
-        staged = cs.stage_candidate(self.p, 'Orion', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)
+            cs.stage_candidate(self.p, 'Test Rig', self.candidate['id'], 'CC0', 'Tester', self.mapping, False)
+        staged = cs.stage_candidate(self.p, 'Test Rig', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)
         row = core.load(self.p)['assets'][0]
-        self.assertEqual((row['character'], row['visual_review'], row['animation_mapping']), ('Orion', 'PENDING', self.mapping))
+        self.assertEqual((row['character'], row['visual_review'], row['animation_mapping']), ('Test Rig', 'PENDING', self.mapping))
         self.assertIn('approved reference', row['source'])
         self.assertEqual(staged['sha256'], self.candidate['glb_sha256'])
 
     def test_reject_records_reason_and_unbinds(self):
-        passing_inspection(self.p, 'Orion', self.candidate['glb_sha256'], self.mapping)
-        sha = cs.stage_candidate(self.p, 'Orion', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)['sha256']
+        passing_inspection(self.p, 'Test Rig', self.candidate['glb_sha256'], self.mapping)
+        sha = cs.stage_candidate(self.p, 'Test Rig', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)['sha256']
         cs.decide(self.p, sha, True, license_approved=True)
         bible = core.load(self.p)
         bible['assets'][0]['engine_import'] = 'RUNTIME_CHECKED'
-        bible['player_visual_binding'] = {'character': 'Orion', 'sha256': sha}
+        bible['player_visual_binding'] = {'character': 'Test Rig', 'sha256': sha}
         bible['revision'] += 1
         core.save_revision(self.p, bible)
         cs.decide(self.p, sha, False, reason='Face does not match the lineup')
@@ -199,9 +199,9 @@ class DecisionTests(unittest.TestCase):
         self.assertEqual((steps['approval']['status'], steps['binding']['status']), ('REJECTED', 'NOT_BOUND'))
 
     def test_approval_requires_engine_inspection(self):
-        passing_inspection(self.p, 'Orion', self.candidate['glb_sha256'], self.mapping)
-        sha = cs.stage_candidate(self.p, 'Orion', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)['sha256']
-        shutil.rmtree(cs.inspection_dir(self.p, 'Orion', sha))
+        passing_inspection(self.p, 'Test Rig', self.candidate['glb_sha256'], self.mapping)
+        sha = cs.stage_candidate(self.p, 'Test Rig', self.candidate['id'], 'CC0', 'Tester', self.mapping, True)['sha256']
+        shutil.rmtree(cs.inspection_dir(self.p, 'Test Rig', sha))
         with self.assertRaisesRegex(ValueError, 'Inspect this exact GLB'):
             cs.decide(self.p, sha, True, license_approved=True)
 
@@ -212,14 +212,14 @@ class EngineCharacterPipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             p = project(d)
-            cs.lock_reference(p, 'Orion', png(), '.png', True)
-            candidate = cs.add_upload(p, 'Orion', write_humanoid_fixture(d / 'h.glb').read_bytes(), 'synthetic test rig')
-            report = cs.inspect_candidate(p, 'Orion', candidate['id'])
+            cs.lock_reference(p, 'Test Rig', png(), '.png', True)
+            candidate = cs.add_upload(p, 'Test Rig', write_humanoid_fixture(d / 'h.glb').read_bytes(), 'synthetic test rig')
+            report = cs.inspect_candidate(p, 'Test Rig', candidate['id'])
             self.assertEqual((report['engine_import'], report['rig']), ('PASSED', 'SKINNED_SKELETON'))
             self.assertTrue(all(v['status'] == 'ENGINE_VERIFIED' for v in report['mapping_verification'].values()))
             if report['render_status'] == 'RENDERED':
                 self.assertTrue(any(r['kind'] == 'pose' for r in report['renders']))
-            sha = cs.stage_candidate(p, 'Orion', candidate['id'], 'CC0', 'Tester', report['mapping'], True)['sha256']
+            sha = cs.stage_candidate(p, 'Test Rig', candidate['id'], 'CC0', 'Tester', report['mapping'], True)['sha256']
             cs.decide(p, sha, True, license_approved=True)
             cs.bind(p, sha)
             core.build(p)

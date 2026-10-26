@@ -33,7 +33,7 @@ def run():
             page.on('pageerror', lambda e: errors.append(str(e)))
             page.on('console', lambda m: m.type == 'error' and errors.append(m.text))
             page.goto(url)
-            page.fill('#game-name', 'OrionQuest')
+            page.fill('#game-name', 'RigDemo')
             page.fill('#prompt', 'A 3D RPG with 2 missions, a town, 1 enemy and heal')
             page.uncheck('#native')
             page.click('#generate')
@@ -42,7 +42,7 @@ def run():
             # 1. Lock the approved reference (a render of the synthetic rig stands in for artwork).
             reference = files / 'reference.png'
             reference.write_bytes(bytes.fromhex('89504e470d0a1a0a0000000d4948445200000001000000010802000000907753de0000000c4944415408d763f8ffff3f0005fe02fea7d69f3a0000000049454e44ae426082'))
-            page.fill('#lock-name', 'Orion Valen')
+            page.fill('#lock-name', 'Test Rig')
             page.set_input_files('#lock-image', str(reference))
             page.check('#lock-confirm')
             page.click('#lock-form button[type=submit]')
@@ -96,7 +96,7 @@ def run():
             overflow = page.evaluate('document.documentElement.scrollWidth - window.innerWidth')
             page.locator('#character-studio').screenshot(path=str(evidence / 'studio-mobile.png'))
             browser.close()
-        project = root / 'OrionQuest'
+        project = root / 'RigDemo'
         qa = json.loads((project / 'qa.json').read_text())
         bible = core.load(project)
         character = next(c for c in qa['checks'] if c['name'] == 'character')

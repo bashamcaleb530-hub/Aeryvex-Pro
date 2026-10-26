@@ -18,6 +18,15 @@ def main(argv=None):
         if command=='asset-review':
             p.add_argument('--sha256',required=True)
             for flag in ['license','visual','prototype']:p.add_argument('--approve-'+flag,action='store_true')
+    p=commands.add_parser('character',help='Character Studio: reference lock, candidates, inspection, approval, binding')
+    p.add_argument('action',choices=['status','lock','upload','meshy-generate','meshy-refresh','meshy-fetch','meshy-rig','inspect','stage','approve','reject','mapping','bind','unbind','preview'])
+    p.add_argument('--project',required=True);p.add_argument('--character');p.add_argument('--candidate');p.add_argument('--sha256')
+    p.add_argument('--image');p.add_argument('--file');p.add_argument('--source');p.add_argument('--note',default='')
+    p.add_argument('--license');p.add_argument('--author');p.add_argument('--mapping',help='JSON object: state -> clip')
+    p.add_argument('--reason',default='');p.add_argument('--height',type=float,default=1.8);p.add_argument('--yaw',type=int,default=0)
+    p.add_argument('--confirm',action='store_true',help='The --image is the exact approved appearance')
+    p.add_argument('--approve-intake',action='store_true');p.add_argument('--approve-license',action='store_true')
+    p.add_argument('--authorize-paid',action='store_true',help='Allow Meshy requests that may spend credits')
     p=commands.add_parser('ui');p.add_argument('--port',type=int,default=8765)
     p=commands.add_parser('jobs');p.add_argument('--id');p.add_argument('--resume',action='store_true');p.add_argument('--cancel',action='store_true')
     args=parser.parse_args(argv)
@@ -39,6 +48,8 @@ def main(argv=None):
                 result=manager.resume(args.id) if args.resume else manager.cancel(args.id)
             else:result=manager.get(args.id) if args.id else manager.list()
             print(json.dumps(result,indent=2));return 0
+        if args.command=='character':
+            print(json.dumps(character_command(core.project_path(root,args.project),args),indent=2));return 0
         name=args.name if args.command in ['new','ship'] else args.project
         path=core.project_path(root,name)
         if args.command=='ship':
@@ -69,3 +80,23 @@ def main(argv=None):
         print(json.dumps(result,indent=2));return 0
     except (ValueError,OSError,KeyError,json.JSONDecodeError) as error:
         print(json.dumps({'status':'FAILED','error':str(error)}),file=sys.stderr);return 1
+
+
+def character_command(path,args):
+    from . import character_studio as cs
+    a=args.action;mapping=json.loads(args.mapping) if args.mapping else None
+    if a=='status':return cs.overview(path)
+    if a=='lock':image=Path(args.image);return cs.lock_reference(path,args.character,image.read_bytes(),image.suffix,args.confirm,args.note)
+    if a=='upload':return cs.add_upload(path,args.character,Path(args.file).read_bytes(),args.source)
+    if a=='meshy-generate':return cs.meshy_generate(path,args.character,args.authorize_paid)
+    if a=='meshy-refresh':return cs.meshy_refresh(path,args.character,args.candidate)
+    if a=='meshy-fetch':return cs.meshy_fetch(path,args.character,args.candidate)
+    if a=='meshy-rig':return cs.meshy_rig(path,args.character,args.candidate,args.authorize_paid)
+    if a=='inspect':return cs.inspect_candidate(path,args.character,args.candidate,mapping)
+    if a=='stage':return cs.stage_candidate(path,args.character,args.candidate,args.license,args.author,mapping,args.approve_intake)
+    if a in ['approve','reject']:return {'revision':cs.decide(path,args.sha256,a=='approve',args.approve_license,args.reason)['revision']}
+    if a=='mapping':return {'revision':cs.set_mapping(path,args.sha256,mapping)['revision']}
+    if a=='bind':return cs.bind(path,args.sha256,args.height,args.yaw)
+    if a=='unbind':return {'revision':cs.unbind(path)['revision']}
+    from .preview import capture
+    return {k:v for k,v in capture(path).items() if k!='log_tail'}
