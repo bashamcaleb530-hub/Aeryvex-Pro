@@ -15,7 +15,7 @@ class ShipWorkflowTests(unittest.TestCase):
             out=io.StringIO()
             with (patch("ai_factory.core.new",return_value={"requirements":[{"prompt":"3D RPG","resolution":"PARTIAL_TEMPLATE_SUPPORT"}]}) as create,
                   patch("ai_factory.core.build",return_value={"status":"IMPLEMENTED"}) as build,
-                  patch("ai_factory.core.test",side_effect=qa) as test,
+                  patch("ai_factory.core.test",**({"side_effect":qa} if isinstance(qa,Exception) else {"return_value":qa})) as test,
                   contextlib.redirect_stdout(out)):
                 code=main(["--workspace",root,"ship","--name","Demo","--prompt","3D RPG"])
                 create.assert_called_once()
