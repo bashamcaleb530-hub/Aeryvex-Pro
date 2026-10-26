@@ -19,6 +19,9 @@ def install_approved_visual(project, game, bible):
     name, sha = binding.get("character"), binding.get("sha256")
     if not isinstance(name, str) or not isinstance(sha, str):
         raise ValueError("Invalid player visual binding")
+    height, yaw = binding.get("target_height", 1.8), binding.get("yaw_offset_degrees", 0)
+    if type(height) not in (int, float) or not 0.5 <= height <= 4 or yaw not in (0, 90, 180, 270):
+        raise ValueError("Invalid player visual fit")
     locked = bible.get("approved_appearance_references", {}).get(name)
     rows = [a for a in bible.get("assets", []) if a.get("character") == name and a.get("sha256") == sha]
     if not locked or len(rows) != 1:
@@ -40,6 +43,8 @@ def install_approved_visual(project, game, bible):
     (Path(game) / "player_visual.json").write_text(json.dumps({
         "character": name, "sha256": sha, "reference_sha256": locked,
         "animation_mapping": row.get("animation_mapping", {}),
+        "target_height": binding.get("target_height", 1.8),
+        "yaw_offset_degrees": binding.get("yaw_offset_degrees", 0),
         "animation_binding": "PENDING_REVIEW"
     }, indent=2) + "\n")
     return True

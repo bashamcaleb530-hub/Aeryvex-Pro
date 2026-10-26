@@ -93,6 +93,7 @@ func interact() -> bool:
 			world.player.health = 100
 			world.player.energy = 100
 			feedback("Mission complete · +100 XP · checkpoint saved")
+			world.player.play_cinematic("cinematic_victory")
 			checkpoint = snapshot()
 		save_game()
 		return true

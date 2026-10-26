@@ -1,4 +1,4 @@
-Godot command: /workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64 --headless --path <isolated temporary project> --script res://test.gd
+Godot command: /opt/godot/Godot_v4.2.2-stable_linux.x86_64 --headless --path <isolated temporary project> --script res://test.gd
 Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org
  
 ASSET_IMPORT_PASS

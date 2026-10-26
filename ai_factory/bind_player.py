@@ -11,7 +11,7 @@ from .asset_review import _managed_guard, _asset_file, _save
 from .godot_candidate_check import check_candidate
 
 
-def bind(project, character, sha256, godot_bin=None):
+def bind(project, character, sha256, godot_bin=None, target_height=1.8, yaw_offset_degrees=0):
     project = Path(project).resolve()
     _managed_guard(project)
     bible = core.load(project)
@@ -22,6 +22,10 @@ def bind(project, character, sha256, godot_bin=None):
     if len(matches) != 1:
         raise ValueError("Select one staged asset with the exact character and SHA-256")
     row = matches[0]
+    if type(target_height) not in (int, float) or not 0.5 <= target_height <= 4:
+        raise ValueError("Target height must be 0.5..4 metres")
+    if yaw_offset_degrees not in (0, 90, 180, 270):
+        raise ValueError("Yaw offset must be 0, 90, 180 or 270 degrees")
     locked = bible.get("approved_appearance_references", {}).get(character)
     if locked is None:
         raise ValueError("Missing approved appearance reference")
@@ -36,7 +40,8 @@ def bind(project, character, sha256, godot_bin=None):
     if report["engine_import"] != "PASSED":
         raise ValueError("Real Godot import required: " + report["status"])
     row["engine_import"] = "RUNTIME_CHECKED"
-    bible["player_visual_binding"] = {"character": character, "sha256": sha256}
+    bible["player_visual_binding"] = {"character": character, "sha256": sha256,
+                                      "target_height": target_height, "yaw_offset_degrees": yaw_offset_degrees}
     _save(project, bible, "Bind reviewed player visual (requires rebuild and QA)", sha256)
     return {"revision": bible["revision"], "character": character, "sha256": sha256,
             "status": "SELECTED_REBUILD_REQUIRED", "engine_import": "RUNTIME_CHECKED",

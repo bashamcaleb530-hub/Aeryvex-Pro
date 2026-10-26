@@ -20,15 +20,26 @@ class ReviewedAnimationTests(unittest.TestCase):
         for required in ('ResourceLoader.exists("res://player_visual.glb")',
                          'res://player_visual.json', 'character_animator.has_animation(clip)',
                          'update_character_animation("idle")',
-                         'update_character_animation("attack")',
-                         'update_character_animation("run" if running else "walk")'):
+                         'update_character_animation(choose_animation_state())',
+                         'update_character_animation("death")'):
+            self.assertIn(required, source)
+
+    def test_state_machine_covers_jump_damage_death_and_transitions(self):
+        source = ACTOR.read_text()
+        self.assertIn('const ANIMATION_STATES := ["idle", "walk", "run", "jump", "fall", "land", "attack", "hurt", "death"]', source)
+        for required in ('hurt_animation_time = clip_length("hurt"', 'candidates.append("death")',
+                         'candidates.append("jump" if velocity.y > 0.0 else "fall")',
+                         'character_animator.play(clip, ANIMATION_BLEND.get(state, 0.15))',
+                         'Animation.LOOP_LINEAR if state in LOOPING_STATES else Animation.LOOP_NONE',
+                         'func play_cinematic(state: String) -> bool:'):
             self.assertIn(required, source)
 
     def test_no_arbitrary_user_animation_path_execution(self):
         source = ACTOR.read_text()
-        self.assertIn('for state in ["idle", "walk", "run", "attack"]:', source)
+        # Only whitelisted state names (or cinematic_*) select clips; clips must exist.
+        self.assertIn('if not (state in ANIMATION_STATES or str(state).begins_with("cinematic_")):', source)
         self.assertIn('find_animation_player(visual)', source)
-
+        self.assertNotIn('load(clip', source)
 
 if __name__ == "__main__":
     unittest.main()

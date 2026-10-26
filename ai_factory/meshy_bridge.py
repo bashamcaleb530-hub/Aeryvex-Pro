@@ -75,19 +75,14 @@ def status(task_id, *, opener=None):
             "visual_approved": False}
 
 
-def download(task_id, output, *, opener=None):
-    if not isinstance(task_id, str) or not TASK_ID.fullmatch(task_id):
-        raise ValueError("Invalid Meshy task ID")
-    result = _request(API + "/" + task_id, opener=opener)
-    if result.get("status") != "SUCCEEDED":
-        raise ValueError("Meshy task has not succeeded")
-    url = (result.get("model_urls") or {}).get("glb")
+def _fetch_glb(url, destination, opener=None):
+    """Download one Meshy-hosted GLB to a NEW path; validate before publishing."""
     if not isinstance(url, str):
         raise ValueError("Meshy returned no GLB download URL")
     parsed = urllib.parse.urlsplit(url)
     if parsed.scheme != "https" or parsed.hostname != "assets.meshy.ai" or parsed.username or parsed.password:
         raise ValueError("Untrusted GLB download host")
-    destination = Path(output)
+    destination = Path(destination)
     if destination.suffix.lower() != ".glb" or destination.exists() or destination.is_symlink():
         raise ValueError("Use a new .glb output file; never overwrite existing assets")
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -113,12 +108,98 @@ def download(task_id, output, *, opener=None):
                 if remaining == 0:
                     raise ValueError("GLB exceeds factory 128 MiB limit")
         from .assets import inspect_glb
-        facts = inspect_glb(temporary if temporary.endswith(".glb") else Path(temporary).with_suffix(".glb"))
+        facts = inspect_glb(temporary)
         os.link(temporary, destination)  # atomic no-overwrite publication
-        return {"task_id": task_id, "output": str(destination), "facts": facts,
-                "status": "DOWNLOADED_PENDING_REVIEW", "visual_approved": False}
+        return facts
     finally:
         Path(temporary).unlink(missing_ok=True)
+
+
+def download(task_id, output, *, opener=None):
+    if not isinstance(task_id, str) or not TASK_ID.fullmatch(task_id):
+        raise ValueError("Invalid Meshy task ID")
+    result = _request(API + "/" + task_id, opener=opener)
+    if result.get("status") != "SUCCEEDED":
+        raise ValueError("Meshy task has not succeeded")
+    facts = _fetch_glb((result.get("model_urls") or {}).get("glb"), output, opener)
+    return {"task_id": task_id, "output": str(output), "facts": facts,
+            "status": "DOWNLOADED_PENDING_REVIEW", "visual_approved": False}
+
+
+# Auto-rigging and animation library. These follow Meshy's published
+# openapi/v1 rigging and animations endpoints. They have offline HTTP-stub
+# coverage only; no live paid request has been made from this repository.
+RIGGING_API = "https://api.meshy.ai/openapi/v1/rigging"
+ANIMATION_API = "https://api.meshy.ai/openapi/v1/animations"
+
+
+def submit_rigging(input_task_id, *, height_meters=1.7, opener=None):
+    if not isinstance(input_task_id, str) or not TASK_ID.fullmatch(input_task_id):
+        raise ValueError("Invalid Meshy task ID")
+    if type(height_meters) not in (int, float) or not 0.3 <= height_meters <= 5:
+        raise ValueError("Character height must be 0.3..5 metres")
+    result = _request(RIGGING_API, payload={"input_task_id": input_task_id, "height_meters": height_meters}, opener=opener)
+    task_id = result.get("result")
+    if not isinstance(task_id, str) or not TASK_ID.fullmatch(task_id):
+        raise ValueError("Meshy did not return a valid rigging task ID")
+    return {"task_id": task_id, "status": "SUBMITTED", "kind": "rigging", "visual_approved": False}
+
+
+def submit_animation(rig_task_id, action_id, *, opener=None):
+    if not isinstance(rig_task_id, str) or not TASK_ID.fullmatch(rig_task_id):
+        raise ValueError("Invalid Meshy rigging task ID")
+    if type(action_id) is not int or not 0 <= action_id <= 100000:
+        raise ValueError("Animation action_id must be an integer from Meshy's animation library")
+    result = _request(ANIMATION_API, payload={"rig_task_id": rig_task_id, "action_id": action_id}, opener=opener)
+    task_id = result.get("result")
+    if not isinstance(task_id, str) or not TASK_ID.fullmatch(task_id):
+        raise ValueError("Meshy did not return a valid animation task ID")
+    return {"task_id": task_id, "status": "SUBMITTED", "kind": "animation", "visual_approved": False}
+
+
+def _glb_urls(value, prefix=""):
+    """Every *_glb_url string in a nested Meshy result, keyed by dotted path."""
+    found = {}
+    if isinstance(value, dict):
+        for key, child in value.items():
+            path = prefix + key
+            if isinstance(child, str) and key.endswith("glb_url"):
+                found[path] = child
+            elif isinstance(child, dict):
+                found.update(_glb_urls(child, path + "."))
+    return found
+
+
+def task_status(kind, task_id, *, opener=None):
+    if kind not in ("image_to_3d", "rigging", "animation"):
+        raise ValueError("Unknown Meshy task kind")
+    if not isinstance(task_id, str) or not TASK_ID.fullmatch(task_id):
+        raise ValueError("Invalid Meshy task ID")
+    url = {"image_to_3d": API, "rigging": RIGGING_API, "animation": ANIMATION_API}[kind] + "/" + task_id
+    result = _request(url, opener=opener)
+    urls = _glb_urls(result.get("model_urls") or {}) if kind == "image_to_3d" else _glb_urls(result.get("result") or {})
+    if kind == "image_to_3d" and isinstance((result.get("model_urls") or {}).get("glb"), str):
+        urls["glb"] = result["model_urls"]["glb"]
+    return {"task_id": task_id, "kind": kind, "status": result.get("status", "UNKNOWN"),
+            "progress": result.get("progress"), "glb_urls": urls, "visual_approved": False}
+
+
+def download_task_glbs(kind, task_id, output_dir, *, opener=None):
+    """Download every GLB of a succeeded task (rig + basic animations) into NEW files."""
+    info = task_status(kind, task_id, opener=opener)
+    if info["status"] != "SUCCEEDED":
+        raise ValueError("Meshy task has not succeeded")
+    # Armature-only files carry no skinned mesh; the full-character variants suffice.
+    urls = {k: v for k, v in info["glb_urls"].items() if "armature" not in k}
+    if not urls:
+        raise ValueError("Meshy returned no GLB download URL")
+    output_dir = Path(output_dir)
+    files = {}
+    for key, url in sorted(urls.items()):
+        name = re.sub(r"[^A-Za-z0-9_]+", "_", key).strip("_") + ".glb"
+        files[key] = {"file": str(output_dir / name), "facts": _fetch_glb(url, output_dir / name, opener)}
+    return {"task_id": task_id, "kind": kind, "files": files, "status": "DOWNLOADED_PENDING_REVIEW",
+            "visual_approved": False}
 
 
 def main(argv=None):

@@ -150,6 +150,8 @@ def test(path):
         commands.extend([
             ('campaign',[engine,'--headless','--fixed-fps','60','--path',str(game),'--script','res://campaign_scenario.gd']),
             ('campaign_restart',[engine,'--headless','--fixed-fps','60','--path',str(game),'--script','res://campaign_scenario.gd','--','--verify-restart'])])
+    if (game/'player_visual.json').is_file():
+        commands.append(('character',[engine,'--headless','--fixed-fps','60','--path',str(game),'--script','res://character_scenario.gd']))
     try:
         for label,cmd in commands:
             result=subprocess.run(cmd,env=env,capture_output=True,text=True,timeout=90)
@@ -159,6 +161,7 @@ def test(path):
             if label=='scenario':passed=passed and 'FACTORY_SCENARIO_PASS' in output.splitlines()
             if label=='campaign':passed=passed and 'FACTORY_CAMPAIGN_PASS' in output.splitlines()
             if label=='campaign_restart':passed=passed and 'FACTORY_CAMPAIGN_RESTART_PASS' in output.splitlines()
+            if label=='character':passed=passed and 'FACTORY_CHARACTER_PASS' in output.splitlines()
             checks.append({'name':label,'command':cmd,'exit_code':result.returncode,'passed':passed,'log':output})
             if not passed:break
     except (OSError,subprocess.TimeoutExpired) as error:checks.append({'name':'runner','passed':False,'log':str(error)})

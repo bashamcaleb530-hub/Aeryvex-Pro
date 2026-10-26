@@ -46,6 +46,8 @@ func _ready() -> void:
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color.WHITE
 	env.ambient_light_energy = 0.6
+	# PBR character GLBs (metallic surfaces) need something to reflect.
+	env.reflected_light_source = Environment.REFLECTION_SOURCE_BG
 	environment.environment = env
 	add_child(environment)
 	var sun := DirectionalLight3D.new()
