@@ -31,7 +31,7 @@ def create_server(workspace,port=8765):
             try:
                 route,q=self.query()
                 if route=='/':return self.respond((UI/'index.html').read_bytes().replace(b'FACTORY_TOKEN',self.server.token.encode()),kind='text/html; charset=utf-8')
-                if route in ['/app.css','/app.js']:
+                if route in ['/app.css','/app.js','/studio.js']:
                     return self.respond((UI/route[1:]).read_bytes(),kind='text/css' if route.endswith('css') else 'application/javascript')
                 if route=='/api/state':
                     from .genres import registry
@@ -48,6 +48,16 @@ def create_server(workspace,port=8765):
                     if native and native.get('evidence')!=core.evidence_key(p):native=dict(native,status='PENDING_OR_STALE')
                     return self.respond({'bible':bible,'status':core.status(p),'checkpoints':[int(f.stem) for f in sorted((p/'checkpoints').glob('*.json'))],'assets':inventory(p)['assets'],'native':native,'qa':json.loads((p/'qa.json').read_text()) if (p/'qa.json').exists() else None,'source_download':(p/'dist'/(bible['name']+'.zip')).exists() and core.status(p)['qa']=='RUNTIME_CHECKED'})
                 if route=='/api/job':return self.respond({'job':manager.get(q.get('id','')),'log':manager.log(q.get('id',''))})
+                if route=='/api/characters':
+                    from . import character_studio, preview
+                    p=self.project(q.get('name',''))
+                    return self.respond(dict(character_studio.overview(p),preview=preview.latest(p),meshy_configured=bool(os.environ.get('MESHY_API_KEY')),display=character_studio_display()))
+                if route=='/api/character-file':
+                    p=self.project(q.get('project','')).resolve();target=(p/q.get('path','')).resolve()
+                    allowed=[p/'references',p/'characters',p/'previews']
+                    kinds={'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp'}
+                    if not any(a.resolve() in target.parents for a in allowed) or target.suffix.lower() not in kinds or not target.is_file() or target.is_symlink():raise ValueError('File not available')
+                    return self.respond(target.read_bytes(),kind=kinds[target.suffix.lower()])
                 if route=='/download':
                     p=self.project(q.get('project',''))
                     if core.status(p)['qa']!='RUNTIME_CHECKED':raise ValueError('Artifact QA missing or stale; rebuild first')
@@ -133,6 +143,8 @@ def create_server(workspace,port=8765):
                     destination=root/'.factory-candidates'/(task_id+'.glb')
                     if destination.is_symlink() or not destination.is_file():raise ValueError('Download candidate first')
                     return self.respond(check_candidate(destination))
+                if route.startswith('/api/character-') or route=='/api/preview':
+                    return self.respond(character_action(route,data),200)
                 if route=='/api/asset-review':
                     from .asset_review import review
                     p=self.project(data['name'])
@@ -140,8 +152,43 @@ def create_server(workspace,port=8765):
                     return self.respond(review(p,data['sha256'],license_approved=data.get('license_approved'),visual_approved=data.get('visual_approved'),prototype_approved=data.get('prototype_approved')))
                 return self.respond({'error':'Not found'},404)
             except (ValueError,TypeError,OSError,KeyError,json.JSONDecodeError) as e:self.respond({'error':str(e)},400)
+    def character_action(route,data):
+        from . import character_studio as cs, preview
+        p=core.project_path(root,data.get('name',''));core.load(p)
+        if any(j['name']==data.get('name') and j['status'] in ACTIVE for j in manager.list()):raise ValueError('Wait for the active job')
+        def blob(field,limit):
+            encoded=data.get(field)
+            if not isinstance(encoded,str) or len(encoded)>limit*4//3+8:raise ValueError('File missing or too large')
+            return base64.b64decode(encoded,validate=True)
+        character=data.get('character')
+        if route=='/api/character-lock':return cs.lock_reference(p,character,blob('image',20*1024*1024),data.get('extension'),data.get('confirmed'),data.get('note',''))
+        if route=='/api/character-upload':return cs.add_upload(p,character,blob('data',16*1024*1024),data.get('source_label'))
+        if route=='/api/character-merge':return cs.merge_candidate_animations(p,character,data.get('candidate_id'),blob('data',16*1024*1024),data.get('rename',{}),data.get('source_label'))
+        if route=='/api/character-meshy':
+            action=data.get('action')
+            if action=='generate':return cs.meshy_generate(p,character,data.get('authorize_paid'))
+            if action=='rig':return cs.meshy_rig(p,character,data.get('candidate_id'),data.get('authorize_paid'),data.get('height_meters',1.7))
+            if action=='refresh':return cs.meshy_refresh(p,character,data.get('candidate_id'))
+            if action=='fetch':return cs.meshy_fetch(p,character,data.get('candidate_id'))
+            raise ValueError('Unknown Meshy action')
+        if route=='/api/character-inspect':return cs.inspect_candidate(p,character,data.get('candidate_id'),data.get('mapping'))
+        if route=='/api/character-stage':return cs.stage_candidate(p,character,data.get('candidate_id'),data.get('license'),data.get('author'),data.get('mapping'),data.get('intake_approved'))
+        if route=='/api/character-decide':
+            bible=cs.decide(p,data.get('sha256'),data.get('approve'),data.get('license_approved') is True,data.get('reason',''))
+            return {'revision':bible['revision']}
+        if route=='/api/character-mapping':return {'revision':cs.set_mapping(p,data.get('sha256'),data.get('mapping'))['revision']}
+        if route=='/api/character-bind':return cs.bind(p,data.get('sha256'),data.get('target_height',1.8),data.get('yaw_offset_degrees',0))
+        if route=='/api/character-unbind':return {'revision':cs.unbind(p)['revision']}
+        if route=='/api/preview':
+            report=preview.capture(p)
+            return {k:v for k,v in report.items() if k!='log_tail'}
+        raise ValueError('Not found')
     server=ThreadingHTTPServer(('127.0.0.1',port),Handler);server.token=secrets.token_urlsafe(32);server.manager=manager
     return server
+
+def character_studio_display():
+    from .character_inspect import display_command
+    return 'AVAILABLE' if display_command() is not None else 'UNAVAILABLE'
 
 def serve(workspace,port=8765):
     server=create_server(workspace,port)

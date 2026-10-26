@@ -264,6 +264,7 @@ def inspect_character(glb, output, mapping=None, godot_bin=None, render=True, ti
                       status='INSPECTED_PENDING_HUMAN_REVIEW' if ok else 'FAILED_ENGINE_INSPECTION',
                       engine_import='PASSED' if ok else 'FAILED',
                       rig='SKINNED_SKELETON' if rigged else 'STATIC_OR_UNSKINNED',
+                      bones=engine.get('bones'), height=(engine.get('bounds') or {}).get('size', [None, None])[1],
                       clips=engine.get('clips', []), mapping_verification=verify_mapping(engine, mapping),
                       renders=renders,
                       render_status='RENDERED' if renders else ('BLOCKED_NO_DISPLAY' if prefix is None else 'FAILED'),

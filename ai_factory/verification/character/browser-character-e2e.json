@@ -1,0 +1,54 @@
+{
+  "qa": "RUNTIME_CHECKED",
+  "checks": [
+    [
+      "version",
+      true
+    ],
+    [
+      "import",
+      true
+    ],
+    [
+      "startup",
+      true
+    ],
+    [
+      "scenario",
+      true
+    ],
+    [
+      "campaign",
+      true
+    ],
+    [
+      "campaign_restart",
+      true
+    ],
+    [
+      "character",
+      true
+    ]
+  ],
+  "character_report": "CHARACTER_REPORT: {\"fit\":{\"height\":1.8,\"scale\":1.016949163501,\"source_height\":1.76999998092651},\"mapped_states\":[\"idle\",\"walk\",\"run\",\"jump\",\"attack\",\"hurt\",\"death\",\"cinematic_bow\"],\"transitions\":[\"idle\",\"fall\",\"idle\",\"walk\",\"run\",\"idle\",\"jump\",\"fall\",\"idle\",\"attack\",\"idle\",\"hurt\",\"idle\",\"cinematic_bow\",\"idle\",\"death\",\"idle\"]}",
+  "assets": [
+    [
+      "e0160c149d53",
+      "REJECTED",
+      "Missing jump, attack, hurt and death clips"
+    ],
+    [
+      "8bff7ad8ec96",
+      "APPROVED",
+      null
+    ]
+  ],
+  "binding": {
+    "character": "Orion Valen",
+    "sha256": "8bff7ad8ec96782c31ffec769588c2744bf3d48d676e8702362dbc595e0891ac",
+    "target_height": 1.8,
+    "yaw_offset_degrees": 0
+  },
+  "mobile_overflow_px": 0,
+  "browser_errors": []
+}

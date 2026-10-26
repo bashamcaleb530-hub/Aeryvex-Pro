@@ -484,6 +484,9 @@ def overview(project):
         except ValueError:
             reference_ok = False
         candidates = list_candidates(project, name) if CHARACTER.fullmatch(name) else []
+        for row in candidates:
+            report = latest_inspection(project, name, row['glb_sha256']) if row.get('glb_sha256') else None
+            row['report'] = summarize(report) if report else None
         staged = []
         for row in bible.get('assets', []):
             if row.get('character') != name:

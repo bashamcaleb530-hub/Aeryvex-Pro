@@ -43,3 +43,25 @@ class AppTests(unittest.TestCase):
         artifact.write_bytes(b'corrupted archive')
         with self.assertRaises(urllib.error.HTTPError) as caught:self.request('/download?project=Demo&kind=source')
         self.assertEqual(caught.exception.code,400)
+    def test_character_studio_routes_lock_reference_and_serve_only_project_images(self):
+        import base64
+        from test_character_studio import png
+        p=Path(self.tmp.name)/'Hero';core.new(p,'Hero','A 3D RPG with a town')
+        image=png()
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            self.request('/api/character-lock',{'name':'Hero','character':'Orion','image':base64.b64encode(image).decode(),'extension':'.png','confirmed':False})
+        self.assertEqual(caught.exception.code,400)
+        with self.request('/api/character-lock',{'name':'Hero','character':'Orion','image':base64.b64encode(image).decode(),'extension':'.png','confirmed':True}) as r:
+            locked=json.load(r);self.assertEqual(locked['status'],'LOCKED')
+        with self.request('/api/characters?name=Hero') as r:
+            data=json.load(r);character=data['characters'][0]
+            self.assertEqual((character['name'],character['steps']['reference']['status']),('Orion','LOCKED'))
+            self.assertIn(data['display'],['AVAILABLE','UNAVAILABLE'])
+        with self.request('/api/character-file?project=Hero&path='+character['reference']['file']) as r:
+            self.assertEqual((r.headers['Content-Type'],r.read()),('image/png',image))
+        for path in ['bible.json','../../etc/passwd','references/../bible.json']:
+            with self.assertRaises(urllib.error.HTTPError) as caught:self.request('/api/character-file?project=Hero&path='+path)
+            self.assertEqual(caught.exception.code,400)
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            self.request('/api/character-meshy',{'name':'Hero','character':'Orion','action':'generate','authorize_paid':False})
+        self.assertEqual(caught.exception.code,400)
