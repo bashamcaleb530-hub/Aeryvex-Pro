@@ -21,4 +21,26 @@ $('play').onclick=safe(async()=>{const r=await api('/api/play',{name:selected});
 async function assetData(){const file=$('asset-file').files[0];if(!file)throw new Error('Choose an embedded GLB.');if(file.size>16*1024*1024)throw new Error('Use the CLI for GLB files larger than 16 MB.');const bytes=new Uint8Array(await file.arrayBuffer());let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return{name:selected,data:btoa(binary),metadata:{approved:$('asset-approved').checked,license:$('asset-license').value,author:$('asset-author').value,source:$('asset-source').value,reference_sha256:$('asset-reference').value}};}
 $('asset-form').onsubmit=safe(async()=>{$('asset-result').textContent=JSON.stringify(await api('/api/asset-inspect',await assetData()),null,2);});
 $('stage-asset').onclick=safe(async()=>{if(!$('asset-approved').checked)throw new Error('Approve the file for intake before staging it.');$('asset-result').textContent=JSON.stringify(await api('/api/asset-stage',await assetData()),null,2);lastSignature='';await refresh();});
+async function meshyAction(route,payload){
+ const output=$('meshy-result');
+ output.textContent='Requesting '+route+'…';
+ try { const result=await api('/api/meshy-'+route,payload);
+   if(result.task_id)$('meshy-task').value=result.task_id;
+   output.textContent=JSON.stringify(result,null,2);
+ } catch(error){ output.textContent='Error: '+error.message; }
+}
+$('meshy-submit').onclick=safe(async()=>{
+ const file=$('meshy-image').files[0];
+ if(!file)throw new Error('Choose your reference image first.');
+ const extension='.'+file.name.split('.').pop().toLowerCase();
+ if(!['.png','.jpg','.jpeg','.webp'].includes(extension)||file.size>8*1024*1024)throw new Error('Choose PNG/JPG/WEBP no larger than 8 MiB.');
+ const bytes=new Uint8Array(await file.arrayBuffer());let binary='';
+ for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+ await meshyAction('submit',{image:btoa(binary),extension});
+});
+for(const action of ['status','download','verify'])$('meshy-'+action).onclick=safe(async()=>{
+ const task_id=$('meshy-task').value.trim();
+ if(!/^[A-Za-z0-9-]{1,100}$/.test(task_id))throw new Error('Enter a valid Meshy task ID.');
+ await meshyAction(action,{task_id});
+});
 refresh();setInterval(refresh,1200);
