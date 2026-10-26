@@ -111,6 +111,77 @@ Metadata requires `approved: true`, `license`, `author`, `source`, and a 64-char
 
 Data-only JSON manifests in `ai_factory/genres/` enumerate the two existing backend contracts. This is a safe registry, not an arbitrary code-loading plugin marketplace; new backend implementation is still required for other genres.
 
+
+## Codex + Meshy + Godot production bridge (opt-in)
+
+Codex can edit this repository, run the factory tests, and submit reviewable commits. Godot 4 is the runtime and exporter. Meshy is used **only** to create *candidate* 3D assets from your own local approved-reference images. The Meshy bridge is a Python standard-library command-line module; it is not yet wired into the factory UI, character binding, animation retargeting or gameplay scenes.
+
+Create a Meshy API key through the [Meshy developer portal](https://docs.meshy.ai/en/api/quick-start). Meshy API usage can require paid credits. Do not paste or commit the key; store it in the local shell environment. Uploading an image sends its bytes to Meshy, so submit only images you are authorized to process.
+
+```sh
+export MESHY_API_KEY='your-key-locally-only'
+python3 -m ai_factory.meshy_bridge submit --image /path/to/approved-reference.png
+# Save the returned task_id, then check until SUCCEEDED:
+python3 -m ai_factory.meshy_bridge status TASK_ID
+python3 -m ai_factory.meshy_bridge download TASK_ID --output /path/to/new-candidate.glb
+# Human-review candidate geometry, likeness, topology, textures, rig and license.
+# Prepare provenance.json with your actual license, author, source,
+# approved reference SHA-256, and explicit intake approval.
+./factory asset-stage --project MyGame --file /path/to/new-candidate.glb --metadata provenance.json
+./factory assets --project MyGame
+```
+
+Asset staging requires an existing game project and your **explicit** intake approval. A character-specific stage requires a matching locked appearance-reference SHA-256, supplied with `--character NAME`; this does not certify that Meshy matched the reference. Separate license, visual and engine checks must follow. A returned GLB is never auto-installed in a game or labeled approved. Use `GODOT_BIN=/path/to/godot python3 -m unittest discover -s ai_factory/tests -v` to run the complete suite, or `python3 -m unittest ai_factory.tests.test_meshy_bridge -v` for isolated bridge checks. Live paid Meshy requests were not run in this change.
+
+After downloading a Meshy candidate, run the **isolated Godot engine-import check** before staging it:
+
+```sh
+python3 -m ai_factory.godot_candidate_check --glb /path/to/new-candidate.glb
+# If Godot is not on PATH:
+python3 -m ai_factory.godot_candidate_check --glb /path/to/new-candidate.glb --godot-bin /path/to/godot
+```
+
+This creates and deletes a temporary preview project, invokes Godot 4 in headless editor mode and reports whether the engine imported the candidate. It does **not** validate animation retargeting, gameplay character binding, licensing or faithful appearance. Results remain pending human review. Isolated tests: `python3 -m unittest ai_factory.tests.test_godot_candidate_check -v`.
+
+## Reviewed character pack export
+
+After staging a GLB and explicitly approving both license and visual review, export a **standalone** Godot character project without modifying the existing generated game:
+
+```sh
+python3 -m ai_factory.character_pack_cli \\
+  --project-path factory_projects/MyGame \\
+  --character Hero \\
+  --output /tmp/HeroReview
+godot --path /tmp/HeroReview --editor
+python3 -m unittest ai_factory.tests.test_character_pack -v
+```
+
+The pack includes `character.glb`, an isolated runnable preview and `character_manifest.json` containing the locked appearance-reference hash, provenance, actual GLB animation names and requested mappings. The export requires exactly one approved asset for that character. It refuses missing references, unapproved license/appearance and missing mapped clips. Exporting is not animation retargeting or insertion into the game; its manifest expressly marks gameplay binding as not implemented. Real Godot engine import and human visual review of the exported preview are still necessary.
+
+## Opt-in player visual binding (3D RPG)
+
+The factory now supports explicitly selecting **one** reviewed GLB as the playable player's visual, while retaining its existing Godot movement/camera/combat controller. This is not animation retargeting or a guarantee of correct proportions; manually inspect the result.
+
+1. Lock the character's appearance reference and stage its GLB with `--character NAME`.
+2. Approve **both** license and visual review through the asset review workflow.
+3. Run the selector below with the staged asset SHA-256; it runs a real isolated Godot import check and creates a **new** Bible revision only on success.
+4. Build and test the game again; the new visual is loaded from `player_visual.glb` with an explicit manifest.
+
+```sh
+python3 -m ai_factory.bind_player --project-path factory_projects/MyGame \\
+  --character Hero --sha256 STAGED_ASSET_SHA256 --godot-bin /path/to/godot
+./factory build --project MyGame
+./factory test --project MyGame
+```
+
+This path requires explicit prior reference-locking and approval; it will refuse missing evidence and cannot be enabled by a creative prompt alone. The game will retain its primitive collision capsule and controls even when a GLB visual is bound. Character skeleton retargeting, appearance quality, asset scale, and gameplay animation remain separate review tasks. Offline binding-gate tests: `python3 -m unittest ai_factory.tests.test_bind_player -v`.
+
+## Embedded character animation playback (experimental)
+
+For an explicitly approved and bound player GLB, the RPG actor now reads the recorded `animation_mapping` from `player_visual.json`, finds an embedded `AnimationPlayer`, and plays configured `idle`, `walk`, `run` and `attack` clips when those exact animation names exist. Missing clips are warned about and skipped; the existing player controller and fallback capsule remain. This **plays existing compatible animations only**, not automatic skeleton retargeting, rigging or production-quality choreography.
+
+For live validation, rebuild and test an RPG containing a reviewed, skinned and animated GLB on a machine with Godot 4.2+: `./factory build --project MyGame && ./factory test --project MyGame`. Visually review scale, pose and transitions; current source contract tests do not prove runtime correctness.
+
 ## Validation and honest release scope
 
 ```sh
@@ -120,3 +191,22 @@ FACTORY_EXPORT_TEMPLATES=/matching/templates python3 -m ai_factory.tests.browser
 ```
 
 See [ISSUE_2_DELIVERY.md](ISSUE_2_DELIVERY.md) for the capability matrix, evidence, known protected-project baseline failures, and review limits. `RUNTIME_CHECKED` means tested in the actual engine for the exact design/source hashes. `NATIVE_CHECKED` additionally requires a relocated executable/PCK and packaged scenarios to pass. Neither certifies final artwork, controller hardware, laptop performance or commercial game completeness.
+
+### Unified Character Studio intake
+
+The main interface includes reference submission, task status, candidate download,
+Godot import verification, and **Use downloaded candidate**. Select an existing
+project, enter provenance/license/reference hash, optionally name a character
+with an existing matching appearance lock, and explicitly approve intake before
+staging. Review license, visual appearance, and prototype use separately from
+the project asset list; each decision creates a revision. Downloaded candidates
+remain unapproved until those human decisions. Production character binding and
+retargeting remain unfinished. Browser coverage uses synthetic geometry and no
+paid Meshy calls:
+
+    python3 -B -m ai_factory.tests.studio_browser_e2e
+
+Linux export now includes a temporary export-only main-scene dispatcher because
+Godot release templates do not support the editor's --script option. Packaged
+scenario and campaign restart checks execute through explicit user arguments.
+The generated source project and approved game files are not rewritten.

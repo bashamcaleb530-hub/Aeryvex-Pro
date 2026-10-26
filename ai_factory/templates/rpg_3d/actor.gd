@@ -17,6 +17,10 @@ var world: Node3D
 var attack_power := 35
 var material: StandardMaterial3D
 var flash_time := 0.0
+var character_animator: AnimationPlayer
+var character_clips: Dictionary = {}
+var current_character_clip := ""
+var attack_animation_time := 0.0
 func _ready() -> void:
 	var collision := CollisionShape3D.new()
 	var shape := CapsuleShape3D.new()
@@ -33,6 +37,17 @@ func _ready() -> void:
 	mesh.material_override = material
 	mesh.tree_exiting.connect(func(): mesh.mesh = null)
 	add_child(mesh)
+	# Reversible replacement of the visual only: physics, combat and camera stay.
+	if ResourceLoader.exists("res://player_visual.glb"):
+		var packed := load("res://player_visual.glb") as PackedScene
+		if packed != null:
+			var visual := packed.instantiate() as Node3D
+			if visual != null:
+				visual.name = "ReviewedPlayerVisual"
+				add_child(visual)
+				mesh.visible = false
+				# Mesh-only visual binding does not retarget animation skeletons.
+				setup_character_animations(visual)
 	pivot = Node3D.new()
 	pivot.position.y = 1.5
 	add_child(pivot)
@@ -43,6 +58,44 @@ func _ready() -> void:
 	var camera := Camera3D.new()
 	camera.current = true
 	arm.add_child(camera)
+func setup_character_animations(visual: Node3D) -> void:
+	var manifest := FileAccess.get_file_as_string("res://player_visual.json")
+	var parsed = JSON.parse_string(manifest)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return
+	var requested = parsed.get("animation_mapping", {})
+	if typeof(requested) != TYPE_DICTIONARY:
+		return
+	character_animator = find_animation_player(visual)
+	if character_animator == null:
+		return
+	for state in ["idle", "walk", "run", "attack"]:
+		var clip = requested.get(state, "")
+		if typeof(clip) != TYPE_STRING or clip.is_empty():
+			continue
+		if character_animator.has_animation(clip):
+			character_clips[state] = clip
+		else:
+			push_warning("Reviewed animation clip missing in Godot: " + clip)
+	update_character_animation("idle")
+
+func find_animation_player(node: Node) -> AnimationPlayer:
+	if node is AnimationPlayer:
+		return node as AnimationPlayer
+	for child in node.get_children():
+		var found := find_animation_player(child)
+		if found != null:
+			return found
+	return null
+
+func update_character_animation(state: String) -> void:
+	if character_animator == null or not character_clips.has(state):
+		return
+	var clip: String = character_clips[state]
+	if current_character_clip != clip:
+		character_animator.play(clip)
+		current_character_clip = clip
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not control_enabled: return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -66,6 +119,7 @@ func _physics_process(delta: float) -> void:
 	cooldown = maxf(0, cooldown - delta)
 	energy = minf(100, energy + delta * 8)
 	flash_time = maxf(0, flash_time - delta)
+	attack_animation_time = maxf(0, attack_animation_time - delta)
 	material.albedo_color = Color("f6a2a2") if flash_time > 0 and not world.reduced_motion else Color("8bd5f2")
 	if not alive: return
 	if control_enabled:
@@ -88,6 +142,12 @@ func _physics_process(delta: float) -> void:
 	if jump_requested and is_on_floor(): velocity.y = 8
 	jump_requested = false
 	move_and_slide()
+	if attack_animation_time > 0.0:
+		update_character_animation("attack")
+	elif intent.length() > 0.15:
+		update_character_animation("run" if running else "walk")
+	else:
+		update_character_animation("idle")
 func damage(amount: float) -> void:
 	if not alive: return
 	flash_time = 0.15
@@ -101,6 +161,7 @@ func clear_sight(target: Node3D) -> bool:
 func attack() -> int:
 	if not alive or cooldown > 0: return 0
 	cooldown = 0.5
+	attack_animation_time = 0.45
 	var hit_count := 0
 	var forward := Vector3.FORWARD.rotated(Vector3.UP, yaw)
 	for enemy in world.enemies:

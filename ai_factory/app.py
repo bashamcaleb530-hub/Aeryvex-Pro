@@ -9,6 +9,15 @@ UI=Path(__file__).parent/'ui'
 
 def create_server(workspace,port=8765):
     root=Path(workspace).resolve();manager=JobManager(root)
+    def candidate(task_id):
+        from .meshy_bridge import TASK_ID
+        if not isinstance(task_id,str) or not TASK_ID.fullmatch(task_id):
+            raise ValueError('Invalid task ID')
+        directory=root/'.factory-candidates'
+        source=directory/(task_id+'.glb')
+        if directory.is_symlink() or source.is_symlink() or not source.is_file():
+            raise ValueError('Download candidate first; symlinks are forbidden')
+        return source
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def respond(self,value,status=200,kind='application/json',filename=None):
@@ -48,6 +57,9 @@ def create_server(workspace,port=8765):
                     if native and native.get('evidence')!=core.evidence_key(p):native=dict(native,status='PENDING_OR_STALE')
                     return self.respond({'bible':bible,'status':core.status(p),'checkpoints':[int(f.stem) for f in sorted((p/'checkpoints').glob('*.json'))],'assets':inventory(p)['assets'],'native':native,'qa':json.loads((p/'qa.json').read_text()) if (p/'qa.json').exists() else None,'source_download':(p/'dist'/(bible['name']+'.zip')).exists() and core.status(p)['qa']=='RUNTIME_CHECKED'})
                 if route=='/api/job':return self.respond({'job':manager.get(q.get('id','')),'log':manager.log(q.get('id',''))})
+                if route=='/candidate':
+                    source=candidate(q.get('task_id'))
+                    return self.respond(source.read_bytes(),kind='model/gltf-binary',filename=source.name)
                 if route=='/download':
                     p=self.project(q.get('project',''))
                     if core.status(p)['qa']!='RUNTIME_CHECKED':raise ValueError('Artifact QA missing or stale; rebuild first')
@@ -99,6 +111,44 @@ def create_server(workspace,port=8765):
                         handle.write(blob);handle.flush()
                         result=asset_review.inspect(handle.name,metadata) if route=='/api/asset-inspect' else asset_review.stage(p,handle.name,metadata,character=data.get('character'))
                     return self.respond(result)
+                if route=='/api/meshy-submit':
+                    from .meshy_bridge import submit
+                    if not os.environ.get('MESHY_API_KEY'):raise ValueError('Set MESHY_API_KEY in the factory process environment first')
+                    encoded=data.get('image')
+                    if not isinstance(encoded,str) or len(encoded)>12*1024*1024:raise ValueError('Image payload missing or too large')
+                    blob=base64.b64decode(encoded,validate=True)
+                    if not 0<len(blob)<=8*1024*1024:raise ValueError('Reference image exceeds 8 MiB browser limit')
+                    ext=data.get('extension')
+                    if ext not in ['.png','.jpg','.jpeg','.webp']:raise ValueError('Unsupported reference image type')
+                    with tempfile.TemporaryDirectory(prefix='aeryvex-meshy-') as temp:
+                        image=Path(temp)/('reference'+ext)
+                        image.write_bytes(blob)
+                        return self.respond(submit(image),202)
+                if route=='/api/meshy-status':
+                    from .meshy_bridge import status
+                    return self.respond(status(data.get('task_id')))
+                if route=='/api/meshy-download':
+                    from .meshy_bridge import download
+                    import re
+                    task_id=data.get('task_id')
+                    if not isinstance(task_id,str) or not re.fullmatch('[A-Za-z0-9-]{1,100}',task_id):raise ValueError('Invalid task ID')
+                    candidate_dir=root/'.factory-candidates'
+                    candidate_dir.mkdir(parents=True,exist_ok=True)
+                    destination=candidate_dir/(task_id+'.glb')
+                    result=download(task_id,destination)
+                    return self.respond(result)
+                if route=='/api/meshy-verify':
+                    from .godot_candidate_check import check_candidate
+                    import re
+                    task_id=data.get('task_id')
+                    if not isinstance(task_id,str) or not re.fullmatch('[A-Za-z0-9-]{1,100}',task_id):raise ValueError('Invalid task ID')
+                    destination=candidate(task_id)
+                    return self.respond(check_candidate(destination))
+                if route=='/api/meshy-stage':
+                    from .asset_review import stage
+                    p=self.project(data['name'])
+                    if any(j['name']==data['name'] and j['status'] in ACTIVE for j in manager.list()):raise ValueError('Wait for the active job')
+                    return self.respond(stage(p,candidate(data.get('task_id')),data.get('metadata',{}),character=data.get('character') or None))
                 if route=='/api/asset-review':
                     from .asset_review import review
                     p=self.project(data['name'])

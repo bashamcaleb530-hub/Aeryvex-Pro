@@ -121,6 +121,9 @@ def build(path):
     (game/'project.godot').write_text('config_version=5\n[application]\nconfig/name='+json.dumps(bible['name'])+'\nrun/main_scene="res://main.tscn"\nconfig/features=PackedStringArray("4.2", "GL Compatibility")\n[display]\nwindow/size/viewport_width=800\nwindow/size/viewport_height=600\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n')
     if mode3d:
         scene=game/'main.tscn';scene.write_text(scene.read_text().replace('type="Node2D"','type="Node3D"'))
+    if mode3d:
+        from .player_visual import install_approved_visual
+        install_approved_visual(path, game, bible)
     write_json(game/'game.json',bible['config'])
     write_json(path/'managed.json',managed_files(path));plan(path)
     write_json(path/'build.json',{'revision':bible['revision'],'bible_sha256':digest(path/'bible.json'),'status':'IMPLEMENTED','files':managed_files(path)})
