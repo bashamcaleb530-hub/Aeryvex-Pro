@@ -176,6 +176,12 @@ python3 -m ai_factory.bind_player --project-path factory_projects/MyGame \\
 
 This path requires explicit prior reference-locking and approval; it will refuse missing evidence and cannot be enabled by a creative prompt alone. The game will retain its primitive collision capsule and controls even when a GLB visual is bound. Character skeleton retargeting, appearance quality, asset scale, and gameplay animation remain separate review tasks. Offline binding-gate tests: `python3 -m unittest ai_factory.tests.test_bind_player -v`.
 
+## Embedded character animation playback (experimental)
+
+For an explicitly approved and bound player GLB, the RPG actor now reads the recorded `animation_mapping` from `player_visual.json`, finds an embedded `AnimationPlayer`, and plays configured `idle`, `walk`, `run` and `attack` clips when those exact animation names exist. Missing clips are warned about and skipped; the existing player controller and fallback capsule remain. This **plays existing compatible animations only**, not automatic skeleton retargeting, rigging or production-quality choreography.
+
+For live validation, rebuild and test an RPG containing a reviewed, skinned and animated GLB on a machine with Godot 4.2+: `./factory build --project MyGame && ./factory test --project MyGame`. Visually review scale, pose and transitions; current source contract tests do not prove runtime correctness.
+
 ## Validation and honest release scope
 
 ```sh
