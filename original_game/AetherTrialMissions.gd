@@ -23,6 +23,8 @@ var enemy_health := 100
 var failed := false
 var total_failures := 0
 var attack_cooldown := 0.0
+var checkpoint_progress := 0
+var checkpoint_act := 0
 
 func current() -> Dictionary:
     return MISSIONS[mini(mission_index,MISSIONS.size()-1)]
@@ -36,11 +38,27 @@ func phase_index() -> int:
 func phase_name() -> String:
     return current()["phases"][phase_index()]
 
+func act_start(index: int) -> int:
+    var goal := int(current()["goal"])
+    return int(ceil(float(goal * clampi(index, 0, 2)) / 3.0))
+
+func _record_checkpoint() -> void:
+    # Act 2 and Act 3 are persistent retry checkpoints.
+    var act := phase_index()
+    if act > checkpoint_act and not failed:
+        checkpoint_act = act
+        checkpoint_progress = act_start(act)
+
+func checkpoint_name() -> String:
+    return current()["phases"][checkpoint_act]
+
 func is_complete() -> bool:
     return progress >= int(current()["goal"]) and not failed
 
 func reset_attempt() -> void:
     progress = 0
+    checkpoint_progress = 0
+    checkpoint_act = 0
     hero_health = 100
     enemy_health = 100
     failed = false
@@ -50,7 +68,14 @@ func reset_attempt() -> void:
 func restart_after_failure() -> bool:
     if not failed:
         return false
+    # Preserve the last successfully reached act on retry.
+    var saved_progress := checkpoint_progress
+    var saved_act := checkpoint_act
     reset_attempt()
+    progress = saved_progress
+    checkpoint_progress = saved_progress
+    checkpoint_act = saved_act
+    enemy_health = maxi(0,100 - progress * 100 / int(current()["goal"]))
     return true
 
 func advance() -> bool:
@@ -70,6 +95,7 @@ func strike(weapon: bool) -> bool:
     if (kind == "weapons") != weapon or kind not in ["combat","weapons"]:
         return false
     progress += 1
+    _record_checkpoint()
     enemy_health = maxi(0,100 - progress * 100 / int(current()["goal"]))
     attack_cooldown = 0.22
     return true
@@ -79,6 +105,7 @@ func dodge_pulse(moved_out_of_danger: bool) -> bool:
         return false
     if moved_out_of_danger:
         progress += 1
+        _record_checkpoint()
     else:
         take_damage(18)
     return moved_out_of_danger
@@ -99,5 +126,6 @@ func tick(delta: float, defending: bool) -> void:
         mission_elapsed += delta
         if defending:
             progress = mini(int(current()["goal"]),int(mission_elapsed))
+            _record_checkpoint()
         else:
             take_damage(int(ceil(delta*8.0)))
