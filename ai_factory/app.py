@@ -99,6 +99,40 @@ def create_server(workspace,port=8765):
                         handle.write(blob);handle.flush()
                         result=asset_review.inspect(handle.name,metadata) if route=='/api/asset-inspect' else asset_review.stage(p,handle.name,metadata,character=data.get('character'))
                     return self.respond(result)
+                if route=='/api/meshy-submit':
+                    from .meshy_bridge import submit
+                    if not os.environ.get('MESHY_API_KEY'):raise ValueError('Set MESHY_API_KEY in the factory process environment first')
+                    encoded=data.get('image')
+                    if not isinstance(encoded,str) or len(encoded)>12*1024*1024:raise ValueError('Image payload missing or too large')
+                    blob=base64.b64decode(encoded,validate=True)
+                    if not 0<len(blob)<=8*1024*1024:raise ValueError('Reference image exceeds 8 MiB browser limit')
+                    ext=data.get('extension')
+                    if ext not in ['.png','.jpg','.jpeg','.webp']:raise ValueError('Unsupported reference image type')
+                    with tempfile.TemporaryDirectory(prefix='aeryvex-meshy-') as temp:
+                        image=Path(temp)/('reference'+ext)
+                        image.write_bytes(blob)
+                        return self.respond(submit(image),202)
+                if route=='/api/meshy-status':
+                    from .meshy_bridge import status
+                    return self.respond(status(data.get('task_id')))
+                if route=='/api/meshy-download':
+                    from .meshy_bridge import download
+                    import re
+                    task_id=data.get('task_id')
+                    if not isinstance(task_id,str) or not re.fullmatch('[A-Za-z0-9-]{1,100}',task_id):raise ValueError('Invalid task ID')
+                    candidate_dir=root/'.factory-candidates'
+                    candidate_dir.mkdir(parents=True,exist_ok=True)
+                    destination=candidate_dir/(task_id+'.glb')
+                    result=download(task_id,destination)
+                    return self.respond(result)
+                if route=='/api/meshy-verify':
+                    from .godot_candidate_check import check_candidate
+                    import re
+                    task_id=data.get('task_id')
+                    if not isinstance(task_id,str) or not re.fullmatch('[A-Za-z0-9-]{1,100}',task_id):raise ValueError('Invalid task ID')
+                    destination=root/'.factory-candidates'/(task_id+'.glb')
+                    if destination.is_symlink() or not destination.is_file():raise ValueError('Download candidate first')
+                    return self.respond(check_candidate(destination))
                 if route=='/api/asset-review':
                     from .asset_review import review
                     p=self.project(data['name'])
