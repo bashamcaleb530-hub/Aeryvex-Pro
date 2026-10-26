@@ -158,6 +158,24 @@ python3 -m unittest ai_factory.tests.test_character_pack -v
 
 The pack includes `character.glb`, an isolated runnable preview and `character_manifest.json` containing the locked appearance-reference hash, provenance, actual GLB animation names and requested mappings. The export requires exactly one approved asset for that character. It refuses missing references, unapproved license/appearance and missing mapped clips. Exporting is not animation retargeting or insertion into the game; its manifest expressly marks gameplay binding as not implemented. Real Godot engine import and human visual review of the exported preview are still necessary.
 
+## Opt-in player visual binding (3D RPG)
+
+The factory now supports explicitly selecting **one** reviewed GLB as the playable player's visual, while retaining its existing Godot movement/camera/combat controller. This is not animation retargeting or a guarantee of correct proportions; manually inspect the result.
+
+1. Lock the character's appearance reference and stage its GLB with `--character NAME`.
+2. Approve **both** license and visual review through the asset review workflow.
+3. Run the selector below with the staged asset SHA-256; it runs a real isolated Godot import check and creates a **new** Bible revision only on success.
+4. Build and test the game again; the new visual is loaded from `player_visual.glb` with an explicit manifest.
+
+```sh
+python3 -m ai_factory.bind_player --project-path factory_projects/MyGame \\
+  --character Hero --sha256 STAGED_ASSET_SHA256 --godot-bin /path/to/godot
+./factory build --project MyGame
+./factory test --project MyGame
+```
+
+This path requires explicit prior reference-locking and approval; it will refuse missing evidence and cannot be enabled by a creative prompt alone. The game will retain its primitive collision capsule and controls even when a GLB visual is bound. Character skeleton retargeting, appearance quality, asset scale, and gameplay animation remain separate review tasks. Offline binding-gate tests: `python3 -m unittest ai_factory.tests.test_bind_player -v`.
+
 ## Validation and honest release scope
 
 ```sh
