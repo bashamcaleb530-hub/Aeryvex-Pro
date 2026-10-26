@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "name": "BeaconValley",
+  "revision": 1,
+  "template": "rpg_3d",
+  "config": {
+    "enemies": 2,
+    "areas": 1,
+    "speed": 5,
+    "abilities": [
+      "heal"
+    ],
+    "campaign": true,
+    "missions": 3,
+    "mission_length": 1,
+    "town": true
+  },
+  "requirements": [
+    {
+      "prompt": "A 3D RPG with 3 missions, a town, 2 enemies and a healing ability",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A 3D RPG with 3 missions, a town, 2 enemies and a healing ability",
+      "provider": "template",
+      "config": {
+        "enemies": 2,
+        "areas": 1,
+        "speed": 5,
+        "abilities": [
+          "heal"
+        ],
+        "campaign": true,
+        "missions": 3,
+        "mission_length": 1,
+        "town": true
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ],
+  "_previous_bible_sha256": null
+}

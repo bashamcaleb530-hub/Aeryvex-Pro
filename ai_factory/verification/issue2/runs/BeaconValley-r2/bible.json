@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "name": "BeaconValley",
+  "revision": 2,
+  "template": "rpg_3d",
+  "config": {
+    "enemies": 3,
+    "areas": 2,
+    "speed": 5,
+    "abilities": [
+      "heal",
+      "lightning"
+    ],
+    "campaign": true,
+    "missions": 3,
+    "mission_length": 2,
+    "town": true
+  },
+  "requirements": [
+    {
+      "prompt": "A 3D RPG with 3 missions, a town, 2 enemies and a healing ability",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    },
+    {
+      "prompt": "Add an enemy, add a new area and lightning, and make missions longer",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A 3D RPG with 3 missions, a town, 2 enemies and a healing ability",
+      "provider": "template",
+      "config": {
+        "enemies": 2,
+        "areas": 1,
+        "speed": 5,
+        "abilities": [
+          "heal"
+        ],
+        "campaign": true,
+        "missions": 3,
+        "mission_length": 1,
+        "town": true
+      }
+    },
+    {
+      "revision": 2,
+      "prompt": "Add an enemy, add a new area and lightning, and make missions longer",
+      "provider": "template",
+      "config": {
+        "enemies": 3,
+        "areas": 2,
+        "speed": 5,
+        "abilities": [
+          "heal",
+          "lightning"
+        ],
+        "campaign": true,
+        "missions": 3,
+        "mission_length": 2,
+        "town": true
+      },
+      "changes": {
+        "enemies": {
+          "before": 2,
+          "after": 3
+        },
+        "areas": {
+          "before": 1,
+          "after": 2
+        },
+        "abilities": {
+          "before": [
+            "heal"
+          ],
+          "after": [
+            "heal",
+            "lightning"
+          ]
+        },
+        "mission_length": {
+          "before": 1,
+          "after": 2
+        }
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ],
+  "_previous_bible_sha256": "1e5068958ce9f4506059f23cef786276f6aa5679cb3e5bcc7790e6628dd930c6"
+}

@@ -1,0 +1,5 @@
+{
+  "setup": "Python: 3.12.14 (standard library only; no pip dependencies)\nGodot: 4.6.3.stable.official.7d41c59c4\nBLOCKED native export: matching official 4.6.3.stable templates required (version.txt, linux_release.x86_64, linux_debug.x86_64); set FACTORY_EXPORT_TEMPLATES to their directory. No download performed.\nInstalled locally: /tmp/factory install 445z0x3t/new installation\nLaunch UI: '/tmp/factory install 445z0x3t/new installation/bin/aeryvex-factory' --port 8765\nDirect launch: PYTHONPATH='/tmp/factory install 445z0x3t/new installation/app' /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m ai_factory --workspace '/tmp/factory install 445z0x3t/new installation/projects' ui --port 8765\nOpen http://127.0.0.1:8765 after launching. No system packages or existing projects were changed.\n",
+  "installed_ui_http_status": 200,
+  "repeat_install_preserves_existing": true
+}

@@ -11,6 +11,10 @@ func run() -> void:
 	var world = load("res://main.tscn").instantiate()
 	root.add_child(world)
 	current_scene = world
+	# QA uses an isolated user directory and resets prior campaign evidence deterministically.
+	if world.campaign != null:
+		await frames(3)
+		world.campaign.start_new_game()
 	var p = world.player
 	p.control_enabled = false
 	for enemy in world.enemies: enemy.set_physics_process(false)

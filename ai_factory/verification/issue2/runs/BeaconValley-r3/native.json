@@ -1,0 +1,146 @@
+{
+  "status": "NATIVE_CHECKED",
+  "target": "linux-x86_64",
+  "checks": [
+    {
+      "name": "version",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--version"
+      ],
+      "cwd": "/tmp/factory-native-tid21kvs",
+      "exit_code": 0,
+      "passed": true,
+      "log": "version.log",
+      "log_sha256": "df602c4bea06a2673ad72bb2d93f66921feab914f10f9a6261e2aef5c552eab9"
+    },
+    {
+      "name": "import",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--editor",
+        "--path",
+        "/tmp/factory-native-tid21kvs/source",
+        "--import"
+      ],
+      "cwd": "/tmp/factory-native-tid21kvs",
+      "exit_code": 0,
+      "passed": true,
+      "log": "import.log",
+      "log_sha256": "731831590f9fea56dbbc685e38cc3a270fb9e4d1eb953244357ef81c804d27f0"
+    },
+    {
+      "name": "export",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--path",
+        "/tmp/factory-native-tid21kvs/source",
+        "--export-release",
+        "Linux",
+        "/tmp/factory-native-tid21kvs/output/game.x86_64"
+      ],
+      "cwd": "/tmp/factory-native-tid21kvs",
+      "exit_code": 0,
+      "passed": true,
+      "log": "export.log",
+      "log_sha256": "747afa2a84cc22137f26abcd3b9cc421735a0671d6397496e0f98c9d99a4b668"
+    },
+    {
+      "name": "relocated_startup",
+      "command": [
+        "/tmp/factory-relocated-4y9x_530/game.x86_64",
+        "--headless",
+        "--quit-after",
+        "8"
+      ],
+      "cwd": "/tmp/factory-relocated-4y9x_530",
+      "exit_code": 0,
+      "passed": true,
+      "log": "relocated_startup.log",
+      "log_sha256": "79c137231ed21201de438e8e9e6d82dde7cceb7dd4b81a93846ad6f3d5a4c1d3"
+    },
+    {
+      "name": "relocated_scenario",
+      "command": [
+        "/tmp/factory-relocated-4y9x_530/game.x86_64",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://scenario.gd"
+      ],
+      "cwd": "/tmp/factory-relocated-4y9x_530",
+      "exit_code": 0,
+      "passed": true,
+      "log": "relocated_scenario.log",
+      "log_sha256": "c37cb0f2fb8acae4939de745db7328cea381879e157b994e290994b5fda8a0b1"
+    },
+    {
+      "name": "relocated_campaign_scenario",
+      "command": [
+        "/tmp/factory-relocated-4y9x_530/game.x86_64",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://campaign_scenario.gd"
+      ],
+      "cwd": "/tmp/factory-relocated-4y9x_530",
+      "exit_code": 0,
+      "passed": true,
+      "log": "relocated_campaign_scenario.log",
+      "log_sha256": "f501b278b88402affb34df5d2c0419c923f8f3ec090851c7abea6e7e59085fae"
+    },
+    {
+      "name": "relocated_campaign_restart",
+      "command": [
+        "/tmp/factory-relocated-4y9x_530/game.x86_64",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://campaign_scenario.gd",
+        "--",
+        "--verify-restart"
+      ],
+      "cwd": "/tmp/factory-relocated-4y9x_530",
+      "exit_code": 0,
+      "passed": true,
+      "log": "relocated_campaign_restart.log",
+      "log_sha256": "fb17bbd0e75d061ecbc72ddab6244792e5216406800d303838e81648e3cad3b6"
+    }
+  ],
+  "visual_review": "PENDING",
+  "hardware_review": "PENDING",
+  "evidence": {
+    "revision": 3,
+    "files": {
+      "game.json": "1991bca185bcc24b6212c74e32c30e331b8548df54dc79daa066a1e63a3902b4",
+      "project.godot": "64f61aaa646e3e06d18987212593b161f527bca741036a0c5116e6fef386d428",
+      "main.tscn": "5a916a48432a35bfa89f846e00eb5494818c1af6887b1de14e854841b7d23788",
+      "campaign.gd": "a3755e4a074e31eb8a3f895e65d517c8be0a1dab2b1af8c72659ce0c07ed025e",
+      "main.gd": "cce01abfabae3740659045a7f7196bdf04b1618f10d5cd17eed0a2da24b7457d",
+      "scenario.gd": "b249381df10bac5781559ae07c819043a100129ff4fc36b67662b1832ed0193d",
+      "campaign_scenario.gd": "be442e985d5e871866aea5cfb24a881e79709686a0bdc1e0279ff15ba29cf925",
+      "actor.gd": "f51028ddf939ffbf84646cb59d46d1e734902dba56563aef9d0485506211db95",
+      "character_import.gd": "03077cd994ef6c0d8b07ec603564a67951f40d3fd3e84bba0f13ea521372b981",
+      "enemy.gd": "9d18cd9084e8564d4a138b6aff4a49f8bb4bec6e1eb423f1ad7f3e6b79093b6d"
+    },
+    "bible_sha256": "8784fb43dec4ea1e89948dc4d6cdc38b2035ae0d9aea64ef33e7fcc3c8ba87c0"
+  },
+  "logs": "/tmp/factory-browser-bd8xstjb/BeaconValley/.native/2185d45649944bf3a3abfa25c6e1cc54/logs",
+  "engine_version": "4.2.2.stable.official.15073afe3",
+  "templates": "/workspace/work/godot-tools/export_templates/4.2.2.stable",
+  "template_sha256": {
+    "version.txt": "323cbe4c37c4400d49e132e36335e05e1a9426388fb312992388a4cedd700d69",
+    "linux_release.x86_64": "49db0d5082faa83283d140c90da109b3407a5d72c17ab97742b132ba7e615316",
+    "linux_debug.x86_64": "8a9da13aeaadb6c51276d5bdd34117bbbc2bdfad4b696f2abb92f60e22ecae1c"
+  },
+  "executable": "/tmp/factory-browser-bd8xstjb/BeaconValley/dist/linux/2185d45649944bf3a3abfa25c6e1cc54/game.x86_64",
+  "pack": "/tmp/factory-browser-bd8xstjb/BeaconValley/dist/linux/2185d45649944bf3a3abfa25c6e1cc54/game.pck",
+  "archive": "/tmp/factory-browser-bd8xstjb/BeaconValley/dist/linux/2185d45649944bf3a3abfa25c6e1cc54/game-linux-x86_64.zip",
+  "archive_sha256": "9e1d412c4ab9bd54f22bc30ff104f2b6855004bd0e031805c636e90112bd410e",
+  "manifest": "/tmp/factory-browser-bd8xstjb/BeaconValley/dist/linux/2185d45649944bf3a3abfa25c6e1cc54/manifest.json"
+}

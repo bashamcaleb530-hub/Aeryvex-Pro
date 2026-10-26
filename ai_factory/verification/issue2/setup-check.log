@@ -1,0 +1,4 @@
+Python: 3.12.14 (standard library only; no pip dependencies)
+Godot: 4.2.2.stable.official.15073afe3
+Linux export templates: /workspace/work/godot-tools/export_templates/4.2.2.stable
+Dependency check complete; nothing installed.

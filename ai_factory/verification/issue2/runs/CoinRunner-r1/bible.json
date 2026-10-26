@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "name": "CoinRunner",
+  "revision": 1,
+  "template": "collect_survive_2d",
+  "config": {
+    "coins": 8,
+    "enemies": 2,
+    "speed": 220,
+    "color": "blue"
+  },
+  "requirements": [
+    {
+      "prompt": "A blue 2D game collecting 8 coins while avoiding 2 enemies",
+      "resolution": "PARTIAL_TEMPLATE_SUPPORT",
+      "confirmed": true
+    }
+  ],
+  "history": [
+    {
+      "revision": 1,
+      "prompt": "A blue 2D game collecting 8 coins while avoiding 2 enemies",
+      "provider": "template",
+      "config": {
+        "coins": 8,
+        "enemies": 2,
+        "speed": 220,
+        "color": "blue"
+      }
+    }
+  ],
+  "approved_appearance_references": {},
+  "assets": [],
+  "limitations": [
+    "Bounded 2D collection/survival and 3D RPG templates are implemented; arbitrary genres and realistic art remain unavailable. All prompt text preserved; unrepresented clauses are pending."
+  ],
+  "_previous_bible_sha256": null
+}

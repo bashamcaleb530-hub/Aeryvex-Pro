@@ -1,0 +1,546 @@
+Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org
+ 
+PASS: Military opening loads
+PASS: Starts as teenage applicant
+PASS: No trials completed for free
+PASS: Hero uses approved-reference/model importer
+PASS: Hero has selectable visual representation
+PASS: Council cannot be skipped
+PASS: Trial cannot be cleared from a distance
+PASS: Ten distinct mission stages defined
+PASS: Visible lightning hazard created
+PASS: Visible sparring opponent created
+PASS: Storm mission displays hazard
+PASS: Storm mission hides sparring opponent
+PASS: Cannot score combat hits in storm mission
+PASS: Mission 1 cannot skip gameplay objective
+PASS: Mission 1 has three distinct acts
+PASS: Mission 1 requires extended gameplay
+PASS: Lethal storm hit fails the mission
+PASS: Retry restores the current mission
+PASS: Health restored after retry
+PASS: Dodge objective step 1
+PASS: Dodge objective step 2
+PASS: Dodge objective step 3
+PASS: Dodge objective step 4
+PASS: Dodge objective step 5
+PASS: Dodge objective step 6
+PASS: Dodge objective step 7
+PASS: Dodge objective step 8
+PASS: Dodge objective step 9
+PASS: Dodge objective step 10
+PASS: Dodge objective step 11
+PASS: Dodge objective step 12
+PASS: Dodge objective step 13
+PASS: Dodge objective step 14
+PASS: Dodge objective step 15
+PASS: Dodge objective step 16
+PASS: Dodge objective step 17
+PASS: Dodge objective step 18
+PASS: Dodge objective step 19
+PASS: Dodge objective step 20
+PASS: Dodge objective step 21
+PASS: Dodge objective step 22
+PASS: Dodge objective step 23
+PASS: Dodge objective step 24
+PASS: Dodge objective step 25
+PASS: Dodge objective step 26
+PASS: Dodge objective step 27
+PASS: Dodge objective step 28
+PASS: Dodge objective step 29
+PASS: Dodge objective step 30
+PASS: Mission final act reached
+PASS: Mission 1 objective complete
+PASS: Mission 1 completed at gateway
+PASS: Mission count increments
+PASS: Mission 2 cannot skip gameplay objective
+PASS: Martial arts mission displays opponent
+PASS: Martial hits require melee proximity
+PASS: Mission 2 has three distinct acts
+PASS: Mission 2 requires extended gameplay
+PASS: Combat objective step 1
+PASS: Combat objective step 2
+PASS: Combat objective step 3
+PASS: Combat objective step 4
+PASS: Combat objective step 5
+PASS: Combat objective step 6
+PASS: Combat objective step 7
+PASS: Combat objective step 8
+PASS: Combat objective step 9
+PASS: Combat objective step 10
+PASS: Combat objective step 11
+PASS: Combat objective step 12
+PASS: Combat objective step 13
+PASS: Combat objective step 14
+PASS: Combat objective step 15
+PASS: Combat objective step 16
+PASS: Combat objective step 17
+PASS: Combat objective step 18
+PASS: Combat objective step 19
+PASS: Combat objective step 20
+PASS: Combat objective step 21
+PASS: Combat objective step 22
+PASS: Combat objective step 23
+PASS: Combat objective step 24
+PASS: Combat objective step 25
+PASS: Combat objective step 26
+PASS: Combat objective step 27
+PASS: Combat objective step 28
+PASS: Combat objective step 29
+PASS: Combat objective step 30
+PASS: Combat objective step 31
+PASS: Combat objective step 32
+PASS: Combat objective step 33
+PASS: Combat objective step 34
+PASS: Combat objective step 35
+PASS: Combat objective step 36
+PASS: Mission final act reached
+PASS: Mission 2 objective complete
+PASS: Mission 2 completed at gateway
+PASS: Mission count increments
+PASS: Mission 3 cannot skip gameplay objective
+PASS: Weapons mission displays opponent
+PASS: Mission 3 has three distinct acts
+PASS: Mission 3 requires extended gameplay
+PASS: Combat objective step 1
+PASS: Combat objective step 2
+PASS: Combat objective step 3
+PASS: Combat objective step 4
+PASS: Combat objective step 5
+PASS: Combat objective step 6
+PASS: Combat objective step 7
+PASS: Combat objective step 8
+PASS: Combat objective step 9
+PASS: Combat objective step 10
+PASS: Combat objective step 11
+PASS: Combat objective step 12
+PASS: Combat objective step 13
+PASS: Combat objective step 14
+PASS: Combat objective step 15
+PASS: Combat objective step 16
+PASS: Combat objective step 17
+PASS: Combat objective step 18
+PASS: Combat objective step 19
+PASS: Combat objective step 20
+PASS: Combat objective step 21
+PASS: Combat objective step 22
+PASS: Combat objective step 23
+PASS: Combat objective step 24
+PASS: Combat objective step 25
+PASS: Combat objective step 26
+PASS: Combat objective step 27
+PASS: Combat objective step 28
+PASS: Combat objective step 29
+PASS: Combat objective step 30
+PASS: Combat objective step 31
+PASS: Combat objective step 32
+PASS: Combat objective step 33
+PASS: Combat objective step 34
+PASS: Combat objective step 35
+PASS: Combat objective step 36
+PASS: Combat objective step 37
+PASS: Combat objective step 38
+PASS: Combat objective step 39
+PASS: Combat objective step 40
+PASS: Combat objective step 41
+PASS: Combat objective step 42
+PASS: Mission final act reached
+PASS: Mission 3 objective complete
+PASS: Mission 3 completed at gateway
+PASS: Mission count increments
+PASS: Mission 4 cannot skip gameplay objective
+PASS: Mission 4 has three distinct acts
+PASS: Mission 4 requires extended gameplay
+PASS: Mission final act reached
+PASS: Mission 4 objective complete
+PASS: Mission 4 completed at gateway
+PASS: Mission count increments
+PASS: Mission 5 cannot skip gameplay objective
+PASS: Mission 5 has three distinct acts
+PASS: Mission 5 requires extended gameplay
+PASS: Dodge objective step 1
+PASS: Dodge objective step 2
+PASS: Dodge objective step 3
+PASS: Dodge objective step 4
+PASS: Dodge objective step 5
+PASS: Dodge objective step 6
+PASS: Dodge objective step 7
+PASS: Dodge objective step 8
+PASS: Dodge objective step 9
+PASS: Dodge objective step 10
+PASS: Dodge objective step 11
+PASS: Dodge objective step 12
+PASS: Dodge objective step 13
+PASS: Dodge objective step 14
+PASS: Dodge objective step 15
+PASS: Dodge objective step 16
+PASS: Dodge objective step 17
+PASS: Dodge objective step 18
+PASS: Dodge objective step 19
+PASS: Dodge objective step 20
+PASS: Dodge objective step 21
+PASS: Dodge objective step 22
+PASS: Dodge objective step 23
+PASS: Dodge objective step 24
+PASS: Dodge objective step 25
+PASS: Dodge objective step 26
+PASS: Dodge objective step 27
+PASS: Dodge objective step 28
+PASS: Dodge objective step 29
+PASS: Dodge objective step 30
+PASS: Dodge objective step 31
+PASS: Dodge objective step 32
+PASS: Dodge objective step 33
+PASS: Dodge objective step 34
+PASS: Dodge objective step 35
+PASS: Dodge objective step 36
+PASS: Dodge objective step 37
+PASS: Dodge objective step 38
+PASS: Dodge objective step 39
+PASS: Dodge objective step 40
+PASS: Dodge objective step 41
+PASS: Dodge objective step 42
+PASS: Mission final act reached
+PASS: Mission 5 objective complete
+PASS: Mission 5 completed at gateway
+PASS: Mission count increments
+PASS: Mission 6 cannot skip gameplay objective
+PASS: Mission 6 has three distinct acts
+PASS: Mission 6 requires extended gameplay
+PASS: Combat objective step 1
+PASS: Combat objective step 2
+PASS: Combat objective step 3
+PASS: Combat objective step 4
+PASS: Combat objective step 5
+PASS: Combat objective step 6
+PASS: Combat objective step 7
+PASS: Combat objective step 8
+PASS: Combat objective step 9
+PASS: Combat objective step 10
+PASS: Combat objective step 11
+PASS: Combat objective step 12
+PASS: Combat objective step 13
+PASS: Combat objective step 14
+PASS: Combat objective step 15
+PASS: Combat objective step 16
+PASS: Combat objective step 17
+PASS: Combat objective step 18
+PASS: Combat objective step 19
+PASS: Combat objective step 20
+PASS: Combat objective step 21
+PASS: Combat objective step 22
+PASS: Combat objective step 23
+PASS: Combat objective step 24
+PASS: Combat objective step 25
+PASS: Combat objective step 26
+PASS: Combat objective step 27
+PASS: Combat objective step 28
+PASS: Combat objective step 29
+PASS: Combat objective step 30
+PASS: Combat objective step 31
+PASS: Combat objective step 32
+PASS: Combat objective step 33
+PASS: Combat objective step 34
+PASS: Combat objective step 35
+PASS: Combat objective step 36
+PASS: Combat objective step 37
+PASS: Combat objective step 38
+PASS: Combat objective step 39
+PASS: Combat objective step 40
+PASS: Combat objective step 41
+PASS: Combat objective step 42
+PASS: Combat objective step 43
+PASS: Combat objective step 44
+PASS: Combat objective step 45
+PASS: Combat objective step 46
+PASS: Combat objective step 47
+PASS: Combat objective step 48
+PASS: Mission final act reached
+PASS: Mission 6 objective complete
+PASS: Mission 6 completed at gateway
+PASS: Mission count increments
+PASS: Mission 7 cannot skip gameplay objective
+PASS: Mission 7 has three distinct acts
+PASS: Mission 7 requires extended gameplay
+PASS: Combat objective step 1
+PASS: Combat objective step 2
+PASS: Combat objective step 3
+PASS: Combat objective step 4
+PASS: Combat objective step 5
+PASS: Combat objective step 6
+PASS: Combat objective step 7
+PASS: Combat objective step 8
+PASS: Combat objective step 9
+PASS: Combat objective step 10
+PASS: Combat objective step 11
+PASS: Combat objective step 12
+PASS: Combat objective step 13
+PASS: Combat objective step 14
+PASS: Combat objective step 15
+PASS: Combat objective step 16
+PASS: Combat objective step 17
+PASS: Combat objective step 18
+PASS: Combat objective step 19
+PASS: Combat objective step 20
+PASS: Combat objective step 21
+PASS: Combat objective step 22
+PASS: Combat objective step 23
+PASS: Combat objective step 24
+PASS: Combat objective step 25
+PASS: Combat objective step 26
+PASS: Combat objective step 27
+PASS: Combat objective step 28
+PASS: Combat objective step 29
+PASS: Combat objective step 30
+PASS: Combat objective step 31
+PASS: Combat objective step 32
+PASS: Combat objective step 33
+PASS: Combat objective step 34
+PASS: Combat objective step 35
+PASS: Combat objective step 36
+PASS: Combat objective step 37
+PASS: Combat objective step 38
+PASS: Combat objective step 39
+PASS: Combat objective step 40
+PASS: Combat objective step 41
+PASS: Combat objective step 42
+PASS: Combat objective step 43
+PASS: Combat objective step 44
+PASS: Combat objective step 45
+PASS: Combat objective step 46
+PASS: Combat objective step 47
+PASS: Combat objective step 48
+PASS: Combat objective step 49
+PASS: Combat objective step 50
+PASS: Combat objective step 51
+PASS: Combat objective step 52
+PASS: Combat objective step 53
+PASS: Combat objective step 54
+PASS: Mission final act reached
+PASS: Mission 7 objective complete
+PASS: Mission 7 completed at gateway
+PASS: Mission count increments
+PASS: Mission 8 cannot skip gameplay objective
+PASS: Mission 8 has three distinct acts
+PASS: Mission 8 requires extended gameplay
+PASS: Mission final act reached
+PASS: Mission 8 objective complete
+PASS: Mission 8 completed at gateway
+PASS: Mission count increments
+PASS: Mission 9 cannot skip gameplay objective
+PASS: Mission 9 has three distinct acts
+PASS: Mission 9 requires extended gameplay
+PASS: Combat objective step 1
+PASS: Combat objective step 2
+PASS: Combat objective step 3
+PASS: Combat objective step 4
+PASS: Combat objective step 5
+PASS: Combat objective step 6
+PASS: Combat objective step 7
+PASS: Combat objective step 8
+PASS: Combat objective step 9
+PASS: Combat objective step 10
+PASS: Combat objective step 11
+PASS: Combat objective step 12
+PASS: Combat objective step 13
+PASS: Combat objective step 14
+PASS: Combat objective step 15
+PASS: Combat objective step 16
+PASS: Combat objective step 17
+PASS: Combat objective step 18
+PASS: Combat objective step 19
+PASS: Combat objective step 20
+PASS: Combat objective step 21
+PASS: Combat objective step 22
+PASS: Combat objective step 23
+PASS: Combat objective step 24
+PASS: Combat objective step 25
+PASS: Combat objective step 26
+PASS: Combat objective step 27
+PASS: Combat objective step 28
+PASS: Combat objective step 29
+PASS: Combat objective step 30
+PASS: Combat objective step 31
+PASS: Combat objective step 32
+PASS: Combat objective step 33
+PASS: Combat objective step 34
+PASS: Combat objective step 35
+PASS: Combat objective step 36
+PASS: Combat objective step 37
+PASS: Combat objective step 38
+PASS: Combat objective step 39
+PASS: Combat objective step 40
+PASS: Combat objective step 41
+PASS: Combat objective step 42
+PASS: Combat objective step 43
+PASS: Combat objective step 44
+PASS: Combat objective step 45
+PASS: Combat objective step 46
+PASS: Combat objective step 47
+PASS: Combat objective step 48
+PASS: Combat objective step 49
+PASS: Combat objective step 50
+PASS: Combat objective step 51
+PASS: Combat objective step 52
+PASS: Combat objective step 53
+PASS: Combat objective step 54
+PASS: Combat objective step 55
+PASS: Combat objective step 56
+PASS: Combat objective step 57
+PASS: Combat objective step 58
+PASS: Combat objective step 59
+PASS: Combat objective step 60
+PASS: Mission final act reached
+PASS: Mission 9 objective complete
+PASS: Mission 9 completed at gateway
+PASS: Mission count increments
+PASS: Mission 10 cannot skip gameplay objective
+PASS: Mission 10 has three distinct acts
+PASS: Mission 10 requires extended gameplay
+PASS: Combat objective step 1
+PASS: Combat objective step 2
+PASS: Combat objective step 3
+PASS: Combat objective step 4
+PASS: Combat objective step 5
+PASS: Combat objective step 6
+PASS: Combat objective step 7
+PASS: Combat objective step 8
+PASS: Combat objective step 9
+PASS: Combat objective step 10
+PASS: Combat objective step 11
+PASS: Combat objective step 12
+PASS: Combat objective step 13
+PASS: Combat objective step 14
+PASS: Combat objective step 15
+PASS: Combat objective step 16
+PASS: Combat objective step 17
+PASS: Combat objective step 18
+PASS: Combat objective step 19
+PASS: Combat objective step 20
+PASS: Combat objective step 21
+PASS: Combat objective step 22
+PASS: Combat objective step 23
+PASS: Combat objective step 24
+PASS: Combat objective step 25
+PASS: Combat objective step 26
+PASS: Combat objective step 27
+PASS: Combat objective step 28
+PASS: Combat objective step 29
+PASS: Combat objective step 30
+PASS: Combat objective step 31
+PASS: Combat objective step 32
+PASS: Combat objective step 33
+PASS: Combat objective step 34
+PASS: Combat objective step 35
+PASS: Combat objective step 36
+PASS: Combat objective step 37
+PASS: Combat objective step 38
+PASS: Combat objective step 39
+PASS: Combat objective step 40
+PASS: Combat objective step 41
+PASS: Combat objective step 42
+PASS: Combat objective step 43
+PASS: Combat objective step 44
+PASS: Combat objective step 45
+PASS: Combat objective step 46
+PASS: Combat objective step 47
+PASS: Combat objective step 48
+PASS: Combat objective step 49
+PASS: Combat objective step 50
+PASS: Combat objective step 51
+PASS: Combat objective step 52
+PASS: Combat objective step 53
+PASS: Combat objective step 54
+PASS: Combat objective step 55
+PASS: Combat objective step 56
+PASS: Combat objective step 57
+PASS: Combat objective step 58
+PASS: Combat objective step 59
+PASS: Combat objective step 60
+PASS: Combat objective step 61
+PASS: Combat objective step 62
+PASS: Combat objective step 63
+PASS: Combat objective step 64
+PASS: Combat objective step 65
+PASS: Combat objective step 66
+PASS: Combat objective step 67
+PASS: Combat objective step 68
+PASS: Combat objective step 69
+PASS: Combat objective step 70
+PASS: Combat objective step 71
+PASS: Combat objective step 72
+PASS: Mission final act reached
+PASS: Mission 10 objective complete
+PASS: Mission 10 completed at gateway
+PASS: Mission count increments
+PASS: All ten opening challenges counted
+PASS: Earned merit recorded
+PASS: Purple recommendation reaches Council
+PASS: Council formally approves admission
+PASS: Candidate becomes military warrior
+PASS: Cannot replay approval for rewards
+MILITARY OPENING: PASS
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)
+ERROR: Parameter "m" is null.
+   at: mesh_get_surface_count (servers/rendering/dummy/storage/mesh_storage.h:114)

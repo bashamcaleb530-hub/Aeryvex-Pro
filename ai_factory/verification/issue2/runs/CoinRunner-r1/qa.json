@@ -1,0 +1,72 @@
+{
+  "status": "RUNTIME_CHECKED",
+  "evidence": {
+    "revision": 1,
+    "files": {
+      "game.json": "f566734764450201966b68273c9b6507fbaf2290e4d39990522288bf60dffdc2",
+      "project.godot": "8ce4085168148fe76c407fc197765950c8ae245824f9e6ab6d72b9bed8894e05",
+      "main.tscn": "857e91e8cc2360d72a09c0241b79d14a92820d7c2799434ca92dbcdaa4a3901e",
+      "scenario.gd": "b645313c2b8a689a0808951b3a0f691369b7bcab5b542af455f6bbf6214b2f39",
+      "main.gd": "0580642aca69972a4c8617e86962f0cd70a1983f2641e06bb0173bd25a05e494"
+    },
+    "bible_sha256": "cb153907954abd965aeb5d003f2719e8df78bf8f3982a75e7982335d40f53f11"
+  },
+  "checks": [
+    {
+      "name": "version",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--version"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "4.2.2.stable.official.15073afe3\n"
+    },
+    {
+      "name": "import",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--editor",
+        "--path",
+        "/tmp/factory-browser-bd8xstjb/CoinRunner/godot",
+        "--import"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nWARNING: Custom cursor shape not supported by this display server.\n     at: cursor_set_custom_image (servers/display_server.cpp:505)\nWARNING: Blend file import is enabled in the project settings, but no Blender path is configured in the editor settings. Blend files will not be imported.\n     at: _editor_init (modules/gltf/register_types.cpp:63)\n"
+    },
+    {
+      "name": "startup",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--path",
+        "/tmp/factory-browser-bd8xstjb/CoinRunner/godot",
+        "--quit-after",
+        "8"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \n"
+    },
+    {
+      "name": "scenario",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--path",
+        "/tmp/factory-browser-bd8xstjb/CoinRunner/godot",
+        "--script",
+        "res://scenario.gd"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "Godot Engine v4.2.2.stable.official.15073afe3 - https://godotengine.org\n \nFACTORY_SCENARIO_PASS\n"
+    }
+  ],
+  "visual_review": "PENDING",
+  "hardware_review": "PENDING"
+}

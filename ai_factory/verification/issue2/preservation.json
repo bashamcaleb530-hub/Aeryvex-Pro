@@ -1,0 +1,1046 @@
+{
+  "base": "7a63b1b0472294d516e5bcedbc1cd2ff2d1994c8",
+  "unchanged_outside_factory": 208,
+  "files": [
+    {
+      "path": ".github/workflows/extract-game.yml",
+      "sha": "304dd6abd5869bdc2d50d6943f94cfe67a183626",
+      "mode": "100644"
+    },
+    {
+      "path": ".github/workflows/import-godot4.yml",
+      "sha": "6b4dbb767eae657984e11361ac27767742925414",
+      "mode": "100644"
+    },
+    {
+      "path": ".gitignore",
+      "sha": "f264b7baed6122227a8007cce8ad9a376dfa2b03",
+      "mode": "100644"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha": "1746744b181a5fcb37770120557f428b283b1c52",
+      "mode": "100644"
+    },
+    {
+      "path": "AeryvexPro_GitHub_Upload(1).zip",
+      "sha": "8cff4c76e39594bd3c998eb1d88391d10d0bb53a",
+      "mode": "100644"
+    },
+    {
+      "path": "GO04_TEST_REPORT.md",
+      "sha": "0dbea0cde6d7e6573cc91d4f669d15a8939e9506",
+      "mode": "100644"
+    },
+    {
+      "path": "GO05_TEST_REPORT.md",
+      "sha": "da7f9862f9b7340d0e08776c94ed3c9d6578df30",
+      "mode": "100644"
+    },
+    {
+      "path": "GO07_EXPANSION_REPORT.md",
+      "sha": "950c5decab4ae6fa1851e072637c9739f0f9c275",
+      "mode": "100644"
+    },
+    {
+      "path": "GO07_TEST_REPORT.md",
+      "sha": "5619408d7535b1497833286d1175eb80cb2e04bc",
+      "mode": "100644"
+    },
+    {
+      "path": "GO08_COVER_EXPANSION.md",
+      "sha": "631ad4ad85fd2ff5ce7088c87a38ee47c343985a",
+      "mode": "100644"
+    },
+    {
+      "path": "GO08_TEST_REPORT.md",
+      "sha": "e6d277ad767a4b52c76dbcd7e43e9a485b71655d",
+      "mode": "100644"
+    },
+    {
+      "path": "GO09_REALISM_EXPANSION.md",
+      "sha": "2557e0d89bb8748d41b39ef6ff0ceba32d786973",
+      "mode": "100644"
+    },
+    {
+      "path": "GO09_TEST_REPORT.md",
+      "sha": "cc95a37a49f14b4b243b20e1268c1670d85abb17",
+      "mode": "100644"
+    },
+    {
+      "path": "GO10_REALISM_REPORT.md",
+      "sha": "2103fa2f207c4a7b0a33e1ae2a9d42dca26b9205",
+      "mode": "100644"
+    },
+    {
+      "path": "GO11_REALISM_REPORT.md",
+      "sha": "eccafefbbd00c5681e2e6a12c332d636a8d8fb07",
+      "mode": "100644"
+    },
+    {
+      "path": "GO12_REALISM_REPORT.md",
+      "sha": "f346d078eeff02085d87eab61d4b469add2bf5b0",
+      "mode": "100644"
+    },
+    {
+      "path": "GO13_REALISM_REPORT.md",
+      "sha": "4da2ec6ae25831c7b2e0ed2f92d391db749ebe9a",
+      "mode": "100644"
+    },
+    {
+      "path": "GO14_REALISM_REPORT.md",
+      "sha": "2818d4321f32f75193227d7520f08a74260cd746",
+      "mode": "100644"
+    },
+    {
+      "path": "GO15_REALISM_REPORT.md",
+      "sha": "2de7ef213cf0e1b784e10bcd7698b64f6ebebcaa",
+      "mode": "100644"
+    },
+    {
+      "path": "GO16_REALISM_REPORT.md",
+      "sha": "c98588a3ad1509c59cba5a86a034dd3f08f92699",
+      "mode": "100644"
+    },
+    {
+      "path": "GO17_REALISM_REPORT.md",
+      "sha": "ae1a068d611a4cf51c9fe993efd4422139cf3bfa",
+      "mode": "100644"
+    },
+    {
+      "path": "GO18_REALISM_REPORT.md",
+      "sha": "000f6b12ecbedc5214ea9319bfe695e5cf190a54",
+      "mode": "100644"
+    },
+    {
+      "path": "GO20_REALISM_REPORT.md",
+      "sha": "0a0ab267dc98d8a72685727391a3871b678fc0f0",
+      "mode": "100644"
+    },
+    {
+      "path": "GO21_REALISM_REPORT.md",
+      "sha": "5e49678cb376238bed8cd0832c4d6088b94b22af",
+      "mode": "100644"
+    },
+    {
+      "path": "GO22_REALISM_REPORT.md",
+      "sha": "b850fa02131c2792a62148c854f8083ef6c442c4",
+      "mode": "100644"
+    },
+    {
+      "path": "GO23_REALISM_REPORT.md",
+      "sha": "e66dec55daf3824ea8408b877e702c4737825bf0",
+      "mode": "100644"
+    },
+    {
+      "path": "GO24_REALISM_REPORT.md",
+      "sha": "4ccce752fba1b679bd5220b68e90978249f6a572",
+      "mode": "100644"
+    },
+    {
+      "path": "GO25_REALISM_REPORT.md",
+      "sha": "5505eee5ae3f6cf7005daf84271cfbffad043ecd",
+      "mode": "100644"
+    },
+    {
+      "path": "GO26_REALISM_REPORT.md",
+      "sha": "2b6f2053542ba7ca40eb3755d2e0da382945aa8f",
+      "mode": "100644"
+    },
+    {
+      "path": "GO27_REALISM_REPORT.md",
+      "sha": "969e02b02e8c1a9e4c8d460319e4d826642424e6",
+      "mode": "100644"
+    },
+    {
+      "path": "GO28_REALISM_REPORT.md",
+      "sha": "03d1d504069e2d1cea4e28152440923f8e227276",
+      "mode": "100644"
+    },
+    {
+      "path": "GO29_TEST_REPORT.md",
+      "sha": "a49987bdd1e12b48803b1cf3ce956b6b7a68569a",
+      "mode": "100644"
+    },
+    {
+      "path": "GO30_REPORT.md",
+      "sha": "9a07f633e59481f188c1015df3b773839df8f40e",
+      "mode": "100644"
+    },
+    {
+      "path": "GO31_REPORT.md",
+      "sha": "0549d90e0354405972bd1362c5674d54cdd7b944",
+      "mode": "100644"
+    },
+    {
+      "path": "GO32_REPORT.md",
+      "sha": "6a09baba7e017c53a44f2962e9c43cd87d06d645",
+      "mode": "100644"
+    },
+    {
+      "path": "GODOT4_MIGRATION.md",
+      "sha": "68e19e7ddb22a585e36067049d74b139b27a6d4c",
+      "mode": "100644"
+    },
+    {
+      "path": "GO_STATUS.md",
+      "sha": "48ae107ca2013c0c2796c2be6a7820de5e0a72fb",
+      "mode": "100644"
+    },
+    {
+      "path": "Main.tscn",
+      "sha": "e16e926d5098b0d4026bb26f24d401588aab195c",
+      "mode": "100644"
+    },
+    {
+      "path": "PLAYER_FEATURE_ROADMAP.md",
+      "sha": "d21b700cdd66d7ddfa236c47bc54f1198955c859",
+      "mode": "100644"
+    },
+    {
+      "path": "README.md",
+      "sha": "c85fb40f851590fdd5e8fc9dcf1d22ba22a914df",
+      "mode": "100644"
+    },
+    {
+      "path": "factory",
+      "sha": "222476815f0bd6f9e92740d376481e431b01b644",
+      "mode": "100755"
+    },
+    {
+      "path": "factory_projects/RPGDemo/bible.json",
+      "sha": "ebfbf5f03a1ae835ca13e0182db8f9ee1a091f82",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/build.json",
+      "sha": "f5551d210eba80e8f2c05ad5bc5a101bc3c4d0df",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/checkpoints/0001.json",
+      "sha": "ce4a91ec86e4ff6d66623c2f9c2463ae16ba4b59",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/checkpoints/0002.json",
+      "sha": "ebfbf5f03a1ae835ca13e0182db8f9ee1a091f82",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/actor.gd",
+      "sha": "44f4b06b4b123a90b067d72d369afabf09829385",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/character_import.gd",
+      "sha": "39cc0e0f202ce5deffad98c72cf5e1dee99ad23d",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/enemy.gd",
+      "sha": "af239e0913ba38abeff6568b7f672623a8fcc422",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/game.json",
+      "sha": "900452c0a9d9ae95c9b272dee391c9a625cec347",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/main.gd",
+      "sha": "dceafde8baa8afe6ea6f76a68e68c0850e0a334a",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/main.tscn",
+      "sha": "c64b29fd9be4176b429e0f94063d8f88622cf024",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/project.godot",
+      "sha": "01d9580c39721be0b604193c2d1703691443ad6b",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/godot/scenario.gd",
+      "sha": "31e602a3f45d0242da2ad400da9cd59477129c21",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/managed.json",
+      "sha": "96d544eaa0d294c55eccf2b15fd1d369fd89ddf7",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/plan.json",
+      "sha": "40681ae54601293a850ac7128b49f71ea553982f",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/RPGDemo/qa.json",
+      "sha": "89db4b6c5d8786937ecca27ca0dac70a4e43b4ed",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/bible.json",
+      "sha": "91114e8c376f7487684bc6c33c81f183af91a1c4",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/build.json",
+      "sha": "8219e639e428019bebb8fb0e6a75a0845f4ed44a",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/checkpoints/0001.json",
+      "sha": "ca74da10c2a1283c91f37bcc70831cdbbe8378c6",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/checkpoints/0002.json",
+      "sha": "91114e8c376f7487684bc6c33c81f183af91a1c4",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/godot/game.json",
+      "sha": "02243e2a0b34ccc3e62830a3603102249a851495",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/godot/main.gd",
+      "sha": "d67d490681bcf63260412c7ee6eb2cf1595ffbac",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/godot/main.tscn",
+      "sha": "693a02e8ac974df7bce784660e6b4c5c66314892",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/godot/project.godot",
+      "sha": "a38c55f37f310fc5b5d5a2e5f15c69c6c640cc9c",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/godot/scenario.gd",
+      "sha": "a015fee354e36e066dbb04bc6a53d78a808407f8",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/managed.json",
+      "sha": "0b5850302b98f226ea8a7a74831d12b402a24a09",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/plan.json",
+      "sha": "48196ed0c0ccdbae640916453d4eff47fe5334af",
+      "mode": "100644"
+    },
+    {
+      "path": "factory_projects/VerifiedGame/qa.json",
+      "sha": "c22e9b31bfd68ab27c0f2d1f17d47a95a0db0b1c",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/APPROVED_HERO_VISUALS.md",
+      "sha": "1c37b163964c22bc6a062a1a0bd5b7b208dcef59",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/AeryvexWeaponConduit.gd",
+      "sha": "01527b60e32eb0d6534f2a6922ccddebca3c2eed",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/AetherMilitaryAdmission.gd",
+      "sha": "b65ca68a3ed20c123c4e98ba6ee32c49969044ab",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/AetherTrialMissions.gd",
+      "sha": "1b4166dcef8611084a72eaeee787424ed811b77f",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/AetherWorldMenu.gd",
+      "sha": "1257ca70e90b2c57a586d5acd47f4d2dc65bf9eb",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/AetherWorldMenu.tscn",
+      "sha": "4e570c96c271cd0e3be79658269be6273bb2226b",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/ApprovedCharacterLoader.gd",
+      "sha": "36a23ce907d3bc28c41fe95f6259b060e82816d1",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/ApprovedPlayableHero.gd",
+      "sha": "a2ebaab2df0641577a3bbe0e21cfafd32f942840",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/CharacterArena.gd",
+      "sha": "eceb0e0e6c149ac7b66282f0a9fbd2e86112e7d9",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/CharacterArena.tscn",
+      "sha": "26e3df5254c89bab75811a297fa9cd7d9752dea6",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/GrandMasterPowers.gd",
+      "sha": "621e3d0990707da19ec9b3c653650ab489977bd1",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/LIGHTNING_SUCCESSION_CANON.md",
+      "sha": "81d4b2ecf0f50096806217b9141c2f28f99b3d15",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/LIVING_GALAXIES_EXPLORATION_PLAN.md",
+      "sha": "024da1166cc7ab8a67378f4c4bb4b1476351dee4",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/Main.tscn",
+      "sha": "b3e67a279d9f0e6982b88706225cf82faefa8af4",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/MilitaryOpening.gd",
+      "sha": "307c58edea177aa55ae7b8bbe062e6168c17035c",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/MilitaryOpening.tscn",
+      "sha": "eeb54bbf945f21f93a252d803e7ccc16cb65abdb",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/PRISM_COUNCIL_FOUR_AND_FALLEN_FIFTH.md",
+      "sha": "aa2d39657e882e7076498492e4d9b6d15852333c",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/PlayerAscension.gd",
+      "sha": "169610d702e97c144389a47c156421e334444205",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/PortalWar.gd",
+      "sha": "522f4774c8228d5a1210d1959a0bca179dd3fd54",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/README.md",
+      "sha": "c750a5ca4adfe0a0638b2786403bb2d185b919bf",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/TEN_GALAXIES_FIVE_AETHER_FIVE_VOID_CANON.md",
+      "sha": "1b39014c251acb833ada73da4ebd41f55e083071",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/aeryvex_game_design.json",
+      "sha": "003c68d548a7f130920b674992c2515f9eb33972",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/character_visual_lock.json",
+      "sha": "034926a9da3a0f0d2580db9047d2d88fa49008f9",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/project.godot",
+      "sha": "74d84fca92b7119f59a8b902a15a65de6fa47dba",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tests/audit_approved_hero_visuals.gd",
+      "sha": "f072c6a9e43daf3700094539541830cf483d59fc",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tests/test_aether_world_menu.gd",
+      "sha": "b60bd4b60804d5c3a0d92929c7b517465b1a9472",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tests/test_character_arena.gd",
+      "sha": "1dc7d43dd8e650568cdf23ffd381f540d074c28b",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tests/test_grand_master_powers.gd",
+      "sha": "3159cdeeb2035a31fd66846232bf762800db4efa",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tests/test_military_opening.gd",
+      "sha": "147ed05607da25bda6054ae6fb331ed397176e4c",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tests/test_player_ascension.gd",
+      "sha": "e27337a8e623335213f8afa950a362670dffcab7",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tools/audit_character_assets.py",
+      "sha": "26d5ae5fa749ac6a4ab3e696c4cf42e4238bef88",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tools/install_approved_rulers.py",
+      "sha": "9c10421ef19ee3f609425db554cd7a27e0ba7350",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tools/reconstruct_approved_rulers.py",
+      "sha": "200205c7a29d1a0acf3a7f4737f112777777833f",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tools/restore_or_publish_artwork.py",
+      "sha": "6aa327d675d735063903174ffa9be03dcb86780b",
+      "mode": "100644"
+    },
+    {
+      "path": "original_game/tools/sync_approved_artwork.py",
+      "sha": "110a9d0fbdebfb8e751540a1f462a02e0ddcfb0d",
+      "mode": "100644"
+    },
+    {
+      "path": "project.godot",
+      "sha": "1930dd5574d6f8c776c71a5acb892556a064453c",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/ArenaArchitecture.gd",
+      "sha": "9ca8bb2187ca6b90d0b126175c79be3ed10dfd2b",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/CombatRules.gd",
+      "sha": "31b0f28b1284511e299b52be525fef96dea2b567",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/DuelRules.gd",
+      "sha": "ed38b88ca60250f0be8a1389f7696fdb35f08120",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/EnemyBrain.gd",
+      "sha": "04db6d858a882fc5e8e0eb6b5e27c8f2ce26094e",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/FighterVisual.gd",
+      "sha": "53e0eae29defcec7e3ce492fa6192084196f1fb3",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/FrontsRules.gd",
+      "sha": "5b8fa7cc838950185e8fda42f4f235bdd9fbeda1",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/HumanoidRig.gd",
+      "sha": "7603f1ce1e2faabc8ace5bc86b9d5fc5b9b5e6cb",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/Main.gd",
+      "sha": "125ddce1a1fe37fb44e769d0c59d8bfce3aae54f",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/SkinnedLimbs.gd",
+      "sha": "ae7c521f0fe4f8c9ff513783538471892cd3e067",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/SkinnedTorso.gd",
+      "sha": "bd0a932cba32c0567fb6a593774bb883c4330cc1",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/SkinnedTransitions.gd",
+      "sha": "a91e1a043ae9714a7eb7d513366c3f18a95ed8bf",
+      "mode": "100644"
+    },
+    {
+      "path": "scripts/SquadRules.gd",
+      "sha": "9fb07fcc8f0226d05db98fa32f4e3e0fbfe2c2fb",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go10_realism.cpython-312.pyc",
+      "sha": "58b265aa497bb6dedd4f8a7655bc0d71425c9a5e",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go11_realism.cpython-312.pyc",
+      "sha": "6d26dc5499a0e701112da6fd4330ec6429576b34",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go12_realism.cpython-312.pyc",
+      "sha": "17b5c8895ff42800d913dc52ecf6ea042d65ea5e",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go13_materials.cpython-312.pyc",
+      "sha": "725ca46c53dd5eb2b170b2a799a322eacfc30728",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go14_animation.cpython-312.pyc",
+      "sha": "9756f53771c69a13388eb8ce62d994d890b19bd5",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go15.cpython-312.pyc",
+      "sha": "87b313340ff04a903b9f6fe7d3127f20735d2c55",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go18_inertia.cpython-312.pyc",
+      "sha": "65019d0a5e8197a909881fd55b017585811dd05e",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go2.cpython-312.pyc",
+      "sha": "6c36d3efbdb503bc78473059297a1afc0bff775a",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go21_skeleton.cpython-312.pyc",
+      "sha": "4fbdaab2d764f4191706b24cc912a8dae7dc8c63",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go28_head.cpython-312.pyc",
+      "sha": "594d87ae1bc1ce23197e0984e49b44afecb5ff6c",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go3.cpython-312.pyc",
+      "sha": "b7c0f224915f32eaecefc032df2d1528fb3696bd",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go31_architecture.cpython-312.pyc",
+      "sha": "083b78728be6b9bad709bfbc50444bf89890b57e",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go4.cpython-312.pyc",
+      "sha": "f5d2e61f3a4c7f345b9ffdce37fd7aff774ca5d6",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go5.cpython-312.pyc",
+      "sha": "40d88994b5fb7038a69c7a2731ea1f041bf13506",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go6.cpython-312.pyc",
+      "sha": "dbf38e06bc51505054a2130c9bf8d278cbb90faa",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go7.cpython-312.pyc",
+      "sha": "415adc2732d37ba51eafd8d8c9fbb13a1bcc37cd",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go7_expanded.cpython-312.pyc",
+      "sha": "f3b91945fed61a29047b1ca9dae22cbc24d65b12",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go8.cpython-312.pyc",
+      "sha": "cdfcf321e10876cb45595b400be51118a52198be",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go8_cover.cpython-312.pyc",
+      "sha": "7134cad649b32871fc182aed2ddaf7626cf3ee00",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go9.cpython-312.pyc",
+      "sha": "f4fa5fe4998c86c8863fc50f443fc0497f4293a9",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_go9_realism.cpython-312.pyc",
+      "sha": "ca8373d179926d1fb6f388883c53fccf47ffcebd",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/check_project.cpython-312.pyc",
+      "sha": "04fa1f21130fcf39eab003baa1e6a7a0512a5680",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go16_motion.cpython-312.pyc",
+      "sha": "b77d4557fc3749c7794b605ff4fb2ea1596aef02",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go17_stance.cpython-312.pyc",
+      "sha": "260df3d5ee4baffb61bb4ec830900570b2da35cd",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go20_bind_pose.cpython-312.pyc",
+      "sha": "baac3198f93c09879f2de1dc77be2acc60416c45",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go22_skinning.cpython-312.pyc",
+      "sha": "82f694b92bacadac08e85bffb68685585162bbce",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go23_torso.cpython-312.pyc",
+      "sha": "dd485fc38c572d486cf476e72d3f3491c26ae92e",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go24_shoulder_neck.cpython-312.pyc",
+      "sha": "aa0a8e5afa3d9f19697977d73ea053f502b43e4d",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go25_transitions.cpython-312.pyc",
+      "sha": "41449a92b4f793c870bd92122d82f44363e98b83",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go26_skinning.cpython-312.pyc",
+      "sha": "86d9c05279d30b220429278291c1bc26ecd24dc5",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go27_surface_normals.cpython-312.pyc",
+      "sha": "1ab5d6be2c4ac677483402829e0bf8a13e96feb0",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go30_cinematic_lighting.cpython-312.pyc",
+      "sha": "c0491a42a79ff4c3ddb17f2b3c17a0ec91d673cc",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/__pycache__/test_go32_battlefield.cpython-312.pyc",
+      "sha": "ed5b6b253bf88242514119beaaa6704669267259",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go10_realism.py",
+      "sha": "07cc6d64215a789e11f679c659c97be18bc772a5",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go11_realism.py",
+      "sha": "1c6efb91760d906d545555fc222c53f5efb23ae4",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go12_realism.py",
+      "sha": "525c9a0843bdda6531e52373e64d491312f5216f",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go13_materials.py",
+      "sha": "662bdf8dafc459098f2df097074322059ac05d7f",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go14_animation.py",
+      "sha": "7549ca139899c817b8851b565d9bc5f0f1ac2848",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go15.py",
+      "sha": "713eae82265f32b392462d9779f98d0bf18a8cff",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go18_inertia.py",
+      "sha": "644550ce5bdc1b87fbec339a0b372ae661c6b903",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go2.py",
+      "sha": "b1386cd11599990db9c57656087269ca3af73582",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go21_skeleton.py",
+      "sha": "2d5205cb98870fccec446fadc751fd09b090fca7",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go28_head.py",
+      "sha": "3eaca84f5c806f7beec10268683c92a21c8c7c06",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go3.py",
+      "sha": "213c485701cd49c4c032401e859ed04ac12056b8",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go31_architecture.py",
+      "sha": "bffe541b9861eb1c220b213fe5e378376f4cde9d",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go4.py",
+      "sha": "61edc8397b45c6bfe80250291444e64c3d05b700",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go5.py",
+      "sha": "c155304da43d40e57bed5c627813b31d02352e7b",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go6.py",
+      "sha": "4c70dadf0d9c7f1bef3cdbfec8c0db62819e16a4",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go7.py",
+      "sha": "1aacf5f319210f83f75bfd59eaf518c7a00c6a6c",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go7_expanded.py",
+      "sha": "2c63252264ca3308af94cbb4bf45b1d0a035a7ad",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go8.py",
+      "sha": "42af05a93653178aeac7afc57bfd0ebff889316b",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go8_cover.py",
+      "sha": "6c2ffeb3c1331cf11f7986cda7b67f6793b7daeb",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go9.py",
+      "sha": "e8a7f35be6979b9daa7fadc22d862fa2895a985c",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_go9_realism.py",
+      "sha": "bd149acd7d8a172c5b5a07280d8eb3d9521b4c2c",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/check_project.py",
+      "sha": "b3d11e9e36ee940c130995f85e5dc6e758200155",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_ai.gd",
+      "sha": "d34e133031f93d2d2332162b13abda19cf7247e6",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_animation.gd",
+      "sha": "b5b73dccefe1e04889effbde05d4f4fdff57db94",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_combat.gd",
+      "sha": "d036d8c50d66aca268d2fdee887fec2f622fca08",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_duel.gd",
+      "sha": "eaa754973e01fbc1e1cf9ca7589dd6770d2a0f34",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_fronts.gd",
+      "sha": "b6ff4dafb4b370a96cef5567d9bb3072daa26a96",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_roster_42.gd",
+      "sha": "70e152ed1fa4ba23a231895747784cd3b2459add",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_skinning.gd",
+      "sha": "ba96a660af0acbb86b818074d6a870dddd11f2b8",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/runtime_smoke.gd",
+      "sha": "3e0c04cd7b13c566299cb50dc96135d4cdb98ec7",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go16_motion.py",
+      "sha": "68557fbc5be031b0c832a22ef400dea3b509f4e5",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go17_stance.py",
+      "sha": "f35080b64f4940d0a161452dd0276267e66b9484",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go20_bind_pose.py",
+      "sha": "45ed4b959a4716b4cbdf7b6c011d582eb6595692",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go22_skinning.py",
+      "sha": "ca303ed0f0952a7a3210e8fab08e5f51c60719d1",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go23_torso.py",
+      "sha": "5703dfd28662451fc52733db1c8e40951ffba4b5",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go24_shoulder_neck.py",
+      "sha": "5cbc14ac03aed86d5714292649850bc923be193f",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go25_transitions.py",
+      "sha": "e3776eb77db23151fb849216ed81e16b1be01ed5",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go26_skinning.py",
+      "sha": "4a9693396bd1cd599f04058a879959e48e582e44",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go27_surface_normals.py",
+      "sha": "d6b8dd3cbe3055828bbc5e402551d04895dc1a3d",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go30_cinematic_lighting.py",
+      "sha": "82237dbd30cd5609de88620beb5c4caae0c39eb4",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/test_go32_battlefield.py",
+      "sha": "2c90d072c91011f59f8647b7e8bd534ec2676eea",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/add_godot4_combat_vfx.py",
+      "sha": "3ff67f08a354accc44c6a643297a49a4d3a7d242",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/auto_collect_official_character_refs.py",
+      "sha": "69ada8346cca29a22473bd8d9f22bf4e83548465",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/create_first14_blueprints.py",
+      "sha": "9b8c8cf0686f5b7f6154fcb69cdef99a2b4443d7",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/fix_godot4_file_access.py",
+      "sha": "56ee9c2c92211290c9bdb3994b6e6f36557757a1",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/fix_godot4_geometry.py",
+      "sha": "10c3f3c773f95a09f21b0cfd70b22165c480d597",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/fullpass_visual_combat.py",
+      "sha": "b4a0f9b857518287c57cce9afeaa8d5e3211435d",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/generate_42_gpu_appearance.py",
+      "sha": "34f8e92f7817367b8c009b9eeeb76a2e2741a63e",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/image_guided_likeness_first14.py",
+      "sha": "d218ad88d0d1f310fbe3a2c4287358b693afb50f",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/integrate_full_42_roster.py",
+      "sha": "f7b03a98bbc940f9cbd3aa6d67e20bd6b3043efa",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/integrate_gpu_textures.py",
+      "sha": "fac14dff6c51dc0c77d16be8f909c712fbb4a2b5",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/prepare_appearance_batches.py",
+      "sha": "cd733445c8559106e7279bc4b3a5a5335282b643",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/prepare_first14_likeness_repair.py",
+      "sha": "50d861f235a257cc8124cffcc21a4d80cf947ae5",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/repair_triposr_bootstrap.py",
+      "sha": "fdd6cf5fa956a24423c91d2fa47f12e5004c29fd",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/roster_42_combat_pass.py",
+      "sha": "9ac99ba2a54b70bfc854e902e2864e3ba8871321",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/roster_identity_pass.py",
+      "sha": "febf131760ac515ee12ad538483fe8f6ba19a8fc",
+      "mode": "100644"
+    },
+    {
+      "path": "tools/run_all_checks.sh",
+      "sha": "e5713d1f3e83b10550001a30b2158f6c6ca40b98",
+      "mode": "100755"
+    },
+    {
+      "path": "tools/run_godot_tests.sh",
+      "sha": "c028669321af305ad0fcfa0ddc06df18ce9bb95f",
+      "mode": "100755"
+    },
+    {
+      "path": "tools/upgrade_godot4_combat_vfx.py",
+      "sha": "03091ecfc67e129296635241f867596ec6048ae1",
+      "mode": "100644"
+    }
+  ]
+}

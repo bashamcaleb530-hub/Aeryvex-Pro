@@ -1,0 +1,107 @@
+{
+  "status": "NATIVE_CHECKED",
+  "target": "linux-x86_64",
+  "checks": [
+    {
+      "name": "version",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--version"
+      ],
+      "cwd": "/tmp/factory-native-5wdwuly_",
+      "exit_code": 0,
+      "passed": true,
+      "log": "version.log",
+      "log_sha256": "df602c4bea06a2673ad72bb2d93f66921feab914f10f9a6261e2aef5c552eab9"
+    },
+    {
+      "name": "import",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--editor",
+        "--path",
+        "/tmp/factory-native-5wdwuly_/source",
+        "--import"
+      ],
+      "cwd": "/tmp/factory-native-5wdwuly_",
+      "exit_code": 0,
+      "passed": true,
+      "log": "import.log",
+      "log_sha256": "731831590f9fea56dbbc685e38cc3a270fb9e4d1eb953244357ef81c804d27f0"
+    },
+    {
+      "name": "export",
+      "command": [
+        "/workspace/work/godot-tools/Godot_v4.2.2-stable_linux.x86_64",
+        "--headless",
+        "--path",
+        "/tmp/factory-native-5wdwuly_/source",
+        "--export-release",
+        "Linux",
+        "/tmp/factory-native-5wdwuly_/output/game.x86_64"
+      ],
+      "cwd": "/tmp/factory-native-5wdwuly_",
+      "exit_code": 0,
+      "passed": true,
+      "log": "export.log",
+      "log_sha256": "d91edf06a1741b63fdce8e0e73ebb12ddfcf7c7b7c329f8af2426cd4bd6186b7"
+    },
+    {
+      "name": "relocated_startup",
+      "command": [
+        "/tmp/factory-relocated-4yb7sgqu/game.x86_64",
+        "--headless",
+        "--quit-after",
+        "8"
+      ],
+      "cwd": "/tmp/factory-relocated-4yb7sgqu",
+      "exit_code": 0,
+      "passed": true,
+      "log": "relocated_startup.log",
+      "log_sha256": "79c137231ed21201de438e8e9e6d82dde7cceb7dd4b81a93846ad6f3d5a4c1d3"
+    },
+    {
+      "name": "relocated_scenario",
+      "command": [
+        "/tmp/factory-relocated-4yb7sgqu/game.x86_64",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://scenario.gd"
+      ],
+      "cwd": "/tmp/factory-relocated-4yb7sgqu",
+      "exit_code": 0,
+      "passed": true,
+      "log": "relocated_scenario.log",
+      "log_sha256": "70ee509f550916030be4caf76a8a369a9bc1659cf5b0a5f9534033c66d185383"
+    }
+  ],
+  "visual_review": "PENDING",
+  "hardware_review": "PENDING",
+  "evidence": {
+    "revision": 1,
+    "files": {
+      "game.json": "f566734764450201966b68273c9b6507fbaf2290e4d39990522288bf60dffdc2",
+      "project.godot": "8ce4085168148fe76c407fc197765950c8ae245824f9e6ab6d72b9bed8894e05",
+      "main.tscn": "857e91e8cc2360d72a09c0241b79d14a92820d7c2799434ca92dbcdaa4a3901e",
+      "scenario.gd": "b645313c2b8a689a0808951b3a0f691369b7bcab5b542af455f6bbf6214b2f39",
+      "main.gd": "0580642aca69972a4c8617e86962f0cd70a1983f2641e06bb0173bd25a05e494"
+    },
+    "bible_sha256": "cb153907954abd965aeb5d003f2719e8df78bf8f3982a75e7982335d40f53f11"
+  },
+  "logs": "/tmp/factory-browser-bd8xstjb/CoinRunner/.native/bd32fe4d91764cbeb804e2129b4c893c/logs",
+  "engine_version": "4.2.2.stable.official.15073afe3",
+  "templates": "/workspace/work/godot-tools/export_templates/4.2.2.stable",
+  "template_sha256": {
+    "version.txt": "323cbe4c37c4400d49e132e36335e05e1a9426388fb312992388a4cedd700d69",
+    "linux_release.x86_64": "49db0d5082faa83283d140c90da109b3407a5d72c17ab97742b132ba7e615316",
+    "linux_debug.x86_64": "8a9da13aeaadb6c51276d5bdd34117bbbc2bdfad4b696f2abb92f60e22ecae1c"
+  },
+  "executable": "/tmp/factory-browser-bd8xstjb/CoinRunner/dist/linux/bd32fe4d91764cbeb804e2129b4c893c/game.x86_64",
+  "pack": "/tmp/factory-browser-bd8xstjb/CoinRunner/dist/linux/bd32fe4d91764cbeb804e2129b4c893c/game.pck",
+  "archive": "/tmp/factory-browser-bd8xstjb/CoinRunner/dist/linux/bd32fe4d91764cbeb804e2129b4c893c/game-linux-x86_64.zip",
+  "archive_sha256": "3b6e87b258c9d7aa4fd4956de65048b2770f48eb132bf2ff79fe02986ae58bf8",
+  "manifest": "/tmp/factory-browser-bd8xstjb/CoinRunner/dist/linux/bd32fe4d91764cbeb804e2129b4c893c/manifest.json"
+}
